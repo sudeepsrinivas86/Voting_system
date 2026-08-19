@@ -1,0 +1,13 @@
+1 Install the required dependencies : pip install -r requirements.txt
+
+2 Setup up the database and copy that neon link , attach that link in .env file .
+
+3 run this init_db.py file : python3 init_db.py  to create the database tables.
+
+4 Create a Email address and app password for sending the verification mail.
+
+5 Attach that email address and app password in .env file.
+
+6 Run this app.py file : python3 app.py
+
+7 Register the 1st user , and then run the create_admin.py file : python3 create_admin.py to create the admin user.
