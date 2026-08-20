@@ -40,39 +40,6 @@ Net Quanta – Connecting Minds, Creating Possibilities..</p>
                     <a href="#features" class="btn btn-outline">Learn More</a>
                 </div>
             </div>
-            <div class="hero-image">
-                <div class="hero-card">
-                    {% if election %}
-                    <h3>{{ election.title }}</h3>
-                    <p style="margin-bottom: 1rem;">Status: <span style="color: #4ade80; text-transform: capitalize;">{{
-                            election.status }}</span></p>
-
-                    {% for candidate in election.candidates %}
-                    <div
-                        style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 0.5rem; margin-bottom: 0.5rem;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-                            <span>{{ candidate.name }}</span>
-                            <span>{{ candidate.percentage }}%</span>
-                        </div>
-                        <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px;">
-                            <div
-                                style="width: {{ candidate.percentage }}%; height: 100%; background: {% if loop.index == 1 %}var(--secondary-color){% else %}var(--accent-color){% endif %}; border-radius: 3px;">
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-
-                    {% if not election.candidates %}
-                    <p style="color: var(--text-muted);">No votes cast yet.</p>
-                    {% endif %}
-
-                    {% else %}
-                    <h3>No Active Election</h3>
-                    <p style="margin-bottom: 1rem; color: var(--text-muted);">Check back later for upcoming elections.
-                    </p>
-                    {% endif %}
-                </div>
-            </div>
         </section>
     </div>
 
