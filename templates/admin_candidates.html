@@ -171,7 +171,7 @@
                     <div
                         style="background: var(--bg-card); padding: 1.5rem; border-radius: 1rem; border: 1px solid var(--glass-border);">
                         <h3 style="margin-bottom: 1rem;">Add Candidate</h3>
-                        <form action="{{ url_for('admin_candidates', election_id=election[0]) }}" method="POST" enctype="multipart/form-data"></form>
+                        <form action="{{ url_for('admin_candidates', election_id=election[0]) }}" method="POST">
                             <div class="form-group">
                                 <label class="form-label">Candidate Name</label>
                                 <input type="text" name="name" class="form-input" required placeholder="Full Name">
@@ -186,15 +186,15 @@
                                     placeholder="Key promises..."></textarea>
                             </div>
                             <div class="form-group">
-                                 <label class="form-label">Candidate Photo</label>
-                                 <input type="file" name="photo" class="form-input" accept="image/*">
-                           </div>
+                                <label class="form-label">Image URL</label>
+                                <input type="text" name="image_url" class="form-input" placeholder="https://...">
+                            </div>
                             <button type="submit" class="btn btn-primary" style="width: 100%;">Add Candidate</button>
                         </form>
                     </div>
                 </div>
             </div>
-        </main>             
+        </main>
     </div>
 </body>
 

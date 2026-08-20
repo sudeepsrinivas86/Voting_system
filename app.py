@@ -10,7 +10,6 @@ from flask_mail import Mail, Message
 from flask_bcrypt import Bcrypt
 from utils import encrypt_data, decrypt_data
 import re
-from werkzeug.utils import secure_filename
 
 load_dotenv()
 
@@ -19,13 +18,6 @@ local_data = threading.local()
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
-UPLOAD_FOLDER = os.path.join(app.root_path, 'static', 'uploads', 'candidates')
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 
@@ -546,14 +538,15 @@ def admin_candidates(election_id):
             name = request.form['name']
             party = request.form['party']
             manifesto = request.form['manifesto']
-
-            image_url = None
-            photo = request.files.get('photo')
-            if photo and photo.filename and allowed_file(photo.filename):
-                ext = photo.filename.rsplit('.', 1)[1].lower()
-                filename = secure_filename(f"{election_id}_{name}_{random.randint(1000,9999)}.{ext}")
-                photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                image_url = f"uploads/candidates/{filename}"
+            image_url = request.form['image_url']
+            
+            # Smart Google Drive Link Fix
+            if image_url:
+                drive_pattern = r'drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/'
+                match = re.search(drive_pattern, image_url)
+                if match:
+                    file_id = match.group(1)
+                    image_url = f'https://drive.google.com/uc?export=view&id={file_id}'
             
             try:
                 cur.execute("""
