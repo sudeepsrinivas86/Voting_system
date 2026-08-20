@@ -120,7 +120,7 @@
                             required>
                         <div class="candidate-img">
                             {% if candidate[5] %}
-                            <img src="{{ candidate[5] }}" alt="{{ candidate[2] }}"
+                            <img src="{{ url_for('static', filename=candidate[5]) }}" alt="{{ candidate[2] }}"
                                 style="width: 100%; height: 100%; object-fit: cover;">
                             {% else %}
                             👤
