@@ -24,14 +24,15 @@ app.secret_key = os.getenv('SECRET_KEY')
 
 
 def get_db_connection():
-    if not hasattr(local_data, 'conn') or local_data.conn.closed != 0:
-        local_data.conn = psycopg2.connect(os.getenv('DATABASE_URL'))
-    return local_data.conn
+    return psycopg2.connect(
+        os.getenv('DATABASE_URL'),
+        connect_timeout=10,
+        sslmode='require'
+    )
 
 def release_db_connection(conn):
-    # We keep the connection open in thread-local storage for reuse
-    # Just need to make sure any pending transactions are handled if needed
-    pass
+    if conn and not conn.closed:
+        conn.close()
 
 # Mail Configuration
 app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
@@ -300,39 +301,155 @@ def dashboard():
 
 @app.route('/vote/<int:election_id>', methods=['GET', 'POST'])
 def vote(election_id):
-    if 'user_id' not in session: return redirect(url_for('login'))
-    
+
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
     conn = get_db_connection()
+
     try:
         cur = conn.cursor()
-        
+
         if request.method == 'POST':
-            candidate_id = request.form['candidate_id']
+
+            candidate_id = request.form.get('candidate_id')
+
+            if not candidate_id:
+                flash('Please select a candidate.', 'error')
+                return redirect(url_for('vote', election_id=election_id))
+
             try:
-                cur.execute("INSERT INTO votes (election_id, voter_id, candidate_id) VALUES (%s, %s, %s)", 
-                            (election_id, session['user_id'], candidate_id))
-                cur.execute("UPDATE candidates SET vote_count = vote_count + 1 WHERE id = %s", (candidate_id,))
-                conn.commit()
-                flash('Vote cast successfully!', 'success')
+                candidate_id = int(candidate_id)
+            except ValueError:
+                flash('Invalid candidate.', 'error')
+                return redirect(url_for('vote', election_id=election_id))
+
+            # -------------------------------------------------
+            # Verify election is active
+            # -------------------------------------------------
+
+            cur.execute("""
+                SELECT id
+                FROM elections
+                WHERE id = %s
+                  AND status = 'active'
+            """, (election_id,))
+
+            election_check = cur.fetchone()
+
+            if not election_check:
+                flash('This election is not active.', 'error')
                 return redirect(url_for('dashboard'))
+
+            # -------------------------------------------------
+            # Verify candidate belongs to this election
+            # -------------------------------------------------
+
+            cur.execute("""
+                SELECT id
+                FROM candidates
+                WHERE id = %s
+                  AND election_id = %s
+            """, (candidate_id, election_id))
+
+            candidate_check = cur.fetchone()
+
+            if not candidate_check:
+                flash('Invalid candidate selection.', 'error')
+                return redirect(url_for('vote', election_id=election_id))
+
+            # -------------------------------------------------
+            # Insert vote
+            # UNIQUE(election_id, voter_id) protects against
+            # duplicate voting
+            # -------------------------------------------------
+
+            try:
+
+                cur.execute("""
+                    INSERT INTO votes
+                    (election_id, voter_id, candidate_id)
+                    VALUES (%s, %s, %s)
+                """, (
+                    election_id,
+                    session['user_id'],
+                    candidate_id
+                ))
+
+                # -------------------------------------------------
+                # Increase candidate vote count
+                # -------------------------------------------------
+
+                cur.execute("""
+                    UPDATE candidates
+                    SET vote_count = vote_count + 1
+                    WHERE id = %s
+                      AND election_id = %s
+                """, (
+                    candidate_id,
+                    election_id
+                ))
+
+                conn.commit()
+
+                flash(
+                    'Vote cast successfully!',
+                    'success'
+                )
+
+                return redirect(url_for('dashboard'))
+
             except psycopg2.IntegrityError:
+
                 conn.rollback()
-                flash('You have already voted in this election.', 'error')
-                
+
+                flash(
+                    'You have already voted in this election.',
+                    'error'
+                )
+
+        # -------------------------------------------------
         # Get Election Details
-        cur.execute("SELECT * FROM elections WHERE id = %s", (election_id,))
+        # -------------------------------------------------
+
+        cur.execute("""
+            SELECT *
+            FROM elections
+            WHERE id = %s
+        """, (election_id,))
+
         election = cur.fetchone()
-        
+
         if not election:
-            flash('Election not found.', 'error')
+
+            flash(
+                'Election not found.',
+                'error'
+            )
+
             return redirect(url_for('dashboard'))
 
+        # -------------------------------------------------
         # Get Candidates
-        cur.execute("SELECT * FROM candidates WHERE election_id = %s", (election_id,))
+        # -------------------------------------------------
+
+        cur.execute("""
+            SELECT *
+            FROM candidates
+            WHERE election_id = %s
+            ORDER BY id
+        """, (election_id,))
+
         candidates = cur.fetchall()
-        
+
         cur.close()
-        return render_template('vote.html', candidates=candidates, election=election)
+
+        return render_template(
+            'vote.html',
+            candidates=candidates,
+            election=election
+        )
+
     finally:
         release_db_connection(conn)
 
@@ -553,7 +670,6 @@ def admin_candidates(election_id):
                     INSERT INTO candidates (election_id, name, party, manifesto, image_url)
                     VALUES (%s, %s, %s, %s, %s)
                 """, (election_id, name, party, manifesto, image_url))
-                conn.commit()
                 conn.commit()
                 flash('Candidate added successfully!', 'success')
                 return redirect(url_for('admin_candidates', election_id=election_id))
