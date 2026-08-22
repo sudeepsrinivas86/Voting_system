@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Candidates - SecureVote Admin</title>
+    <title>All Candidates - NET QUANTA Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
@@ -68,8 +68,10 @@
 <body>
     <div class="admin-layout">
         <aside class="sidebar">
-            <div class="logo" style="margin-bottom: 3rem;">SecureVote <span
-                    style="font-size: 0.7rem; background: var(--accent-color); padding: 0.1rem 0.3rem; border-radius: 3px;">ADMIN</span>
+            <div class="sidebar-logo">
+                <img src="{{ url_for('static', filename='images/netquanta.jpeg') }}"
+                alt="NET QUANTA Logo">
+                <span class="sidebar-logo-text">NET QUANTA</span>
             </div>
             <nav>
                 <a href="{{ url_for('admin_dashboard') }}" class="sidebar-link">Dashboard</a>

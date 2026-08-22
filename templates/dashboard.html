@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voter Dashboard - SecureVote</title>
+    <title>Voter Dashboard - NET QUANTA</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
@@ -57,10 +57,12 @@
 <body>
     <div class="container">
         <nav class="navbar">
+            <div class="logo" style="display: flex; align-items: center; gap: 0.75rem;">
+                <img src="{{ url_for('static', filename='images/netquanta.jpeg') }}" alt="Net Quanta Logo" style="height: 40px; width: auto;">
+            </div>
             <div class="logo">NET QUANTA ELECTIONS</div>
             <div class="nav-links">
                 <a href="{{ url_for('dashboard') }}" style="color: var(--primary-color);">Dashboard</a>
-                <a href="{{ url_for('user_results') }}">Results</a>
                 <a href="{{ url_for('profile') }}">Profile</a>
                 <a href="{{ url_for('index') }}" class="btn btn-outline btn-sm">Logout</a>
             </div>
@@ -68,9 +70,9 @@
 
         <div class="hero" style="padding: 4rem 0; text-align: center;">
             <div style="max-width: 800px; margin: 0 auto;">
-                <h1 style="font-size: 3.5rem; margin-bottom: 1.5rem;">Your Voice, <span
-                        style="background: linear-gradient(to right, var(--secondary-color), var(--primary-color)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Your
-                        Power</span></h1>
+                <h1 style="font-size: 3.5rem; margin-bottom: 1.5rem;">STAND UP . SPEAK UP.  <span
+                        style="background: linear-gradient(to right, var(--secondary-color), var(--primary-color)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                        VOTE</span></h1>
                 <p style="font-size: 1.25rem; margin-bottom: 2rem;">Participate in shaping the future. Review active
                     elections below and cast your vote securely.</p>
             </div>

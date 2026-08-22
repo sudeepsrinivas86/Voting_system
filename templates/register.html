@@ -12,7 +12,10 @@
 <body>
     <div class="container">
         <nav class="navbar">
-            <div class="logo">CSE VOTING </div>
+            <div class="logo" style="display: flex; align-items: center; gap: 0.75rem;">
+                <img src="{{ url_for('static', filename='images/netquanta.jpeg') }}" alt="Net Quanta Logo" style="height: 40px; width: auto;">
+            </div>
+            <div class="logo">NET QUANTA REGISTER </div>
             <div class="nav-links">
                 <a href="{{ url_for('index') }}">Home</a>
                 <a href="{{ url_for('login') }}">Login</a>
@@ -20,7 +23,7 @@
         </nav>
 
         <div class="form-container">
-            <h2 class="text-center mb-4">Voter Registration</h2>
+            <h2 class="text-center mb-4">STUDENT REGISTRATION</h2>
 
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -35,7 +38,7 @@
             <form action="#" method="POST">
                 <div class="form-group">
                     <label for="fullname" class="form-label">Full Name</label>
-                    <input type="text" id="fullname" name="fullname" class="form-control" placeholder="John Doe"
+                    <input type="text" id="fullname" name="fullname" class="form-control" placeholder="Enter your name"
                         required>
                 </div>
                 <div class="form-group">
@@ -45,7 +48,7 @@
                 </div>
                 <div class="form-group">
                     <label for="email" class="form-label">Email Address</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="john@example.com"
+                    <input type="email" id="email" name="email" class="form-control" placeholder="you@example.com"
                         required>
                 </div>
                 <div class="form-group">

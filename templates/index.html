@@ -4,100 +4,464 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IG CSE VOTING</title>
+
+    <title>IG CSE VOTING - NET QUANTA</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
 </head>
 
+
 <body>
-    <div class="container">
-        <div class="college-branding">
+
+<div class="container">
+
+
+    <!-- =====================================================
+         EXISTING COLLEGE BRANDING
+         DO NOT CHANGE
+    ====================================================== -->
+
+    <div class="college-branding">
 
         <div class="college-brand-inner">
 
-            <!-- COLLEGE LOGO -->
-            <div class="college-logo-container">
+            <div class="college-brand">
 
                 <img
                     src="{{ url_for('static', filename='images/iglogo.jpeg') }}"
                     alt="Indra Ganesan College of Engineering Logo"
-                    class="college-main-logo"
+                    class="college-logo"
                 >
 
-            </div>
+                <div class="college-brand-text">
 
+                    <div class="college-tamil">
+                        இந்திரா கணேசன் பொறியியல் கல்லூரி
+                    </div>
 
-            <!-- COLLEGE NAME -->
-            <div class="college-information">
+                    <h1>
+                        Indra Ganesan College of Engineering
+                    </h1>
 
-                <div class="college-tamil-name">
-                    இந்திரா கணேசன் பொறியியல் கல்லூரி
+                    <h2>
+                        (An Autonomous Institution)
+                    </h2>
+
+                    <p>
+                        Manikandam, Trichirappalli, Tamil Nadu, India. 620 012
+                    </p>
+
                 </div>
 
-                <h1>
-                    Indra Ganesan College of Engineering
-                </h1>
+            </div>
 
-                <h2>
-                    (An Autonomous Institution)
-                </h2>
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         EXISTING NAVBAR
+         DO NOT CHANGE
+    ====================================================== -->
+
+    <nav class="navbar">
+
+        <div
+            class="logo"
+            style="display: flex; align-items: center; gap: 0.75rem;"
+        >
+
+            <img
+                src="{{ url_for('static', filename='images/netquanta.jpeg') }}"
+                alt="Net Quanta Logo"
+                style="height: 40px; width: auto;"
+            >
+
+            <span>
+                NET QUANTA ASSOCIATION
+            </span>
+
+        </div>
+
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('index') }}">
+                Home
+            </a>
+
+            <a href="{{ url_for('login') }}">
+                Login
+            </a>
+
+            <a
+                href="{{ url_for('register') }}"
+                class="btn btn-primary btn-sm"
+            >
+                Register
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =====================================================
+         CSE DEPARTMENT HERO
+    ====================================================== -->
+
+    <section class="cse-department-hero"
+    style="background-image: url('{{ url_for('static', filename='images/cse-department.jpeg') }}');"
+>
+
+        <div class="cse-hero-overlay"></div>
+
+        <div class="cse-hero-content">
+
+            <span class="cse-hero-badge">
+                DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING
+            </span>
+
+            <h1>
+                Computer Science & Engineering
+            </h1>
+
+            <p>
+                Driving technological innovation through
+                cutting-edge computing and software solutions.
+            </p>
+
+            <a
+                href="#department"
+                class="cse-hero-button"
+            >
+                Explore Department
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         DEPARTMENT OVERVIEW
+    ====================================================== -->
+
+    <section
+        id="department"
+        class="department-section"
+    >
+
+        <div class="section-title">
+
+            <span>
+                ABOUT OUR DEPARTMENT
+            </span>
+
+            <h2>
+                Department Overview
+            </h2>
+
+        </div>
+
+
+        <div class="department-overview-grid">
+
+
+            <!-- LEFT SIDE -->
+
+            <div class="department-description">
 
                 <p>
-                    Manikandam, Tiruchirappalli, Tamil Nadu, India. 620 012
+                    The basis for many of the technical developments
+                    that we see in the world today is Computer Science.
+                    The field has expanded dramatically and continues
+                    to contribute to technological advancement.
                 </p>
 
-                <strong class="accreditation">
-                    (Accredited with B++ Grade by NAAC)
-                </strong>
+                <p>
+                    Computer Science is used across numerous
+                    multidisciplinary domains and plays an important
+                    role in developing highly qualified engineers and
+                    technology professionals.
+                </p>
+
+                <p>
+                    Our department is committed to quality education,
+                    student competency, innovation and technological
+                    excellence, preparing students to meet the evolving
+                    needs of industry and society.
+                </p>
 
             </div>
 
-        </div>
 
-    </div>
+            <!-- RIGHT SIDE -->
 
-        <nav class="navbar">
-            <div class="logo" style="display: flex; align-items: center; gap: 0.75rem;">
-                <img src="{{ url_for('static', filename='images/iglogo.jpeg') }}" alt="College Logo" style="height: 40px; width: auto;">
-                <img src="{{ url_for('static', filename='images/netquanta.jpeg') }}" alt="Net Quanta Logo" style="height: 40px; width: auto;">
-                <span>NET QUANTA ELECTIONS</span>
-            </div>
-            <div class="nav-links">
-                <a href="{{ url_for('index') }}">Home</a>
-                <a href="{{ url_for('login') }}">Login</a>
-                <a href="{{ url_for('register') }}" class="btn btn-primary btn-sm">Register</a>
-            </div>
-        </nav>
+            <div class="department-highlights">
 
-        <section class="hero">
-            <div class="hero-content">
-                <h1 class="hero-title">Your Vote<br><span>Your Power.</span></h1>
-                <p> NET QUANTA – CSE DEPARTMENT ASSOCIATION
+                <div class="department-card">
 
-The Department of Computer Science and Engineering is delighted to organize the Net Quanta Association Voting and Inauguration Ceremony. This event marks the beginning of a new academic journey filled with leadership, innovation, teamwork, and technical excellence.
+                    <div class="department-card-number">
+                        01
+                    </div>
 
-The voting process provides students with an opportunity to actively participate in selecting their association representatives and to experience the values of democracy, responsibility, and leadership.
+                    <h3>
+                        Multidisciplinary Applications
+                    </h3>
 
-The inauguration ceremony will officially commence the activities of Net Quanta, with a vision to encourage students to explore emerging technologies, develop professional skills, and actively participate in technical and co-curricular activities.
+                    <p>
+                        Computer Science is applied across numerous
+                        multidisciplinary domains and emerging
+                        technologies.
+                    </p>
 
-Let’s Vote. Let’s Lead. Let’s Innovate.
-Net Quanta – Connecting Minds, Creating Possibilities..</p>
-                <div style="display: flex; gap: 1rem;">
-                    <a href="{{ url_for('register') }}" class="btn btn-primary">Get Started</a>
-                    <a href="#features" class="btn btn-outline">Learn More</a>
                 </div>
+
+
+                <div class="department-card">
+
+                    <div class="department-card-number">
+                        02
+                    </div>
+
+                    <h3>
+                        Quality Education
+                    </h3>
+
+                    <p>
+                        Dedicated to delivering high-quality instruction
+                        and boosting student competency.
+                    </p>
+
+                </div>
+
+
+                <div class="department-card">
+
+                    <div class="department-card-number">
+                        03
+                    </div>
+
+                    <h3>
+                        Progress Through Knowledge
+                    </h3>
+
+                    <p>
+                        Fostering innovation, knowledge sharing and
+                        technological excellence.
+                    </p>
+
+                </div>
+
             </div>
-        </section>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         VISION & MISSION
+    ====================================================== -->
+
+    <section class="vision-mission-section">
+
+
+        <!-- VISION -->
+
+        <div class="vision-card">
+
+            <div class="vm-icon">
+                ◈
+            </div>
+
+            <span class="vm-label">
+                OUR VISION
+            </span>
+
+            <h2>
+                Vision
+            </h2>
+
+            <p>
+                To produce globally competent Engineers in Computer
+                Science and Engineering through outcome-based
+                education, cutting-edge research, critical thinking,
+                hands-on skills development, and adherence to ethical
+                principles, while fostering responsible citizens of
+                India who contribute to societal and global growth.
+            </p>
+
+        </div>
+
+
+
+        <!-- MISSION -->
+
+        <div class="mission-card">
+
+            <div class="vm-icon">
+                ◉
+            </div>
+
+            <span class="vm-label">
+                OUR MISSION
+            </span>
+
+            <h2>
+                Mission
+            </h2>
+
+            <ul>
+
+                <li>
+                    <strong>Outcome-based Education:</strong>
+                    Impart quality education meeting evolving
+                    professional and societal needs.
+                </li>
+
+                <li>
+                    <strong>Innovation and Research:</strong>
+                    Foster an excellent innovation and research
+                    environment for cutting-edge R&D.
+                </li>
+
+                <li>
+                    <strong>Networking Opportunities:</strong>
+                    Facilitate networking with alumni, industry
+                    professionals and organizations.
+                </li>
+
+                <li>
+                    <strong>Technical Skills & Ethics:</strong>
+                    Nurture technical skills while upholding
+                    professional ethics and leadership.
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         NET QUANTA ELECTION SECTION
+    ====================================================== -->
+
+    <section
+        id="voting"
+        class="netquanta-section"
+        style="background-image: url('{{ url_for('static', filename='images/netquanta-election.jpeg') }}');"
+    >
+
+        <div class="netquanta-overlay"></div>
+
+        <div class="netquanta-content">
+
+            <span class="netquanta-label">
+                NET QUANTA
+            </span>
+
+            <h2>
+                CSE Department Association Elections
+            </h2>
+
+            <p>
+                The Department of Computer Science and Engineering
+                is delighted to organize the Net Quanta Association
+                Voting and Inauguration Ceremony.
+            </p>
+
+            <p>
+                The voting process provides students with an opportunity
+                to actively participate in selecting their association
+                representatives and to experience the values of
+                democracy, responsibility and leadership.
+            </p>
+
+            <p>
+                The inauguration marks the beginning of a new academic
+                journey filled with leadership, innovation, teamwork
+                and technical excellence.
+            </p>
+
+
+            <div class="netquanta-tagline">
+
+                Let’s Vote.
+                Let’s Lead.
+                Let’s Innovate.
+
+            </div>
+
+
+            <div class="netquanta-buttons">
+
+                <a
+                    href="{{ url_for('register') }}"
+                    class="btn btn-primary"
+                >
+                    Get Started
+                </a>
+
+                <a
+                    href="{{ url_for('login') }}"
+                    class="btn btn-outline"
+                >
+                    Login to Vote
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer>
+
+    <div class="container">
+
+        <p>
+            &copy; 2026 NET QUANTA.
+            All rights reserved.
+            |
+            <a href="{{ url_for('admin_login') }}">
+                Admin Access
+            </a>
+        </p>
+
     </div>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 NET QUANTA. All rights reserved. | <a href="{{ url_for('admin_login') }}">Admin Access</a>
-            </p>
-        </div>
-    </footer>
+</footer>
+
+
 </body>
 
 </html>

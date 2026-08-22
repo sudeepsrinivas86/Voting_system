@@ -682,48 +682,87 @@ def delete_voter(user_id):
 
 @app.route('/admin/results')
 def admin_results():
-    if not session.get('is_admin'): return redirect(url_for('login'))
-    
+    if not session.get('is_admin'):
+        return redirect(url_for('login'))
+
     conn = get_db_connection()
+
     try:
         cur = conn.cursor()
-        
+
         # Get all elections
-        cur.execute("SELECT id, title, status FROM elections ORDER BY created_at DESC")
+        cur.execute("""
+            SELECT id, title, status
+            FROM elections
+            ORDER BY created_at DESC
+        """)
+
         elections_rows = cur.fetchall()
-        
+
         results = []
+
         for e_row in elections_rows:
+
             e_id = e_row[0]
             e_title = e_row[1]
             e_status = e_row[2]
-            
-            # Get candidates and votes
-            cur.execute("SELECT name, party, vote_count FROM candidates WHERE election_id = %s ORDER BY vote_count DESC", (e_id,))
+
+            # Get candidates including image_url
+            cur.execute("""
+                SELECT
+                    name,
+                    party,
+                    vote_count,
+                    image_url
+                FROM candidates
+                WHERE election_id = %s
+                ORDER BY vote_count DESC
+            """, (e_id,))
+
             cand_rows = cur.fetchall()
-            
-            total_votes = sum([c[2] for c in cand_rows])
+
+            # Calculate total votes
+            total_votes = sum(c[2] for c in cand_rows)
+
             candidates = []
+
             for c in cand_rows:
+
+                name = c[0]
+                party = c[1]
+                votes = c[2]
+                image_url = c[3]
+
                 percentage = 0
+
                 if total_votes > 0:
-                    percentage = round((c[2] / total_votes) * 100, 1)
+                    percentage = round(
+                        (votes / total_votes) * 100,
+                        1
+                    )
+
                 candidates.append({
-                    'name': c[0],
-                    'party': c[1],
-                    'votes': c[2],
-                    'percentage': percentage
+                    'name': name,
+                    'party': party,
+                    'votes': votes,
+                    'percentage': percentage,
+                    'image_url': image_url
                 })
-                
+
             results.append({
                 'title': e_title,
                 'status': e_status,
                 'total_votes': total_votes,
                 'candidates': candidates
             })
-            
+
         cur.close()
-        return render_template('admin_results.html', results=results)
+
+        return render_template(
+            'admin_results.html',
+            results=results
+        )
+
     finally:
         release_db_connection(conn)
 

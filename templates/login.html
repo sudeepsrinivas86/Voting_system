@@ -12,7 +12,10 @@
 <body>
     <div class="container">
         <nav class="navbar">
-            <div class="logo">NET QUANTA ELECTIONS</div>
+            <div class="logo" style="display: flex; align-items: center; gap: 0.75rem;">
+                <img src="{{ url_for('static', filename='images/netquanta.jpeg') }}" alt="Net Quanta Logo" style="height: 40px; width: auto;">
+            </div>
+            <div class="logo">NET QUANTA LOGIN</div>
             <div class="nav-links">
                 <a href="{{ url_for('index') }}">Home</a>
                 <a href="{{ url_for('register') }}" class="btn btn-primary btn-sm">Register</a>
@@ -20,7 +23,7 @@
         </nav>
 
         <div class="form-container">
-            <h2 class="text-center mb-4">Voter Login</h2>
+            <h2 class="text-center mb-4">STUDENT LOGIN</h2>
 
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -52,7 +55,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
                 <p class="text-center mt-4" style="font-size: 0.9rem;">
-                    New to SecureVote? <a href="{{ url_for('register') }}">Register now</a>
+                    New to NET QUANTA? <a href="{{ url_for('register') }}">Register now</a>
                 </p>
             </form>
         </div>
