@@ -1717,17 +1717,18 @@ footer {
 
 }
 
-
-
 /* =========================================================
    NET QUANTA VOTING SECTION
+   UPDATED - GROUP PHOTO SECTION ONLY
 ========================================================= */
 
 .netquanta-section {
 
-    min-height: 560px;
-
     position: relative;
+
+    min-height: 650px;
+
+    width: 100%;
 
     display: flex;
 
@@ -1740,13 +1741,23 @@ footer {
     overflow: hidden;
 
     background-size: cover;
-    background-position: center;
+
+    /*
+       IMPORTANT:
+       Keeps the group photo properly visible.
+    */
+    background-position: center 42%;
+
     background-repeat: no-repeat;
 
-    /* fallback background */
-    background-color: #031b35;
+    background-color: #061a2e;
+
 }
 
+
+/* =========================================================
+   DARK + GRADIENT OVERLAY
+========================================================= */
 
 .netquanta-overlay {
 
@@ -1754,17 +1765,29 @@ footer {
 
     inset: 0;
 
+    z-index: 1;
+
     background:
+
         linear-gradient(
-            135deg,
-            rgba(3, 27, 53, 0.70),
-            rgba(0, 184, 244, 0.22),
-            rgba(0, 208, 132, 0.18)
+            to bottom,
+            rgba(3, 20, 38, 0.55),
+            rgba(3, 20, 38, 0.72)
+        ),
+
+        linear-gradient(
+            90deg,
+            rgba(3, 27, 53, 0.80),
+            rgba(3, 27, 53, 0.45),
+            rgba(0, 184, 244, 0.28)
         );
 
-    z-index: 1;
 }
 
+
+/* =========================================================
+   CONTENT CONTAINER
+========================================================= */
 
 .netquanta-content {
 
@@ -1772,29 +1795,83 @@ footer {
 
     z-index: 2;
 
-    width: min(850px, 90%);
+    width: min(900px, 90%);
+
+    margin: auto;
+
+    padding: 80px 0;
 
 }
 
 
-.netquanta-label {
+/* =========================================================
+   TOP LABEL
+========================================================= */
 
-    color: #00D084;
+.netquanta-top-label {
 
-    font-size: 0.85rem;
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 14px;
+
+    color: #00d084;
+
+    font-size: 0.78rem;
 
     font-weight: 800;
 
     letter-spacing: 3px;
 
+    margin-bottom: 22px;
+
 }
 
 
+.netquanta-line {
+
+    width: 35px;
+
+    height: 1px;
+
+    background: rgba(0, 208, 132, 0.8);
+
+}
+
+
+/* =========================================================
+   MAIN HEADING
+========================================================= */
+
 .netquanta-content h2 {
 
-    margin: 12px 0 25px;
+    margin: 0 auto 24px;
 
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    max-width: 850px;
+
+    font-size: clamp(2.6rem, 5vw, 4.5rem);
+
+    line-height: 1.08;
+
+    font-weight: 800;
+
+    color: #ffffff;
+
+    letter-spacing: -1.5px;
+
+}
+
+
+/*
+   Gradient only for second line
+*/
+
+.netquanta-content h2 span {
+
+    display: block;
 
     background: var(--netquanta-gradient);
 
@@ -1807,44 +1884,201 @@ footer {
 }
 
 
-.netquanta-content p {
+/* =========================================================
+   INTRO TEXT
+========================================================= */
 
-    color: #e2e8f0;
+.netquanta-intro {
 
-    font-size: 1.05rem;
+    max-width: 760px;
 
-    line-height: 1.8;
+    margin: 0 auto 14px;
 
-    margin-bottom: 15px;
+    color: #ffffff;
+
+    font-size: 1.15rem;
+
+    line-height: 1.75;
+
+    font-weight: 500;
 
 }
 
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.netquanta-description {
+
+    max-width: 720px;
+
+    margin: 0 auto;
+
+    color: rgba(226, 232, 240, 0.88);
+
+    font-size: 0.98rem;
+
+    line-height: 1.75;
+
+}
+
+
+/* =========================================================
+   TAGLINE
+========================================================= */
 
 .netquanta-tagline {
-
-    margin-top: 25px;
-
-    color: white;
-
-    font-size: 1.25rem;
-
-    font-weight: 800;
-
-}
-
-
-.netquanta-buttons {
-
-    margin-top: 30px;
 
     display: flex;
 
     justify-content: center;
 
-    gap: 15px;
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-top: 32px;
 
 }
 
+
+.netquanta-tagline span {
+
+    padding: 9px 16px;
+
+    border-radius: 50px;
+
+    background: rgba(255, 255, 255, 0.09);
+
+    border: 1px solid rgba(255, 255, 255, 0.18);
+
+    backdrop-filter: blur(8px);
+
+    -webkit-backdrop-filter: blur(8px);
+
+    color: #ffffff;
+
+    font-size: 0.9rem;
+
+    font-weight: 700;
+
+}
+
+
+/* =========================================================
+   BUTTON CONTAINER
+========================================================= */
+
+.netquanta-buttons {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-top: 35px;
+
+}
+
+
+/* =========================================================
+   REGISTER BUTTON
+========================================================= */
+
+.netquanta-main-btn {
+
+    min-width: 175px;
+
+    padding: 14px 25px;
+
+    border-radius: 50px;
+
+    background: var(--netquanta-gradient);
+
+    border: none;
+
+    color: #ffffff;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    box-shadow:
+
+        0 8px 30px rgba(0, 184, 244, 0.22);
+
+    transition:
+
+        transform 0.3s ease,
+
+        box-shadow 0.3s ease;
+
+}
+
+
+.netquanta-main-btn:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+
+        0 14px 35px rgba(0, 184, 244, 0.35);
+
+}
+
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+.netquanta-login-btn {
+
+    min-width: 175px;
+
+    padding: 13px 25px;
+
+    border-radius: 50px;
+
+    color: #ffffff;
+
+    border: 1px solid rgba(255, 255, 255, 0.45);
+
+    background: rgba(255, 255, 255, 0.08);
+
+    backdrop-filter: blur(8px);
+
+    -webkit-backdrop-filter: blur(8px);
+
+    text-decoration: none;
+
+    font-weight: 700;
+
+    transition:
+
+        background 0.3s ease,
+
+        transform 0.3s ease,
+
+        border-color 0.3s ease;
+
+}
+
+
+.netquanta-login-btn:hover {
+
+    background: rgba(255, 255, 255, 0.16);
+
+    border-color: rgba(255, 255, 255, 0.75);
+
+    transform: translateY(-3px);
+
+}
 
 
 /* =========================================================
@@ -1853,41 +2087,83 @@ footer {
 
 @media (max-width: 768px) {
 
-    .cse-department-hero {
+    .netquanta-section {
 
-        min-height: 540px;
+        min-height: 680px;
 
-    }
-
-
-    .cse-hero-content h1 {
-
-        font-size: 3rem;
+        background-position: center 40%;
 
     }
 
 
-    .department-overview-grid {
+    .netquanta-content {
 
-        grid-template-columns: 1fr;
+        width: 88%;
 
-    }
-
-
-    .vision-mission-section {
-
-        grid-template-columns: 1fr;
-
-        padding-left: 5%;
-
-        padding-right: 5%;
+        padding: 70px 0;
 
     }
 
 
-    .section-title h2 {
+    .netquanta-top-label {
 
-        font-size: 2.2rem;
+        font-size: 0.68rem;
+
+        letter-spacing: 2px;
+
+        gap: 9px;
+
+    }
+
+
+    .netquanta-line {
+
+        width: 20px;
+
+    }
+
+
+    .netquanta-content h2 {
+
+        font-size: 2.5rem;
+
+        line-height: 1.12;
+
+    }
+
+
+    .netquanta-intro {
+
+        font-size: 1rem;
+
+        line-height: 1.7;
+
+    }
+
+
+    .netquanta-description {
+
+        font-size: 0.9rem;
+
+        line-height: 1.7;
+
+    }
+
+
+    .netquanta-tagline {
+
+        gap: 7px;
+
+        margin-top: 25px;
+
+    }
+
+
+    .netquanta-tagline span {
+
+        font-size: 0.78rem;
+
+        padding: 8px 12px;
 
     }
 
@@ -1896,15 +2172,21 @@ footer {
 
         flex-direction: column;
 
-        align-items: center;
+        gap: 12px;
+
+        margin-top: 28px;
 
     }
 
 
-    .netquanta-buttons .btn {
+    .netquanta-main-btn,
+    .netquanta-login-btn {
 
-        width: 200px;
+        width: 210px;
+
+        text-align: center;
 
     }
 
 }
+

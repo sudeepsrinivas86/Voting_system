@@ -362,78 +362,72 @@
 
 
 
-    <!-- =====================================================
-         NET QUANTA ELECTION SECTION
-    ====================================================== -->
+   <!-- =====================================================
+     NET QUANTA VOTING SECTION
+     ONLY THIS SECTION IS UPDATED
+====================================================== -->
 
-    <section
-        id="voting"
-        class="netquanta-section"
-        style="background-image: url('{{ url_for('static', filename='images/netquanta-election.jpeg') }}');"
-    >
+<section
+    id="voting"
+    class="netquanta-section"
+    style="background-image: url('{{ url_for('static', filename='images/netquanta-election.jpeg') }}');"
+>
 
-        <div class="netquanta-overlay"></div>
+    <div class="netquanta-overlay"></div>
 
-        <div class="netquanta-content">
+    <div class="netquanta-content">
 
-            <span class="netquanta-label">
-                NET QUANTA
-            </span>
+        <div class="netquanta-top-label">
+            <span class="netquanta-line"></span>
+            NET QUANTA ASSOCIATION
+            <span class="netquanta-line"></span>
+        </div>
 
-            <h2>
-                CSE Department Association Elections
-            </h2>
+        <h2>
+            CSE Department
+            <span>Association Elections</span>
+        </h2>
 
-            <p>
-                The Department of Computer Science and Engineering
-                is delighted to organize the Net Quanta Association
-                Voting and Inauguration Ceremony.
-            </p>
+        <p class="netquanta-intro">
+            The Department of Computer Science and Engineering
+            proudly presents the Net Quanta Association Voting
+            and Inauguration Ceremony.
+        </p>
 
-            <p>
-                The voting process provides students with an opportunity
-                to actively participate in selecting their association
-                representatives and to experience the values of
-                democracy, responsibility and leadership.
-            </p>
+        <p class="netquanta-description">
+            An opportunity for students to participate in the
+            democratic process, choose their representatives,
+            and take the lead in shaping the future of the
+            association.
+        </p>
 
-            <p>
-                The inauguration marks the beginning of a new academic
-                journey filled with leadership, innovation, teamwork
-                and technical excellence.
-            </p>
+        <div class="netquanta-tagline">
+            <span>Let's Vote.</span>
+            <span>Let's Lead.</span>
+            <span>Let's Innovate.</span>
+        </div>
 
+        <div class="netquanta-buttons">
 
-            <div class="netquanta-tagline">
+            <a
+                href="{{ url_for('register') }}"
+                class="btn btn-primary netquanta-main-btn"
+            >
+                Register to Vote
+            </a>
 
-                Let’s Vote.
-                Let’s Lead.
-                Let’s Innovate.
-
-            </div>
-
-
-            <div class="netquanta-buttons">
-
-                <a
-                    href="{{ url_for('register') }}"
-                    class="btn btn-primary"
-                >
-                    Get Started
-                </a>
-
-                <a
-                    href="{{ url_for('login') }}"
-                    class="btn btn-outline"
-                >
-                    Login to Vote
-                </a>
-
-            </div>
+            <a
+                href="{{ url_for('login') }}"
+                class="btn btn-outline netquanta-login-btn"
+            >
+                Login to Vote
+            </a>
 
         </div>
 
-    </section>
+    </div>
+
+</section>
 
 
 </div>
