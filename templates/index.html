@@ -359,7 +359,152 @@
         </div>
 
     </section>
+<!-- =====================================================
+     VOTING HIGHLIGHTS / GIMMICK SECTION
+===================================================== -->
 
+<section class="voting-gimmick-section">
+
+    <!-- Floating decorative elements -->
+
+    <span class="vote-float float-1">✓</span>
+    <span class="vote-float float-2">+</span>
+    <span class="vote-float float-3">✓</span>
+    <span class="vote-float float-4">○</span>
+
+
+    <div class="voting-gimmick-container">
+
+        <!-- Section Heading -->
+
+        <div class="gimmick-heading reveal">
+
+            <span>YOUR VOICE MATTERS</span>
+
+            <h2>
+                Every Vote Creates a Difference
+            </h2>
+
+            <p>
+                Participate in the Net Quanta Association elections
+                and make your voice count.
+            </p>
+
+        </div>
+
+
+        <!-- Voting Cards -->
+
+        <div class="voting-gimmick-grid">
+
+
+            <!-- CARD 1 -->
+
+            <div class="vote-gimmick-card reveal">
+
+                <div class="vote-gimmick-icon">
+                    <span>✓</span>
+                </div>
+
+                <div class="vote-gimmick-number">
+                    01
+                </div>
+
+                <h3>
+                    Register
+                </h3>
+
+                <p>
+                    Register using your college email
+                    and get ready to participate.
+                </p>
+
+            </div>
+
+
+            <!-- CARD 2 -->
+
+            <div class="vote-gimmick-card reveal">
+
+                <div class="vote-gimmick-icon ballot-icon">
+                    <span>◉</span>
+                </div>
+
+                <div class="vote-gimmick-number">
+                    02
+                </div>
+
+                <h3>
+                    Cast Your Vote
+                </h3>
+
+                <p>
+                    Choose your preferred candidate
+                    and cast your vote securely.
+                </p>
+
+            </div>
+
+
+            <!-- CARD 3 -->
+
+            <div class="vote-gimmick-card reveal">
+
+                <div class="vote-gimmick-icon">
+                    <span>✓</span>
+                </div>
+
+                <div class="vote-gimmick-number">
+                    03
+                </div>
+
+                <h3>
+                    Shape the Future
+                </h3>
+
+                <p>
+                    Your decision helps build the future
+                    of the Net Quanta Association.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- Main Voting CTA -->
+
+        <div class="vote-cta reveal">
+
+            <div class="vote-cta-icon">
+                🗳️
+            </div>
+
+            <div class="vote-cta-text">
+
+                <span>
+                    DEMOCRACY STARTS WITH YOU
+                </span>
+
+                <h3>
+                    Let Your Vote Be Heard.
+                </h3>
+
+            </div>
+
+            <a
+                href="{{ url_for('register') }}"
+                class="vote-cta-button"
+            >
+                Vote Now →
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
 
 
    <!-- =====================================================
@@ -454,8 +599,7 @@
     </div>
 
 </footer>
-
-
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 
 </html>
