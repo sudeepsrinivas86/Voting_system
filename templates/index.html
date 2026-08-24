@@ -102,47 +102,167 @@
                 Home
             </a>
 
-            <a href="{{ url_for('login') }}">
-                Login
-            </a>
-
-            <a
-                href="{{ url_for('register') }}"
-                class="btn btn-primary btn-sm"
-            >
-                Register
-            </a>
 
         </div>
 
     </nav>
-    <!-- VOTING LIVE MESSAGE -->
-<section class="voting-live-message">
-    <div class="voting-live-icon">🗳️</div>
+    <!-- =====================================================
+     VOTING ANNOUNCEMENT SLIDER
+===================================================== -->
 
-    <div class="voting-live-content">
-        <span>• VOTING LIVE</span>
-        <h3>NET QUANTA ASSOCIATION ELECTIONS ARE NOW OPEN</h3>
-        <p>
-            Voting is currently in progress. Cast your vote and choose your
-            association representatives.
-        </p>
+<section class="voting-announcement">
+
+    <button class="voting-arrow voting-prev" type="button">
+        &#10094;
+    </button>
+
+    <div class="voting-slider">
+
+        <div class="voting-track" id="votingTrack">
+
+            <!-- MESSAGE 1 -->
+            <div class="voting-slide">
+
+                <div class="voting-live-icon">
+                    🗳️
+                </div>
+
+                <div class="voting-live-content">
+
+                    <span>• VOTING LIVE</span>
+
+                    <h3>
+                        NET QUANTA ASSOCIATION ELECTIONS ARE NOW OPEN
+                    </h3>
+
+                    <p>
+                        Voting is currently in progress.
+                        Cast your vote and choose your association representatives.
+                    </p>
+
+                </div>
+
+                <a
+                    href="{{ url_for('login') }}"
+                    class="voting-live-button"
+                >
+                    Vote Now →
+                </a>
+
+            </div>
+
+
+            <!-- MESSAGE 2 -->
+            <div class="voting-slide">
+
+                <div class="voting-live-icon">
+                    📢
+                </div>
+
+                <div class="voting-live-content">
+
+                    <span>• ELECTION UPDATE</span>
+
+                    <h3>
+                        NET QUANTA ELECTIONS 2026
+                    </h3>
+
+                    <p>
+                        Students are encouraged to participate
+                        actively and make their voice count.
+                    </p>
+
+                </div>
+
+                <a
+                    href="{{ url_for('register') }}"
+                    class="voting-live-button"
+                >
+                    Register →
+                </a>
+
+            </div>
+
+
+            <!-- MESSAGE 3 -->
+            <div class="voting-slide">
+
+                <div class="voting-live-icon">
+                    ⏳
+                </div>
+
+                <div class="voting-live-content">
+
+                    <span>• IMPORTANT NOTICE</span>
+
+                    <h3>
+                        ELECTION ACTIVITIES ARE UNDERWAY
+                    </h3>
+
+                    <p>
+                        Stay updated with Net Quanta Association
+                        announcements and voting information.
+                    </p>
+
+                </div>
+
+                <a
+                    href="{{ url_for('login') }}"
+                    class="voting-live-button"
+                >
+                    Login →
+                </a>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <a href="{{ url_for('login') }}" class="voting-live-button">
-        Vote Now →
-    </a>
+
+    <button class="voting-arrow voting-next" type="button">
+        &#10095;
+    </button>
+
 </section>
+
+
+<!-- DOTS -->
+
+<div class="voting-dots">
+
+    <button
+        type="button"
+        class="voting-dot active"
+        data-slide="0">
+    </button>
+
+    <button
+        type="button"
+        class="voting-dot"
+        data-slide="1">
+    </button>
+
+    <button
+        type="button"
+        class="voting-dot"
+        data-slide="2">
+    </button>
+
+</div>
 
 
 <!-- GAP BETWEEN MESSAGE AND DEPARTMENT HERO -->
 <div class="department-message-gap"></div>
 
 
-<section
-    class="cse-department-hero"
-    style="background-image: url('{{ url_for('static', filename='images/cse-department.jpeg') }}');"
->
+<section class="cse-department-hero">
+
+    <img
+        src="{{ url_for('static', filename='images/cse-department.jpeg') }}"
+        alt="CSE Department"
+        class="cse-department-background"
+    >
 
     <div class="cse-hero-overlay"></div>
 
@@ -165,7 +285,6 @@
     </div>
 
 </section>
-
 
 
 <!-- =====================================================
@@ -311,7 +430,7 @@
         </div>
 
         <h2>
-            CSE Department
+            NET QUANTA 
             <span>Association Elections</span>
         </h2>
 

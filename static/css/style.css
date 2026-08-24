@@ -1305,67 +1305,69 @@ footer {
         font-size: 0.75rem;
     }
 }
-//* =========================================================
+/* =========================================================
    CSE DEPARTMENT HERO
 ========================================================= */
 
 .cse-department-hero {
-
     min-height: 620px;
-
     position: relative;
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     text-align: center;
-
     overflow: hidden;
 
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-
-    background-color: #031b35;
+    /* fallback background */
+    background: #031b35;
 }
 
 
-.cse-hero-overlay {
+/* CSE BACKGROUND IMAGE */
 
+.cse-department-background {
     position: absolute;
-
     inset: 0;
 
-    z-index: 1;
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    z-index: 0;
+}
+
+
+/* DARK OVERLAY */
+
+.cse-hero-overlay {
+    position: absolute;
+    inset: 0;
 
     background:
         linear-gradient(
             135deg,
-            rgba(3, 27, 53, 0.78),
-            rgba(3, 27, 53, 0.58),
-            rgba(0, 184, 244, 0.20)
+            rgba(3, 27, 53, 0.88),
+            rgba(3, 27, 53, 0.65),
+            rgba(0, 184, 244, 0.25)
         );
+
+    z-index: 1;
 }
 
 
+/* CONTENT */
+
 .cse-hero-content {
-
     position: relative;
-
     z-index: 2;
 
     width: min(1000px, 90%);
-
-    padding: 80px 0;
-
 }
 
 
 .cse-hero-content h1 {
-
     margin: 0;
 
     font-size: clamp(3rem, 7vw, 5.5rem);
@@ -1375,16 +1377,13 @@ footer {
     background: var(--netquanta-gradient);
 
     -webkit-background-clip: text;
-
     background-clip: text;
 
     -webkit-text-fill-color: transparent;
-
 }
 
 
 .cse-hero-content p {
-
     max-width: 760px;
 
     margin: 25px auto;
@@ -1394,12 +1393,10 @@ footer {
     font-size: 1.15rem;
 
     line-height: 1.8;
-
 }
 
 
 .cse-hero-button {
-
     display: inline-block;
 
     padding: 14px 30px;
@@ -1415,19 +1412,15 @@ footer {
     font-weight: 700;
 
     transition: 0.3s;
-
 }
 
 
 .cse-hero-button:hover {
-
     transform: translateY(-4px);
 
     box-shadow:
         0 12px 35px rgba(0, 184, 244, 0.30);
-
 }
-
 
 /* =========================================================
    NET QUANTA VOTING SECTION
@@ -4893,6 +4886,2275 @@ footer {
     .voting-popup-vote,
     .voting-popup-cancel {
         width: 100%;
+    }
+
+}
+/* =========================================================
+   IG BOSS - CSE ACHIEVERS
+========================================================= */
+
+.igboss-section {
+
+    padding: 100px 7%;
+
+    position: relative;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(0, 184, 244, 0.10),
+            transparent 40%
+        ),
+        radial-gradient(
+            circle at bottom left,
+            rgba(0, 208, 132, 0.08),
+            transparent 40%
+        );
+
+}
+
+
+.igboss-heading {
+
+    max-width: 850px;
+
+    margin: 0 auto 60px;
+
+    text-align: center;
+
+}
+
+
+.igboss-label {
+
+    display: inline-block;
+
+    color: #00D084;
+
+    font-size: 0.78rem;
+
+    font-weight: 800;
+
+    letter-spacing: 2.5px;
+
+    margin-bottom: 12px;
+
+}
+
+
+.igboss-heading h2 {
+
+    margin: 0 0 18px;
+
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+
+    font-weight: 800;
+
+    background: var(--netquanta-gradient);
+
+    -webkit-background-clip: text;
+
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+
+}
+
+
+.igboss-heading p {
+
+    margin: auto;
+
+    max-width: 760px;
+
+    color: var(--text-muted);
+
+    font-size: 1rem;
+
+    line-height: 1.8;
+
+}
+
+
+/* =========================================================
+   IG BOSS GRID
+========================================================= */
+
+.igboss-grid {
+
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 24px;
+
+}
+
+
+/* =========================================================
+   IG BOSS CARD
+========================================================= */
+
+.igboss-card {
+
+    position: relative;
+
+    padding: 32px 25px;
+
+    text-align: center;
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.06),
+            rgba(255, 255, 255, 0.025)
+        );
+
+    border: 1px solid var(--glass-border);
+
+    backdrop-filter: blur(10px);
+
+    overflow: hidden;
+
+    transition:
+        transform 0.35s ease,
+        border-color 0.35s ease,
+        box-shadow 0.35s ease;
+
+}
+
+
+.igboss-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    right: 0;
+
+    height: 3px;
+
+    background: var(--netquanta-gradient);
+
+    opacity: 0.8;
+
+}
+
+
+.igboss-card:hover {
+
+    transform: translateY(-8px);
+
+    border-color: rgba(0, 184, 244, 0.55);
+
+    box-shadow:
+        0 18px 45px rgba(0, 184, 244, 0.14);
+
+}
+
+
+/* =========================================================
+   YEAR
+========================================================= */
+
+.igboss-year {
+
+    display: inline-block;
+
+    padding: 6px 14px;
+
+    border-radius: 30px;
+
+    background: rgba(0, 184, 244, 0.08);
+
+    border: 1px solid rgba(0, 184, 244, 0.25);
+
+    color: #00B8F4;
+
+    font-size: 0.75rem;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+}
+
+
+/* =========================================================
+   TROPHY
+========================================================= */
+
+.igboss-trophy {
+
+    width: 68px;
+
+    height: 68px;
+
+    margin: 22px auto 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 20px;
+
+    background: var(--netquanta-gradient);
+
+    font-size: 1.8rem;
+
+    box-shadow:
+        0 10px 30px rgba(0, 184, 244, 0.20);
+
+}
+
+
+/* =========================================================
+   STUDENT NAME
+========================================================= */
+
+.igboss-card h3 {
+
+    margin: 0 0 10px;
+
+    color: white;
+
+    font-size: 1.15rem;
+
+    font-weight: 800;
+
+}
+
+
+/* =========================================================
+   DEPARTMENT
+========================================================= */
+
+.igboss-department {
+
+    color: var(--text-muted);
+
+    font-size: 0.78rem;
+
+    font-weight: 600;
+
+    letter-spacing: 0.5px;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .igboss-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .igboss-section {
+
+        padding: 70px 5%;
+
+    }
+
+    .igboss-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .igboss-heading h2 {
+
+        font-size: 2.2rem;
+
+    }
+
+}
+/* =========================================================
+   DEPARTMENT EVENTS - TECH INNOVA
+========================================================= */
+
+.department-events-section {
+
+    padding: 100px 7%;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(0, 184, 244, 0.10),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(0, 208, 132, 0.08),
+            transparent 35%
+        );
+}
+
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.department-events-heading {
+
+    max-width: 850px;
+
+    margin: 0 auto 55px;
+
+    text-align: center;
+}
+
+
+.department-events-label {
+
+    display: inline-block;
+
+    margin-bottom: 12px;
+
+    color: #00D084;
+
+    font-size: 0.78rem;
+
+    font-weight: 800;
+
+    letter-spacing: 2.5px;
+}
+
+
+.department-events-heading h2 {
+
+    margin: 0 0 18px;
+
+    font-size: clamp(2.5rem, 5vw, 4rem);
+
+    font-weight: 800;
+
+    background: var(--netquanta-gradient);
+
+    -webkit-background-clip: text;
+
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+}
+
+
+.department-events-heading p {
+
+    max-width: 760px;
+
+    margin: auto;
+
+    color: var(--text-muted);
+
+    font-size: 1.05rem;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   SLIDER
+========================================================= */
+
+.tech-innova-slider {
+
+    max-width: 1150px;
+
+    margin: auto;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+}
+
+
+/* =========================================================
+   VIEW WINDOW
+========================================================= */
+
+.event-slider-window {
+
+    width: 100%;
+
+    overflow: hidden;
+
+    border-radius: 24px;
+
+    border: 1px solid var(--glass-border);
+
+    background: rgba(255, 255, 255, 0.03);
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+
+/* =========================================================
+   HORIZONTAL TRACK
+========================================================= */
+
+.event-slider-track {
+
+    display: flex;
+
+    width: 100%;
+
+    transition:
+        transform 0.6s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
+}
+
+
+/* =========================================================
+   EACH PHOTO
+========================================================= */
+
+.event-slide {
+
+    min-width: 100%;
+
+    height: 500px;
+
+    position: relative;
+
+    flex-shrink: 0;
+
+    background: #071a2f;
+}
+
+
+.event-slide img {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    object-position: center;
+
+    transition: transform 0.6s ease;
+}
+
+
+.event-slide:hover img {
+
+    transform: scale(1.02);
+}
+
+
+/* =========================================================
+   SLIDER BUTTONS
+========================================================= */
+
+.event-slider-btn {
+
+    width: 50px;
+
+    height: 50px;
+
+    flex-shrink: 0;
+
+    border: 1px solid rgba(0, 184, 244, 0.35);
+
+    border-radius: 50%;
+
+    background:
+        rgba(3, 27, 53, 0.85);
+
+    color: white;
+
+    font-size: 1.3rem;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition: 0.3s;
+
+    z-index: 5;
+}
+
+
+.event-slider-btn:hover {
+
+    transform: scale(1.08);
+
+    border-color: #00D084;
+
+    background: var(--netquanta-gradient);
+
+    box-shadow:
+        0 8px 25px rgba(0, 184, 244, 0.25);
+}
+
+
+/* =========================================================
+   DOTS
+========================================================= */
+
+.event-slider-dots {
+
+    margin-top: 25px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+
+.event-dot {
+
+    width: 9px;
+
+    height: 9px;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.25);
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+
+.event-dot.active {
+
+    width: 28px;
+
+    border-radius: 20px;
+
+    background: var(--netquanta-gradient);
+}
+
+
+/* =========================================================
+   EVENT FOOTER
+========================================================= */
+
+.tech-innova-year {
+
+    margin-top: 22px;
+
+    text-align: center;
+
+    color: #00B8F4;
+
+    font-size: 0.75rem;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .department-events-section {
+
+        padding: 70px 5%;
+    }
+
+
+    .department-events-heading h2 {
+
+        font-size: 2.5rem;
+    }
+
+
+    .tech-innova-slider {
+
+        gap: 8px;
+    }
+
+
+    .event-slide {
+
+        height: 350px;
+    }
+
+
+    .event-slider-btn {
+
+        width: 40px;
+
+        height: 40px;
+
+        font-size: 1rem;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .tech-innova-slider {
+
+        display: block;
+
+        position: relative;
+    }
+
+
+    .event-slider-window {
+
+        width: 100%;
+    }
+
+
+    .event-slide {
+
+        height: 280px;
+    }
+
+
+    .event-slider-btn {
+
+        position: absolute;
+
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        z-index: 10;
+    }
+
+
+    .event-slider-btn:hover {
+
+        transform:
+            translateY(-50%)
+            scale(1.05);
+    }
+
+
+    .event-prev {
+
+        left: 10px;
+    }
+
+
+    .event-next {
+
+        right: 10px;
+    }
+
+}
+/* =========================================================
+   TECH INNOVA SLIDER - FINAL
+========================================================= */
+
+.department-events-section {
+    padding: 100px 7%;
+    overflow: hidden;
+    position: relative;
+}
+
+.department-events-heading {
+    max-width: 850px;
+    margin: 0 auto 55px;
+    text-align: center;
+}
+
+.department-events-label {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: #00D084;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+}
+
+.department-events-heading h2 {
+    margin: 0 0 18px;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+
+    background: var(--netquanta-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.department-events-heading p {
+    max-width: 760px;
+    margin: auto;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   SLIDER MAIN
+========================================================= */
+
+.tech-innova-slider {
+    width: 100%;
+    max-width: 1150px;
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+
+/* =========================================================
+   IMAGE WINDOW
+========================================================= */
+
+.event-slider-window {
+    width: 100%;
+    overflow: hidden;
+
+    border-radius: 24px;
+
+    border: 1px solid var(--glass-border);
+
+    background: #071a2f;
+}
+
+
+/* =========================================================
+   IMPORTANT:
+   TRACK MUST BE FLEX
+========================================================= */
+
+.event-slider-track {
+    display: flex;
+
+    width: 100%;
+
+    transform: translateX(0);
+
+    transition: transform 0.6s ease-in-out;
+
+    will-change: transform;
+}
+
+
+/* =========================================================
+   EACH IMAGE
+========================================================= */
+
+.event-slide {
+    min-width: 100%;
+    width: 100%;
+    flex: 0 0 100%;
+
+    height: 500px;
+
+    position: relative;
+}
+
+
+.event-slide img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    object-position: center;
+}
+
+
+/* =========================================================
+   LEFT / RIGHT BUTTON
+========================================================= */
+
+.event-slider-btn {
+    width: 52px;
+    height: 52px;
+
+    min-width: 52px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(0, 184, 244, 0.5);
+
+    background: rgba(3, 27, 53, 0.95);
+
+    color: white;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 20;
+
+    transition: 0.25s ease;
+}
+
+.event-slider-btn:hover {
+    background: var(--netquanta-gradient);
+
+    transform: scale(1.08);
+}
+
+
+/* =========================================================
+   DOTS
+========================================================= */
+
+.event-slider-dots {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 25px;
+}
+
+.event-dot {
+    width: 10px;
+    height: 10px;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.25);
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.event-dot.active {
+    width: 28px;
+
+    border-radius: 20px;
+
+    background: var(--netquanta-gradient);
+}
+
+
+/* =========================================================
+   FOOTER LABEL
+========================================================= */
+
+.tech-innova-year {
+    margin-top: 22px;
+
+    text-align: center;
+
+    color: #00B8F4;
+
+    font-size: 0.75rem;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .department-events-section {
+        padding: 70px 5%;
+    }
+
+    .tech-innova-slider {
+        gap: 8px;
+    }
+
+    .event-slide {
+        height: 350px;
+    }
+
+    .event-slider-btn {
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        font-size: 18px;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .tech-innova-slider {
+        position: relative;
+        display: block;
+    }
+
+    .event-slider-btn {
+        position: absolute;
+
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        z-index: 30;
+    }
+
+    .event-slider-btn:hover {
+        transform: translateY(-50%) scale(1.05);
+    }
+
+    .event-prev {
+        left: 10px;
+    }
+
+    .event-next {
+        right: 10px;
+    }
+
+    .event-slide {
+        height: 280px;
+    }
+
+}
+/* =========================================================
+   ANNOUNCEMENT SLIDER
+========================================================= */
+
+.announcement-slider {
+    position: relative;
+    width: 92%;
+    max-width: 1100px;
+    margin: 25px auto 0;
+
+    overflow: hidden;
+
+    border-radius: 20px;
+
+    border: 1px solid rgba(0, 184, 244, 0.35);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(3, 27, 53, 0.98),
+            rgba(0, 70, 100, 0.95)
+        );
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+
+/* IMPORTANT */
+
+.announcement-track {
+    display: flex;
+
+    width: 100%;
+
+    transition:
+        transform 0.7s ease-in-out;
+
+    will-change: transform;
+}
+
+
+/* EACH SLIDE */
+
+.announcement-card {
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 25px 70px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+}
+
+
+/* ICON */
+
+.announcement-icon {
+    width: 58px;
+    height: 58px;
+
+    flex: 0 0 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    font-size: 1.6rem;
+
+    background:
+        rgba(0, 184, 244, 0.12);
+
+    border:
+        1px solid rgba(0, 208, 132, 0.35);
+}
+
+
+/* CONTENT */
+
+.announcement-content {
+    flex: 1;
+}
+
+
+.announcement-label {
+    display: block;
+
+    color: #00D084;
+
+    font-size: 0.72rem;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 5px;
+}
+
+
+.announcement-content h3 {
+    margin: 0 0 6px;
+
+    color: white;
+
+    font-size: 1.1rem;
+
+    font-weight: 800;
+}
+
+
+.announcement-content p {
+    margin: 0;
+
+    color: #c4d1dd;
+
+    font-size: 0.9rem;
+
+    line-height: 1.6;
+}
+
+
+/* BUTTON */
+
+.announcement-button {
+    flex-shrink: 0;
+
+    padding: 12px 22px;
+
+    border-radius: 50px;
+
+    background: var(--netquanta-gradient);
+
+    color: white;
+
+    text-decoration: none;
+
+    font-weight: 700;
+
+    font-size: 0.85rem;
+}
+
+
+/* ARROWS */
+
+.announcement-prev,
+.announcement-next {
+    position: absolute;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(255,255,255,0.2);
+
+    background: rgba(0,0,0,0.25);
+
+    color: white;
+
+    font-size: 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    z-index: 10;
+}
+
+
+.announcement-prev {
+    left: 15px;
+}
+
+
+.announcement-next {
+    right: 15px;
+}
+
+
+.announcement-prev:hover,
+.announcement-next:hover {
+    background: rgba(0,184,244,0.4);
+}
+
+
+/* DOTS */
+
+.announcement-dots {
+    position: absolute;
+
+    bottom: 8px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    display: flex;
+
+    gap: 7px;
+
+    z-index: 10;
+}
+
+
+.announcement-dot {
+    width: 7px;
+    height: 7px;
+
+    display: block;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.35);
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+
+.announcement-dot.active {
+    width: 22px;
+
+    border-radius: 10px;
+
+    background: #00D084;
+}
+
+
+/* GAP */
+
+.department-message-gap {
+    height: 35px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+    .announcement-card {
+        padding: 25px 45px 32px;
+
+        flex-wrap: wrap;
+    }
+
+    .announcement-content {
+        flex: 1 1 calc(100% - 70px);
+    }
+
+    .announcement-content h3 {
+        font-size: 0.9rem;
+    }
+
+    .announcement-content p {
+        font-size: 0.8rem;
+    }
+
+    .announcement-button {
+        margin: auto;
+    }
+
+}
+/* =========================================================
+   AUTO ANNOUNCEMENT SLIDER
+========================================================= */
+
+.announcement-slider {
+    width: 92%;
+    max-width: 1100px;
+
+    margin: 25px auto 0;
+
+    overflow: hidden;
+
+    position: relative;
+
+    border-radius: 20px;
+
+    border: 1px solid rgba(0, 184, 244, 0.35);
+
+    background: #071b2e;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+
+/* MOVING TRACK */
+
+.announcement-track {
+
+    display: flex;
+
+    width: 400%;
+
+    animation: announcementSlide 16s infinite;
+
+}
+
+
+/* EACH MESSAGE */
+
+.announcement-card {
+
+    width: 25%;
+
+    min-width: 25%;
+
+    box-sizing: border-box;
+
+    padding: 28px 70px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+
+/* ICON */
+
+.announcement-icon {
+
+    width: 58px;
+    height: 58px;
+
+    min-width: 58px;
+
+    border-radius: 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 1.6rem;
+
+    background:
+        rgba(0, 184, 244, 0.15);
+
+    border:
+        1px solid rgba(0, 208, 132, 0.4);
+}
+
+
+/* CONTENT */
+
+.announcement-content {
+
+    flex: 1;
+}
+
+
+.announcement-label {
+
+    color: #00D084;
+
+    font-size: 0.72rem;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+
+.announcement-content h3 {
+
+    color: white;
+
+    margin: 5px 0;
+
+    font-size: 1.1rem;
+}
+
+
+.announcement-content p {
+
+    color: #cbd5e1;
+
+    margin: 0;
+
+    font-size: 0.9rem;
+
+    line-height: 1.6;
+}
+
+
+/* BUTTON */
+
+.announcement-button {
+
+    padding: 11px 20px;
+
+    border-radius: 50px;
+
+    background: var(--netquanta-gradient);
+
+    color: white;
+
+    text-decoration: none;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   ACTUAL AUTO SLIDE
+========================================================= */
+
+@keyframes announcementSlide {
+
+    0% {
+        transform: translateX(0%);
+    }
+
+    20% {
+        transform: translateX(0%);
+    }
+
+
+    25% {
+        transform: translateX(-25%);
+    }
+
+    45% {
+        transform: translateX(-25%);
+    }
+
+
+    50% {
+        transform: translateX(-50%);
+    }
+
+    70% {
+        transform: translateX(-50%);
+    }
+
+
+    75% {
+        transform: translateX(-75%);
+    }
+
+    95% {
+        transform: translateX(-75%);
+    }
+
+
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .announcement-card {
+
+        padding: 25px 45px 30px;
+
+        flex-wrap: wrap;
+
+    }
+
+    .announcement-content {
+
+        flex: 1;
+
+    }
+
+    .announcement-content h3 {
+
+        font-size: 0.9rem;
+
+    }
+
+    .announcement-content p {
+
+        font-size: 0.78rem;
+
+    }
+
+    .announcement-button {
+
+        margin: auto;
+
+    }
+
+}
+/* =========================================================
+   VOTING ANNOUNCEMENT SLIDER
+========================================================= */
+
+.voting-message-slider {
+
+    position: relative;
+
+    width: 100%;
+
+    max-width: 1100px;
+
+    margin: 30px auto;
+
+    padding: 0 65px 45px;
+
+    box-sizing: border-box;
+
+}
+
+
+/* =========================================================
+   SLIDER VIEWPORT
+========================================================= */
+
+.voting-slider-wrapper {
+
+    width: 100%;
+
+    overflow: hidden;
+
+    border-radius: 22px;
+
+}
+
+
+/* =========================================================
+   SLIDER TRACK
+========================================================= */
+
+.voting-slider-track {
+
+    display: flex;
+
+    width: 100%;
+
+    transition:
+        transform 0.7s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
+
+    will-change: transform;
+
+}
+
+
+/* =========================================================
+   EACH SLIDE
+========================================================= */
+
+.voting-slide {
+
+    flex: 0 0 100%;
+
+    width: 100%;
+
+    min-width: 100%;
+
+    box-sizing: border-box;
+
+    min-height: 135px;
+
+    padding: 25px 30px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0, 184, 244, 0.18),
+            rgba(0, 208, 132, 0.12)
+        );
+
+    border: 1px solid rgba(0, 184, 244, 0.25);
+
+    border-radius: 22px;
+
+    backdrop-filter: blur(15px);
+
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.voting-slide-icon {
+
+    width: 58px;
+
+    height: 58px;
+
+    min-width: 58px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 16px;
+
+    font-size: 28px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #00b8f4,
+            #00d084
+        );
+
+    box-shadow:
+        0 8px 25px rgba(0, 184, 244, 0.25);
+
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.voting-slide-content {
+
+    flex: 1;
+
+    min-width: 0;
+
+}
+
+
+.voting-slide-label {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #00d084;
+
+    font-size: 0.75rem;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+}
+
+
+.voting-slide-content h3 {
+
+    margin: 0 0 7px;
+
+    color: #ffffff;
+
+    font-size: 1.15rem;
+
+    font-weight: 800;
+
+    line-height: 1.35;
+
+}
+
+
+.voting-slide-content p {
+
+    margin: 0;
+
+    color: #cbd5e1;
+
+    font-size: 0.9rem;
+
+    line-height: 1.5;
+
+}
+
+
+/* =========================================================
+   VOTE / REGISTER BUTTON
+========================================================= */
+
+.voting-slide-button {
+
+    flex-shrink: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 12px 22px;
+
+    border-radius: 50px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #00b8f4,
+            #00d084
+        );
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 0.9rem;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+}
+
+
+.voting-slide-button:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 10px 25px rgba(0, 184, 244, 0.3);
+
+}
+
+
+/* =========================================================
+   PREVIOUS / NEXT ARROWS
+========================================================= */
+
+.voting-slider-arrow {
+
+    position: absolute;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    z-index: 10;
+
+    width: 42px;
+
+    height: 42px;
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    border-radius: 50%;
+
+    background: rgba(3, 27, 53, 0.9);
+
+    color: white;
+
+    font-size: 30px;
+
+    line-height: 1;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        border-color 0.25s ease;
+
+}
+
+
+.voting-slider-arrow:hover {
+
+    background:
+        linear-gradient(
+            135deg,
+            #00b8f4,
+            #00d084
+        );
+
+    border-color: transparent;
+
+    transform:
+        translateY(-50%)
+        scale(1.08);
+
+}
+
+
+.voting-prev {
+
+    left: 10px;
+
+}
+
+
+.voting-next {
+
+    right: 10px;
+
+}
+
+
+/* =========================================================
+   DOTS
+========================================================= */
+
+.voting-slider-dots {
+
+    position: absolute;
+
+    bottom: 8px;
+
+    left: 0;
+
+    right: 0;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 8px;
+
+}
+
+
+.voting-dot {
+
+    width: 9px;
+
+    height: 9px;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #64748b;
+
+    cursor: pointer;
+
+    transition:
+        width 0.3s ease,
+        background 0.3s ease;
+
+}
+
+
+.voting-dot.active {
+
+    width: 28px;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #00b8f4,
+            #00d084
+        );
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .voting-message-slider {
+
+        padding:
+            0
+            48px
+            40px;
+
+    }
+
+
+    .voting-slide {
+
+        min-height: 250px;
+
+        padding: 22px;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        justify-content: center;
+
+        gap: 14px;
+
+    }
+
+
+    .voting-slide-icon {
+
+        width: 50px;
+
+        height: 50px;
+
+        min-width: 50px;
+
+        font-size: 24px;
+
+    }
+
+
+    .voting-slide-content h3 {
+
+        font-size: 1rem;
+
+    }
+
+
+    .voting-slide-content p {
+
+        font-size: 0.85rem;
+
+    }
+
+
+    .voting-slide-button {
+
+        padding: 10px 18px;
+
+    }
+
+
+    .voting-slider-arrow {
+
+        width: 36px;
+
+        height: 36px;
+
+        font-size: 25px;
+
+    }
+
+
+    .voting-prev {
+
+        left: 5px;
+
+    }
+
+
+    .voting-next {
+
+        right: 5px;
+
+    }
+
+}
+/* =====================================================
+   VOTING ANNOUNCEMENT SLIDER
+===================================================== */
+
+.voting-announcement {
+    width: calc(100% - 100px);
+    max-width: 1100px;
+    margin: 35px auto 0;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    position: relative;
+}
+
+
+/* SLIDER WINDOW */
+
+.voting-slider {
+    width: 100%;
+    overflow: hidden;
+
+    border-radius: 22px;
+
+    position: relative;
+}
+
+
+/* MOVING TRACK */
+
+.voting-track {
+    display: flex;
+    width: 100%;
+
+    transition: transform 0.7s ease-in-out;
+
+    will-change: transform;
+}
+
+
+/* EACH MESSAGE */
+
+.voting-slide {
+    min-width: 100%;
+    width: 100%;
+
+    flex: 0 0 100%;
+
+    box-sizing: border-box;
+
+    padding: 30px 35px;
+
+    display: flex;
+    align-items: center;
+    gap: 22px;
+
+    background: linear-gradient(
+        135deg,
+        #083d5c,
+        #087b83
+    );
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    border-radius: 22px;
+
+    color: white;
+
+    box-sizing: border-box;
+}
+
+
+/* ICON */
+
+.voting-live-icon {
+    width: 58px;
+    height: 58px;
+
+    min-width: 58px;
+
+    border-radius: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(
+        135deg,
+        #00d9ff,
+        #00c896
+    );
+
+    font-size: 27px;
+}
+
+
+/* CONTENT */
+
+.voting-live-content {
+    flex: 1;
+}
+
+
+.voting-live-content span {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #00e6a8;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+
+.voting-live-content h3 {
+    margin: 0 0 7px;
+
+    font-size: 20px;
+    font-weight: 800;
+
+    color: white;
+}
+
+
+.voting-live-content p {
+    margin: 0;
+
+    color: rgba(255,255,255,0.78);
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* VOTE BUTTON */
+
+.voting-live-button {
+    flex-shrink: 0;
+
+    padding: 14px 23px;
+
+    border-radius: 30px;
+
+    background: linear-gradient(
+        135deg,
+        #00cfff,
+        #00d99a
+    );
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 800;
+
+    transition: 0.3s ease;
+}
+
+
+.voting-live-button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 25px rgba(0,220,180,0.25);
+}
+
+
+/* LEFT / RIGHT BUTTON */
+
+.voting-arrow {
+    width: 42px;
+    height: 42px;
+
+    min-width: 42px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    background: rgba(5,25,50,0.85);
+
+    color: white;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.25s ease;
+
+    z-index: 5;
+}
+
+
+.voting-arrow:hover {
+    background: #00cfa5;
+
+    transform: scale(1.08);
+}
+
+
+/* DOTS */
+
+.voting-dots {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 16px;
+}
+
+
+.voting-dot {
+    width: 9px;
+    height: 9px;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.35);
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+
+.voting-dot.active {
+    width: 26px;
+
+    border-radius: 10px;
+
+    background: #00d9ae;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+    .voting-announcement {
+        width: calc(100% - 30px);
+
+        gap: 5px;
+    }
+
+
+    .voting-slide {
+        padding: 22px;
+
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+
+    .voting-live-content h3 {
+        font-size: 17px;
+    }
+
+
+    .voting-live-content p {
+        font-size: 13px;
+    }
+
+
+    .voting-live-button {
+        width: auto;
+    }
+
+
+    .voting-arrow {
+        width: 35px;
+        height: 35px;
+
+        min-width: 35px;
+
+        font-size: 18px;
     }
 
 }
