@@ -25,3 +25,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+function closeVotingPopup() {
+    const popup = document.getElementById("votingPopup");
+
+    if (popup) {
+        popup.style.opacity = "0";
+        popup.style.pointerEvents = "none";
+
+        setTimeout(() => {
+            popup.style.display = "none";
+        }, 250);
+    }
+}

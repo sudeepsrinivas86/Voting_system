@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CSE Department - NET QUANTA</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container cse-department-page">
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="logo"
+             style="display:flex;align-items:center;gap:.75rem;">
+
+            <img
+                src="{{ url_for('static', filename='images/netquanta.jpeg') }}"
+                alt="Net Quanta Logo"
+                style="height:40px;width:auto;"
+            >
+
+            <span>
+                NET QUANTA ASSOCIATION
+            </span>
+
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('index') }}">
+                Home
+            </a>
+
+            <a href="{{ url_for('login') }}">
+                Login
+            </a>
+
+            <a href="{{ url_for('register') }}"
+               class="btn btn-primary btn-sm">
+                Register
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="cse-department-hero">
+
+        <div class="cse-hero-overlay"></div>
+
+        <div class="cse-hero-content">
+
+            <h1>
+                Computer Science &<br>
+                Engineering
+            </h1>
+
+            <p>
+                Empowering students with strong technical foundations,
+                innovative thinking and the skills required to shape
+                the future of computing and technology.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= VISION & MISSION ================= -->
+
+    <section class="vision-mission-section">
+
+        <!-- VISION -->
+
+        <div class="vision-card">
+
+            <div class="vm-icon">
+                👁
+            </div>
+
+            <span class="vm-label">
+                OUR VISION
+            </span>
+
+            <h2>
+                Vision
+            </h2>
+
+            <p>
+                To become a centre of excellence in Computer Science
+                and Engineering by nurturing innovative, technically
+                competent and socially responsible professionals
+                capable of contributing meaningfully to the evolving
+                world of technology.
+            </p>
+
+        </div>
+
+
+        <!-- MISSION -->
+
+        <div class="mission-card">
+
+            <div class="vm-icon">
+                🎯
+            </div>
+
+            <span class="vm-label">
+                OUR MISSION
+            </span>
+
+            <h2>
+                Mission
+            </h2>
+
+            <ul>
+
+                <li>
+                    <strong>Education:</strong>
+                    Provide quality education with strong fundamentals
+                    in Computer Science and Engineering.
+                </li>
+
+                <li>
+                    <strong>Innovation:</strong>
+                    Encourage students to explore emerging technologies
+                    and develop creative and innovative solutions.
+                </li>
+
+                <li>
+                    <strong>Professional Skills:</strong>
+                    Develop technical, communication, leadership and
+                    teamwork skills required for professional excellence.
+                </li>
+
+                <li>
+                    <strong>Social Responsibility:</strong>
+                    Nurture responsible professionals who use technology
+                    for the betterment of society.
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= DEPARTMENT OVERVIEW ================= -->
+
+    <section class="department-section">
+
+        <div class="section-title">
+
+            <span>
+                ABOUT THE DEPARTMENT
+            </span>
+
+            <h2>
+                Department Overview
+            </h2>
+
+        </div>
+
+
+        <div class="department-overview-grid">
+
+            <!-- DESCRIPTION -->
+
+            <div class="department-description">
+
+                <p class="department-intro">
+                    The Department of Computer Science and Engineering
+                    is committed to providing quality technical education
+                    while preparing students to meet the rapidly changing
+                    demands of the computing and technology industry.
+                </p>
+
+                <p>
+                    The department focuses on building strong fundamentals
+                    in programming, computer science concepts, software
+                    development and emerging technologies. Students are
+                    encouraged to develop problem-solving abilities,
+                    analytical thinking, creativity and professional skills.
+                </p>
+
+                <p>
+                    Through academic learning, practical exposure,
+                    technical activities and association initiatives,
+                    the department provides students with opportunities
+                    to transform their knowledge into real-world
+                    applications.
+                </p>
+
+            </div>
+
+
+            <!-- HIGHLIGHTS -->
+
+            <div class="department-highlights">
+
+                <div class="department-card">
+
+                    <div class="department-card-number">
+                        01
+                    </div>
+
+                    <h3>
+                        Technical Excellence
+                    </h3>
+
+                    <p>
+                        Building strong foundations in programming,
+                        computing concepts and modern technologies.
+                    </p>
+
+                </div>
+
+
+                <div class="department-card">
+
+                    <div class="department-card-number">
+                        02
+                    </div>
+
+                    <h3>
+                        Innovation & Creativity
+                    </h3>
+
+                    <p>
+                        Encouraging students to explore emerging
+                        technologies and create innovative solutions.
+                    </p>
+
+                </div>
+
+
+                <div class="department-card">
+
+                    <div class="department-card-number">
+                        03
+                    </div>
+
+                    <h3>
+                        Professional Development
+                    </h3>
+
+                    <p>
+                        Developing leadership, teamwork, communication
+                        and professional skills for future careers.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DEPARTMENT HISTORY -->
+
+        <div class="department-history">
+
+            <h3>
+                Department Journey
+            </h3>
+
+            <p>
+                The Department of Computer Science and Engineering
+                commenced its academic journey in <strong>2008</strong>,
+                with an initial sanctioned intake of
+                <strong>60 students</strong>. For more than a decade,
+                from <strong>2008 to 2024</strong>, the department
+                continued with an intake of 60 students per academic year.
+                With the growing demand for Computer Science education
+                and the department's continued development, the approved
+                intake was enhanced to <strong>120 students from 2024
+                onwards</strong>. This expansion reflects the department's
+                commitment to providing greater opportunities for students
+                to pursue quality education in the field of Computer
+                Science and Engineering.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= NET QUANTA ================= -->
+
+    <section class="netquanta-section">
+
+        <div class="netquanta-overlay"></div>
+
+        <div class="netquanta-content">
+
+            <span class="netquanta-label">
+                NET QUANTA ASSOCIATION
+            </span>
+
+            <h2>
+                Connecting Minds,<br>
+                Creating Possibilities
+            </h2>
+
+            <p>
+                Net Quanta provides students with opportunities to
+                participate in technical activities, leadership,
+                teamwork and association events.
+            </p>
+
+            <p>
+                Through the association, students can develop their
+                technical and professional skills while actively
+                contributing to the CSE community.
+            </p>
+
+            <div class="netquanta-tagline">
+                Let's Vote. Let's Lead. Let's Innovate.
+            </div>
+
+            <div class="netquanta-buttons">
+
+                <a href="{{ url_for('login') }}"
+                   class="btn btn-primary">
+                    Vote Now
+                </a>
+
+                <a href="{{ url_for('index') }}"
+                   class="btn btn-outline">
+                    Back Home
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<footer>
+
+    <div class="container">
+
+        <p>
+            &copy; 2026 NET QUANTA.
+            All rights reserved.
+        </p>
+
+    </div>
+
+</footer>
+
+</body>
+
+</html>

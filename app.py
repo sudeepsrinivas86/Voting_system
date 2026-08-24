@@ -108,6 +108,10 @@ def index():
     finally:
         release_db_connection(conn)
 
+@app.route('/department')
+def department():
+    return render_template('department.html')
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -1118,3 +1122,4 @@ def reset_password_verify():
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
+

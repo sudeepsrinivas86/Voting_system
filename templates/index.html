@@ -116,249 +116,58 @@
         </div>
 
     </nav>
+    <!-- VOTING LIVE MESSAGE -->
+<section class="voting-live-message">
+    <div class="voting-live-icon">🗳️</div>
+
+    <div class="voting-live-content">
+        <span>• VOTING LIVE</span>
+        <h3>NET QUANTA ASSOCIATION ELECTIONS ARE NOW OPEN</h3>
+        <p>
+            Voting is currently in progress. Cast your vote and choose your
+            association representatives.
+        </p>
+    </div>
+
+    <a href="{{ url_for('login') }}" class="voting-live-button">
+        Vote Now →
+    </a>
+</section>
 
 
+<!-- GAP BETWEEN MESSAGE AND DEPARTMENT HERO -->
+<div class="department-message-gap"></div>
 
-    <!-- =====================================================
-         CSE DEPARTMENT HERO
-    ====================================================== -->
 
-    <section class="cse-department-hero"
+<section
+    class="cse-department-hero"
     style="background-image: url('{{ url_for('static', filename='images/cse-department.jpeg') }}');"
 >
 
-        <div class="cse-hero-overlay"></div>
+    <div class="cse-hero-overlay"></div>
 
-        <div class="cse-hero-content">
+    <div class="cse-hero-content">
 
-            <span class="cse-hero-badge">
-                DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING
-            </span>
+        <h1>
+            Computer Science &<br>
+            Engineering
+        </h1>
 
-            <h1>
-                Computer Science & Engineering
-            </h1>
+        <p>
+            Driving technological innovation through cutting-edge
+            computing and software solutions.
+        </p>
 
-            <p>
-                Driving technological innovation through
-                cutting-edge computing and software solutions.
-            </p>
+        <a href="{{ url_for('department') }}" class="cse-hero-button">
+            Explore Department
+        </a>
 
-            <a
-                href="#department"
-                class="cse-hero-button"
-            >
-                Explore Department
-            </a>
+    </div>
 
-        </div>
+</section>
 
-    </section>
 
 
-
-    <!-- =====================================================
-         DEPARTMENT OVERVIEW
-    ====================================================== -->
-
-    <section
-        id="department"
-        class="department-section"
-    >
-
-        <div class="section-title">
-
-            <span>
-                ABOUT OUR DEPARTMENT
-            </span>
-
-            <h2>
-                Department Overview
-            </h2>
-
-        </div>
-
-
-        <div class="department-overview-grid">
-
-
-            <!-- LEFT SIDE -->
-
-            <div class="department-description">
-
-                <p>
-                    The basis for many of the technical developments
-                    that we see in the world today is Computer Science.
-                    The field has expanded dramatically and continues
-                    to contribute to technological advancement.
-                </p>
-
-                <p>
-                    Computer Science is used across numerous
-                    multidisciplinary domains and plays an important
-                    role in developing highly qualified engineers and
-                    technology professionals.
-                </p>
-
-                <p>
-                    Our department is committed to quality education,
-                    student competency, innovation and technological
-                    excellence, preparing students to meet the evolving
-                    needs of industry and society.
-                </p>
-
-            </div>
-
-
-            <!-- RIGHT SIDE -->
-
-            <div class="department-highlights">
-
-                <div class="department-card">
-
-                    <div class="department-card-number">
-                        01
-                    </div>
-
-                    <h3>
-                        Multidisciplinary Applications
-                    </h3>
-
-                    <p>
-                        Computer Science is applied across numerous
-                        multidisciplinary domains and emerging
-                        technologies.
-                    </p>
-
-                </div>
-
-
-                <div class="department-card">
-
-                    <div class="department-card-number">
-                        02
-                    </div>
-
-                    <h3>
-                        Quality Education
-                    </h3>
-
-                    <p>
-                        Dedicated to delivering high-quality instruction
-                        and boosting student competency.
-                    </p>
-
-                </div>
-
-
-                <div class="department-card">
-
-                    <div class="department-card-number">
-                        03
-                    </div>
-
-                    <h3>
-                        Progress Through Knowledge
-                    </h3>
-
-                    <p>
-                        Fostering innovation, knowledge sharing and
-                        technological excellence.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =====================================================
-         VISION & MISSION
-    ====================================================== -->
-
-    <section class="vision-mission-section">
-
-
-        <!-- VISION -->
-
-        <div class="vision-card">
-
-            <div class="vm-icon">
-                ◈
-            </div>
-
-            <span class="vm-label">
-                OUR VISION
-            </span>
-
-            <h2>
-                Vision
-            </h2>
-
-            <p>
-                To produce globally competent Engineers in Computer
-                Science and Engineering through outcome-based
-                education, cutting-edge research, critical thinking,
-                hands-on skills development, and adherence to ethical
-                principles, while fostering responsible citizens of
-                India who contribute to societal and global growth.
-            </p>
-
-        </div>
-
-
-
-        <!-- MISSION -->
-
-        <div class="mission-card">
-
-            <div class="vm-icon">
-                ◉
-            </div>
-
-            <span class="vm-label">
-                OUR MISSION
-            </span>
-
-            <h2>
-                Mission
-            </h2>
-
-            <ul>
-
-                <li>
-                    <strong>Outcome-based Education:</strong>
-                    Impart quality education meeting evolving
-                    professional and societal needs.
-                </li>
-
-                <li>
-                    <strong>Innovation and Research:</strong>
-                    Foster an excellent innovation and research
-                    environment for cutting-edge R&D.
-                </li>
-
-                <li>
-                    <strong>Networking Opportunities:</strong>
-                    Facilitate networking with alumni, industry
-                    professionals and organizations.
-                </li>
-
-                <li>
-                    <strong>Technical Skills & Ethics:</strong>
-                    Nurture technical skills while upholding
-                    professional ethics and leadership.
-                </li>
-
-            </ul>
-
-        </div>
-
-    </section>
 <!-- =====================================================
      VOTING HIGHLIGHTS / GIMMICK SECTION
 ===================================================== -->
@@ -473,34 +282,7 @@
         </div>
 
 
-        <!-- Main Voting CTA -->
-
-        <div class="vote-cta reveal">
-
-            <div class="vote-cta-icon">
-                🗳️
-            </div>
-
-            <div class="vote-cta-text">
-
-                <span>
-                    DEMOCRACY STARTS WITH YOU
-                </span>
-
-                <h3>
-                    Let Your Vote Be Heard.
-                </h3>
-
-            </div>
-
-            <a
-                href="{{ url_for('register') }}"
-                class="vote-cta-button"
-            >
-                Vote Now →
-            </a>
-
-        </div>
+  
 
     </div>
 
