@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Nominee Registration | Net Quanta</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<div class="nominee-page">
+
+    <!-- HEADER -->
+
+    <header class="nominee-header">
+
+        <div class="nominee-brand">
+
+            <img
+                src="{{ url_for('static', filename='images/iglogo.jpeg') }}"
+                alt="College Logo"
+            >
+
+            <div>
+
+                <h2>
+                    Indra Ganesan College of Engineering
+                </h2>
+
+                <span>
+                    NET QUANTA ASSOCIATION
+                </span>
+
+            </div>
+
+        </div>
+
+        <a
+            href="{{ url_for('index') }}"
+            class="nominee-home-btn"
+        >
+            ← Home
+        </a>
+
+    </header>
+
+
+    <!-- MAIN -->
+
+    <main class="nominee-main">
+
+        <div class="nominee-heading">
+
+            <span>
+                NET QUANTA ASSOCIATION
+            </span>
+
+            <h1>
+                Nominee Registration
+            </h1>
+
+            <p>
+                Register yourself as a candidate for the
+                Net Quanta Association election.
+            </p>
+
+        </div>
+
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                <div class="flash-container">
+
+                    {% for category, message in messages %}
+
+                        <div class="flash {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        {% if not registration_open %}
+
+            <section class="registration-closed">
+
+                <div class="closed-icon">
+                    🔒
+                </div>
+
+                <h2>
+                    Nominee Registration Closed
+                </h2>
+
+                <p>
+                    {{ message or
+                    "Nominee registration is currently unavailable." }}
+                </p>
+
+                {% if nominee_start and nominee_end %}
+
+                    <div class="date-info">
+
+                        <div>
+                            <strong>Registration Opens</strong>
+
+                            <span>
+                                {{ nominee_start.strftime('%d %B %Y, %I:%M %p') }}
+                            </span>
+                        </div>
+
+                        <div>
+                            <strong>Registration Closes</strong>
+
+                            <span>
+                                {{ nominee_end.strftime('%d %B %Y, %I:%M %p') }}
+                            </span>
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+                <a
+                    href="{{ url_for('index') }}"
+                    class="nominee-submit"
+                >
+                    Back to Home
+                </a>
+
+            </section>
+
+        {% else %}
+
+
+            <section class="nominee-card">
+
+                <div class="registration-period">
+
+                    <div>
+                        <small>
+                            REGISTRATION OPEN
+                        </small>
+
+                        <strong>
+                            {{ nominee_start.strftime('%d %b %Y') }}
+                        </strong>
+                    </div>
+
+                    <span>
+                        →
+                    </span>
+
+                    <div>
+                        <small>
+                            CLOSES
+                        </small>
+
+                        <strong>
+                            {{ nominee_end.strftime('%d %b %Y') }}
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <form
+                    method="POST"
+                    action="{{ url_for('nominee_register') }}"
+                >
+
+                    <div class="form-section-title">
+                        Personal Information
+                    </div>
+
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label>
+                                Full Name *
+                            </label>
+
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="Enter your full name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Register Number *
+                            </label>
+
+                            <input
+                                type="text"
+                                name="voter_id"
+                                placeholder="Enter register number"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                College Email *
+                            </label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="yourname@college.edu"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Department *
+                            </label>
+
+                            <select
+                                name="department"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Department
+                                </option>
+
+                                <option value="CSE">
+                                    Computer Science & Engineering
+                                </option>
+
+                                <option value="ECE">
+                                    Electronics & Communication Engineering
+                                </option>
+
+                                <option value="EEE">
+                                    Electrical & Electronics Engineering
+                                </option>
+
+                                <option value="MECH">
+                                    Mechanical Engineering
+                                </option>
+
+                                <option value="CIVIL">
+                                    Civil Engineering
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Year *
+                            </label>
+
+                            <select
+                                name="year"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Year
+                                </option>
+
+                                <option value="1st Year">
+                                    1st Year
+                                </option>
+
+                                <option value="2nd Year">
+                                    2nd Year
+                                </option>
+
+                                <option value="3rd Year">
+                                    3rd Year
+                                </option>
+
+                                <option value="4th Year">
+                                    4th Year
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Position *
+                            </label>
+
+                            <select
+                                name="position"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Position
+                                </option>
+
+                                <option value="President">
+                                    President
+                                </option>
+
+                                <option value="Vice President">
+                                    Vice President
+                                </option>
+
+                                <option value="Secretary">
+                                    Secretary
+                                </option>
+
+                                <option value="Joint Secretary">
+                                    Joint Secretary
+                                </option>
+
+                                <option value="Treasurer">
+                                    Treasurer
+                                </option>
+
+                                <option value="Executive Member">
+                                    Executive Member
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Profile Image URL
+                        </label>
+
+                        <input
+                            type="url"
+                            name="image_url"
+                            placeholder="https://..."
+                        >
+
+                        <small>
+                            Optional. Use a publicly accessible image URL.
+                        </small>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Manifesto
+                        </label>
+
+                        <textarea
+                            name="manifesto"
+                            rows="6"
+                            maxlength="1000"
+                            placeholder="Tell students what you plan to contribute..."
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="nominee-notice">
+
+                        <strong>
+                            Important
+                        </strong>
+
+                        <p>
+                            Your application will be reviewed by
+                            the administrator. Only approved nominees
+                            will be displayed on the election page.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="nominee-submit"
+                    >
+                        Submit Nominee Application →
+                    </button>
+
+                </form>
+
+            </section>
+
+        {% endif %}
+
+    </main>
+
+
+    <footer class="nominee-footer">
+
+        © 2026 NET QUANTA ASSOCIATION
+
+    </footer>
+
+</div>
+
+</body>
+
+</html>

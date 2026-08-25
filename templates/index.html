@@ -96,12 +96,22 @@
         </div>
 
 
-        <div class="nav-links">
+       <div class="nav-links">
 
             <a href="{{ url_for('index') }}">
                 Home
             </a>
 
+             {% if registration_open %}
+
+             <a
+                href="{{ url_for('nominee_register') }}"
+                class="nominee-nav-link"
+                >
+                Register as Nominee
+            </a>
+
+            {% endif %}
 
         </div>
 
@@ -286,6 +296,216 @@
 
 </section>
 
+<!-- =====================================================
+     NOMINEE REGISTRATION
+====================================================== -->
+
+<section class="nominee-home-section">
+
+    <div class="nominee-home-container">
+
+
+        <div class="nominee-home-heading">
+
+            <span>
+                NET QUANTA ELECTIONS 2026
+            </span>
+
+            <h2>
+                Become a Candidate
+            </h2>
+
+            <p>
+                Want to represent your department?
+                Register yourself as a nominee and
+                participate in the Net Quanta Association elections.
+            </p>
+
+        </div>
+
+
+        {% if registration_open %}
+
+            <div class="nominee-registration-open">
+
+                <div class="nominee-open-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <strong>
+                        Nominee Registration is Open
+                    </strong>
+
+                    <p>
+                        Applications are accepted until
+                        {{ registration_end.strftime('%d %B %Y, %I:%M %p') }}.
+                    </p>
+
+                </div>
+
+                <a
+                    href="{{ url_for('nominee_register') }}"
+                    class="nominee-register-button"
+                >
+                    Register as Nominee →
+                </a>
+
+            </div>
+
+        {% else %}
+
+            <div class="nominee-registration-closed">
+
+                <div class="nominee-open-icon">
+                    🔒
+                </div>
+
+                <div>
+
+                    <strong>
+                        Nominee Registration Closed
+                    </strong>
+
+                    {% if registration_end %}
+
+                        <p>
+                            Registration closed on
+                            {{ registration_end.strftime('%d %B %Y, %I:%M %p') }}.
+                        </p>
+
+                    {% else %}
+
+                        <p>
+                            Nominee registration is currently unavailable.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     APPROVED NOMINEES
+====================================================== -->
+
+<section class="approved-nominees-section">
+
+    <div class="approved-nominees-container">
+
+
+        <div class="approved-nominees-heading">
+
+            <span>
+                MEET THE CANDIDATES
+            </span>
+
+            <h2>
+                Our Nominees
+            </h2>
+
+            <p>
+                Candidates approved by the Net Quanta
+                election administration.
+            </p>
+
+        </div>
+
+
+        {% if nominees %}
+
+            <div class="approved-nominees-grid">
+
+                {% for nominee in nominees %}
+
+                    <article class="nominee-candidate-card">
+
+
+                        <div class="candidate-image-wrapper">
+
+                            {% if nominee.image_url %}
+
+                                <img
+                                    src="{{ nominee.image_url }}"
+                                    alt="{{ nominee.name }}"
+                                >
+
+                            {% else %}
+
+                                <div class="candidate-placeholder">
+                                    {{ nominee.name[0] }}
+                                </div>
+
+                            {% endif %}
+
+                            <span class="candidate-position">
+                                {{ nominee.position }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="candidate-info">
+
+                            <span class="candidate-department">
+                                {{ nominee.department }}
+                                •
+                                {{ nominee.year }}
+                            </span>
+
+                            <h3>
+                                {{ nominee.name }}
+                            </h3>
+
+                            {% if nominee.manifesto %}
+
+                                <p>
+                                    {{ nominee.manifesto }}
+                                </p>
+
+                            {% endif %}
+
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="no-approved-nominees">
+
+                <div>
+                    🗳️
+                </div>
+
+                <h3>
+                    Candidates Will Be Announced Soon
+                </h3>
+
+                <p>
+                    Approved nominees will appear here
+                    before the election.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
 
 <!-- =====================================================
      VOTING HIGHLIGHTS / GIMMICK SECTION

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Nominee Management | Admin</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<div class="admin-nominee-page">
+
+    <header class="admin-nominee-header">
+
+        <div>
+
+            <span>
+                NET QUANTA ADMIN
+            </span>
+
+            <h1>
+                Nominee Management
+            </h1>
+
+        </div>
+
+        <a
+            href="{{ url_for('admin_dashboard') }}"
+            class="admin-back-btn"
+        >
+            ← Dashboard
+        </a>
+
+    </header>
+
+
+    <main class="admin-nominee-main">
+
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="flash {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- =================================================
+             DATE SETTINGS
+        ================================================== -->
+
+        <section class="admin-date-card">
+
+            <div class="admin-section-heading">
+
+                <span>
+                    ELECTION CONTROL
+                </span>
+
+                <h2>
+                    Registration & Election Dates
+                </h2>
+
+                <p>
+                    Admin can control when students are allowed
+                    to register as nominees.
+                </p>
+
+            </div>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('admin_nominees') }}"
+            >
+
+                <div class="admin-date-grid">
+
+
+                    <div class="admin-date-field">
+
+                        <label>
+                            Nominee Registration Start
+                        </label>
+
+                        <input
+                            type="datetime-local"
+                            name="nominee_start"
+                            value="{% if settings %}{{ settings.nominee_start.strftime('%Y-%m-%dT%H:%M') }}{% endif %}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="admin-date-field">
+
+                        <label>
+                            Nominee Registration End
+                        </label>
+
+                        <input
+                            type="datetime-local"
+                            name="nominee_end"
+                            value="{% if settings %}{{ settings.nominee_end.strftime('%Y-%m-%dT%H:%M') }}{% endif %}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="admin-date-field">
+
+                        <label>
+                            Election Start
+                        </label>
+
+                        <input
+                            type="datetime-local"
+                            name="election_start"
+                            value="{% if settings %}{{ settings.election_start.strftime('%Y-%m-%dT%H:%M') }}{% endif %}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="admin-date-field">
+
+                        <label>
+                            Election End
+                        </label>
+
+                        <input
+                            type="datetime-local"
+                            name="election_end"
+                            value="{% if settings %}{{ settings.election_end.strftime('%Y-%m-%dT%H:%M') }}{% endif %}"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="admin-save-btn"
+                >
+                    Save Election Dates
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- =================================================
+             NOMINEES
+        ================================================== -->
+
+        <section class="admin-nominees-list">
+
+            <div class="admin-section-heading">
+
+                <span>
+                    CANDIDATE APPLICATIONS
+                </span>
+
+                <h2>
+                    Registered Nominees
+                </h2>
+
+            </div>
+
+
+            {% if nominees %}
+
+                <div class="admin-nominee-table-wrapper">
+
+                    <table class="admin-nominee-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Candidate
+                                </th>
+
+                                <th>
+                                    Academic
+                                </th>
+
+                                <th>
+                                    Position
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for nominee in nominees %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <div class="admin-candidate">
+
+                                            {% if nominee.image_url %}
+
+                                                <img
+                                                    src="{{ nominee.image_url }}"
+                                                    alt="{{ nominee.name }}"
+                                                >
+
+                                            {% else %}
+
+                                                <div class="admin-avatar">
+                                                    {{ nominee.name[0] }}
+                                                </div>
+
+                                            {% endif %}
+
+                                            <div>
+
+                                                <strong>
+                                                    {{ nominee.name }}
+                                                </strong>
+
+                                                <small>
+                                                    {{ nominee.email }}
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <strong>
+                                            {{ nominee.department }}
+                                        </strong>
+
+                                        <small>
+                                            {{ nominee.year }}
+                                        </small>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="position-badge">
+                                            {{ nominee.position }}
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span
+                                            class="status-badge status-{{ nominee.status }}"
+                                        >
+                                            {{ nominee.status|upper }}
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if nominee.status == 'pending' %}
+
+                                            <div class="admin-actions">
+
+                                                <a
+                                                    href="{{ url_for('approve_nominee', nominee_id=nominee.id) }}"
+                                                    class="approve-btn"
+                                                    onclick="return confirm('Approve this nominee?')"
+                                                >
+                                                    Approve
+                                                </a>
+
+                                                <a
+                                                    href="{{ url_for('reject_nominee', nominee_id=nominee.id) }}"
+                                                    class="reject-btn"
+                                                    onclick="return confirm('Reject this nominee?')"
+                                                >
+                                                    Reject
+                                                </a>
+
+                                            </div>
+
+                                        {% elif nominee.status == 'approved' %}
+
+                                            <span class="approved-text">
+                                                ✓ Approved
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="rejected-text">
+                                                ✕ Rejected
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="no-nominees">
+
+                    <div>
+                        📋
+                    </div>
+
+                    <h3>
+                        No Nominee Applications
+                    </h3>
+
+                    <p>
+                        Students have not submitted any nominee
+                        applications yet.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

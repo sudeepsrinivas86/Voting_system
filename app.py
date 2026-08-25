@@ -66,45 +66,160 @@ def send_email(to, subject, body):
 
 @app.route('/')
 def index():
+
     conn = get_db_connection()
+
     try:
         cur = conn.cursor()
-        
-        # Get latest active election
-        cur.execute("SELECT id, title, status FROM elections WHERE status = 'active' ORDER BY created_at DESC LIMIT 1")
+
+        # =====================================================
+        # GET ACTIVE ELECTION
+        # =====================================================
+
+        cur.execute("""
+            SELECT id, title, status
+            FROM elections
+            WHERE status = 'active'
+            ORDER BY created_at DESC
+            LIMIT 1
+        """)
+
         election = cur.fetchone()
-        
+
         election_data = None
+
         if election:
-            # Optimized: Get candidates and total votes in one query using a window function or subquery
+
             cur.execute("""
-                SELECT name, vote_count, (SELECT SUM(vote_count) FROM candidates WHERE election_id = %s) 
-                FROM candidates 
-                WHERE election_id = %s 
-                ORDER BY vote_count DESC 
+                SELECT
+                    name,
+                    vote_count,
+                    (
+                        SELECT COALESCE(SUM(vote_count), 0)
+                        FROM candidates
+                        WHERE election_id = %s
+                    )
+                FROM candidates
+                WHERE election_id = %s
+                ORDER BY vote_count DESC
                 LIMIT 2
             """, (election[0], election[0]))
+
             candidates = cur.fetchall()
-            
+
             election_total_votes = 0
+
             if candidates:
                 election_total_votes = candidates[0][2] or 0
-                
+
             cand_list = []
+
             for c in candidates:
+
                 percentage = 0
+
                 if election_total_votes > 0:
-                    percentage = round((c[1] / election_total_votes) * 100, 1)
-                cand_list.append({'name': c[0], 'percentage': percentage})
-                
+                    percentage = round(
+                        (c[1] / election_total_votes) * 100,
+                        1
+                    )
+
+                cand_list.append({
+                    'name': c[0],
+                    'percentage': percentage
+                })
+
             election_data = {
                 'title': election[1],
                 'status': election[2],
                 'candidates': cand_list
             }
-            
+
+        # =====================================================
+        # GET APPROVED NOMINEES
+        # =====================================================
+
+        cur.execute("""
+            SELECT
+                id,
+                name,
+                department,
+                year,
+                position,
+                manifesto,
+                image_url
+            FROM nominee_applications
+            WHERE status = 'approved'
+            ORDER BY created_at ASC
+        """)
+
+        nominees_rows = cur.fetchall()
+
+        nominees = []
+
+        for row in nominees_rows:
+
+            nominees.append({
+                'id': row[0],
+                'name': row[1],
+                'department': row[2],
+                'year': row[3],
+                'position': row[4],
+                'manifesto': row[5],
+                'image_url': row[6]
+            })
+
+        # =====================================================
+        # GET NOMINEE REGISTRATION SETTINGS
+        # =====================================================
+
+        cur.execute("""
+            SELECT
+                nominee_start_date,
+                nominee_end_date,
+                election_start_date,
+                election_end_date
+            FROM election_settings
+            ORDER BY id DESC
+            LIMIT 1
+        """)
+
+        settings_row = cur.fetchone()
+
+        registration_open = False
+
+        registration_start = None
+        registration_end = None
+        election_start = None
+        election_end = None
+
+        if settings_row:
+
+            registration_start = settings_row[0]
+            registration_end = settings_row[1]
+            election_start = settings_row[2]
+            election_end = settings_row[3]
+
+            now = datetime.now()
+
+            registration_open = (
+                registration_start <= now <= registration_end
+                and now < election_start
+            )
+
         cur.close()
-        return render_template('index.html', election=election_data)
+
+        return render_template(
+            'index.html',
+            election=election_data,
+            nominees=nominees,
+            registration_open=registration_open,
+            registration_start=registration_start,
+            registration_end=registration_end,
+            election_start=election_start,
+            election_end=election_end
+        )
+
     finally:
         release_db_connection(conn)
 
@@ -151,6 +266,285 @@ def register():
             release_db_connection(conn)
             
     return render_template('register.html')
+# =========================================================
+# NOMINEE REGISTRATION
+# =========================================================
+
+@app.route('/nominee-register', methods=['GET', 'POST'])
+def nominee_register():
+
+    conn = get_db_connection()
+
+    try:
+        cur = conn.cursor()
+
+        # -----------------------------------------------------
+        # GET REGISTRATION SETTINGS
+        # -----------------------------------------------------
+
+        cur.execute("""
+            SELECT
+                nominee_start_date,
+                nominee_end_date,
+                election_start_date,
+                election_end_date
+            FROM election_settings
+            ORDER BY id DESC
+            LIMIT 1
+        """)
+
+        settings = cur.fetchone()
+
+        if not settings:
+
+            cur.close()
+
+            return render_template(
+                'nominee_register.html',
+                registration_open=False,
+                message="Nominee registration has not been configured yet."
+            )
+
+        nominee_start = settings[0]
+        nominee_end = settings[1]
+        election_start = settings[2]
+        election_end = settings[3]
+
+        now = datetime.now()
+
+        registration_open = (
+            nominee_start <= now <= nominee_end
+            and now < election_start
+        )
+
+        # -----------------------------------------------------
+        # REGISTRATION CLOSED
+        # -----------------------------------------------------
+
+        if not registration_open:
+
+            cur.close()
+
+            return render_template(
+                'nominee_register.html',
+                registration_open=False,
+                nominee_start=nominee_start,
+                nominee_end=nominee_end,
+                election_start=election_start,
+                election_end=election_end,
+                message="Nominee registration is currently closed."
+            )
+
+        # -----------------------------------------------------
+        # POST
+        # -----------------------------------------------------
+
+        if request.method == 'POST':
+
+            name = request.form.get('name', '').strip()
+            voter_id = request.form.get('voter_id', '').strip()
+            email = request.form.get('email', '').strip().lower()
+
+            department = request.form.get(
+                'department',
+                ''
+            ).strip()
+
+            year = request.form.get(
+                'year',
+                ''
+            ).strip()
+
+            position = request.form.get(
+                'position',
+                ''
+            ).strip()
+
+            manifesto = request.form.get(
+                'manifesto',
+                ''
+            ).strip()
+
+            image_url = request.form.get(
+                'image_url',
+                ''
+            ).strip()
+
+            # -------------------------------------------------
+            # VALIDATION
+            # -------------------------------------------------
+
+            if not name or not voter_id or not email:
+                flash(
+                    'Please fill all required fields.',
+                    'error'
+                )
+
+                return redirect(
+                    url_for('nominee_register')
+                )
+
+            if not department or not year or not position:
+                flash(
+                    'Please complete your academic details.',
+                    'error'
+                )
+
+                return redirect(
+                    url_for('nominee_register')
+                )
+
+            # -------------------------------------------------
+            # CHECK USER
+            # -------------------------------------------------
+
+            cur.execute("""
+                SELECT
+                    id,
+                    is_email_verified,
+                    is_approved
+                FROM users
+                WHERE email = %s
+            """, (email,))
+
+            user = cur.fetchone()
+
+            if not user:
+
+                flash(
+                    'Please register as a voter first.',
+                    'error'
+                )
+
+                return redirect(
+                    url_for('register')
+                )
+
+            user_id = user[0]
+
+            if not user[1]:
+
+                flash(
+                    'Please verify your email before applying as a nominee.',
+                    'error'
+                )
+
+                return redirect(
+                    url_for('login')
+                )
+
+            if not user[2] and not session.get('is_admin'):
+
+                flash(
+                    'Your voter account is waiting for admin approval.',
+                    'warning'
+                )
+
+                return redirect(
+                    url_for('login')
+                )
+
+            # -------------------------------------------------
+            # CHECK DUPLICATE APPLICATION
+            # -------------------------------------------------
+
+            cur.execute("""
+                SELECT id
+                FROM nominee_applications
+                WHERE user_id = %s
+                AND status IN ('pending', 'approved')
+                LIMIT 1
+            """, (user_id,))
+
+            existing = cur.fetchone()
+
+            if existing:
+
+                flash(
+                    'You have already submitted a nominee application.',
+                    'warning'
+                )
+
+                return redirect(
+                    url_for('nominee_register')
+                )
+
+            # -------------------------------------------------
+            # INSERT NOMINEE
+            # -------------------------------------------------
+
+            cur.execute("""
+                INSERT INTO nominee_applications (
+                    user_id,
+                    name,
+                    voter_id,
+                    email,
+                    department,
+                    year,
+                    position,
+                    manifesto,
+                    image_url,
+                    status
+                )
+                VALUES (
+                    %s, %s, %s, %s, %s,
+                    %s, %s, %s, %s, 'pending'
+                )
+            """, (
+                user_id,
+                name,
+                voter_id,
+                email,
+                department,
+                year,
+                position,
+                manifesto,
+                image_url
+            ))
+
+            conn.commit()
+
+            cur.close()
+
+            flash(
+                'Nominee application submitted successfully. Waiting for admin approval.',
+                'success'
+            )
+
+            return redirect(
+                url_for('nominee_register')
+            )
+
+        cur.close()
+
+        return render_template(
+            'nominee_register.html',
+            registration_open=True,
+            nominee_start=nominee_start,
+            nominee_end=nominee_end,
+            election_start=election_start,
+            election_end=election_end
+        )
+
+    except Exception as e:
+
+        conn.rollback()
+
+        print(
+            f"Nominee registration error: {e}"
+        )
+
+        flash(
+            'Something went wrong. Please try again.',
+            'error'
+        )
+
+        return redirect(
+            url_for('nominee_register')
+        )
+
+    finally:
+        release_db_connection(conn)
 
 @app.route('/resend-otp')
 def resend_otp():
@@ -922,6 +1316,451 @@ def admin_settings():
     return render_template('admin_settings.html')
 
     return render_template('admin_settings.html')
+
+# =========================================================
+# ADMIN NOMINEE MANAGEMENT
+# =========================================================
+
+@app.route('/admin/nominees', methods=['GET', 'POST'])
+def admin_nominees():
+
+    if not session.get('is_admin'):
+        return redirect(url_for('login'))
+
+    conn = get_db_connection()
+
+    try:
+
+        cur = conn.cursor()
+
+        # =====================================================
+        # SAVE REGISTRATION DATES
+        # =====================================================
+
+        if request.method == 'POST':
+
+            nominee_start = request.form.get(
+                'nominee_start'
+            )
+
+            nominee_end = request.form.get(
+                'nominee_end'
+            )
+
+            election_start = request.form.get(
+                'election_start'
+            )
+
+            election_end = request.form.get(
+                'election_end'
+            )
+
+            if not all([
+                nominee_start,
+                nominee_end,
+                election_start,
+                election_end
+            ]):
+
+                flash(
+                    'Please enter all election dates.',
+                    'error'
+                )
+
+                return redirect(
+                    url_for('admin_nominees')
+                )
+
+            try:
+
+                start_dt = datetime.fromisoformat(
+                    nominee_start
+                )
+
+                end_dt = datetime.fromisoformat(
+                    nominee_end
+                )
+
+                election_start_dt = datetime.fromisoformat(
+                    election_start
+                )
+
+                election_end_dt = datetime.fromisoformat(
+                    election_end
+                )
+
+            except ValueError:
+
+                flash(
+                    'Invalid date format.',
+                    'error'
+                )
+
+                return redirect(
+                    url_for('admin_nominees')
+                )
+
+            # -------------------------------------------------
+            # DATE VALIDATION
+            # -------------------------------------------------
+
+            if start_dt >= end_dt:
+
+                flash(
+                    'Nominee registration end date must be after start date.',
+                    'error'
+                )
+
+                return redirect(
+                    url_for('admin_nominees')
+                )
+
+            if election_start_dt >= election_end_dt:
+
+                flash(
+                    'Election end date must be after election start date.',
+                    'error'
+                )
+
+                return redirect(
+                    url_for('admin_nominees')
+                )
+
+            if end_dt >= election_start_dt:
+
+                flash(
+                    'Nominee registration must end before the election starts.',
+                    'error'
+                )
+
+                return redirect(
+                    url_for('admin_nominees')
+                )
+
+            # -------------------------------------------------
+            # UPDATE / INSERT SETTINGS
+            # -------------------------------------------------
+
+            cur.execute("""
+                SELECT id
+                FROM election_settings
+                ORDER BY id DESC
+                LIMIT 1
+            """)
+
+            existing_settings = cur.fetchone()
+
+            if existing_settings:
+
+                cur.execute("""
+                    UPDATE election_settings
+
+                    SET
+                        nominee_start_date = %s,
+                        nominee_end_date = %s,
+                        election_start_date = %s,
+                        election_end_date = %s,
+                        updated_at = CURRENT_TIMESTAMP
+
+                    WHERE id = %s
+                """, (
+                    start_dt,
+                    end_dt,
+                    election_start_dt,
+                    election_end_dt,
+                    existing_settings[0]
+                ))
+
+            else:
+
+                cur.execute("""
+                    INSERT INTO election_settings (
+                        nominee_start_date,
+                        nominee_end_date,
+                        election_start_date,
+                        election_end_date
+                    )
+                    VALUES (%s, %s, %s, %s)
+                """, (
+                    start_dt,
+                    end_dt,
+                    election_start_dt,
+                    election_end_dt
+                ))
+
+            conn.commit()
+
+            flash(
+                'Election dates updated successfully.',
+                'success'
+            )
+
+            return redirect(
+                url_for('admin_nominees')
+            )
+
+        # =====================================================
+        # GET SETTINGS
+        # =====================================================
+
+        cur.execute("""
+            SELECT
+                id,
+                nominee_start_date,
+                nominee_end_date,
+                election_start_date,
+                election_end_date
+            FROM election_settings
+            ORDER BY id DESC
+            LIMIT 1
+        """)
+
+        settings_row = cur.fetchone()
+
+        settings = None
+
+        if settings_row:
+
+            settings = {
+                'id': settings_row[0],
+                'nominee_start': settings_row[1],
+                'nominee_end': settings_row[2],
+                'election_start': settings_row[3],
+                'election_end': settings_row[4]
+            }
+
+        # =====================================================
+        # GET ALL NOMINEES
+        # =====================================================
+
+        cur.execute("""
+            SELECT
+                id,
+                name,
+                voter_id,
+                email,
+                department,
+                year,
+                position,
+                manifesto,
+                image_url,
+                status,
+                created_at
+            FROM nominee_applications
+            ORDER BY created_at DESC
+        """)
+
+        rows = cur.fetchall()
+
+        nominees = []
+
+        for row in rows:
+
+            nominees.append({
+                'id': row[0],
+                'name': row[1],
+                'voter_id': row[2],
+                'email': row[3],
+                'department': row[4],
+                'year': row[5],
+                'position': row[6],
+                'manifesto': row[7],
+                'image_url': row[8],
+                'status': row[9],
+                'created_at': row[10]
+            })
+
+        cur.close()
+
+        return render_template(
+            'admin_nominees.html',
+            settings=settings,
+            nominees=nominees
+        )
+
+    finally:
+
+        release_db_connection(conn)
+
+@app.route('/admin/nominees/approve/<int:nominee_id>')
+def approve_nominee(nominee_id):
+
+    if not session.get('is_admin'):
+        return redirect(url_for('login'))
+
+    conn = get_db_connection()
+
+    try:
+
+        cur = conn.cursor()
+
+        # Get nominee
+        cur.execute("""
+            SELECT
+                name,
+                position,
+                manifesto,
+                image_url
+            FROM nominee_applications
+            WHERE id = %s
+        """, (nominee_id,))
+
+        nominee = cur.fetchone()
+
+        if not nominee:
+
+            flash(
+                'Nominee not found.',
+                'error'
+            )
+
+            return redirect(
+                url_for('admin_nominees')
+            )
+
+        # -----------------------------------------------------
+        # Get latest election
+        # -----------------------------------------------------
+
+        cur.execute("""
+            SELECT id
+            FROM elections
+            ORDER BY created_at DESC
+            LIMIT 1
+        """)
+
+        election = cur.fetchone()
+
+        if not election:
+
+            flash(
+                'Please create an election before approving nominees.',
+                'error'
+            )
+
+            return redirect(
+                url_for('admin_nominees')
+            )
+
+        election_id = election[0]
+
+        # -----------------------------------------------------
+        # Check already added
+        # -----------------------------------------------------
+
+        cur.execute("""
+            SELECT id
+            FROM candidates
+            WHERE election_id = %s
+            AND name = %s
+        """, (
+            election_id,
+            nominee[0]
+        ))
+
+        already_candidate = cur.fetchone()
+
+        if not already_candidate:
+
+            cur.execute("""
+                INSERT INTO candidates (
+                    election_id,
+                    name,
+                    party,
+                    manifesto,
+                    image_url
+                )
+                VALUES (%s, %s, %s, %s, %s)
+            """, (
+                election_id,
+                nominee[0],
+                nominee[1],
+                nominee[2],
+                nominee[3]
+            ))
+
+        # -----------------------------------------------------
+        # Update nominee status
+        # -----------------------------------------------------
+
+        cur.execute("""
+            UPDATE nominee_applications
+            SET
+                status = 'approved',
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = %s
+        """, (nominee_id,))
+
+        conn.commit()
+
+        cur.close()
+
+        flash(
+            'Nominee approved and added to the election.',
+            'success'
+        )
+
+        return redirect(
+            url_for('admin_nominees')
+        )
+
+    except Exception as e:
+
+        conn.rollback()
+
+        print(
+            f"Approve nominee error: {e}"
+        )
+
+        flash(
+            'Unable to approve nominee.',
+            'error'
+        )
+
+        return redirect(
+            url_for('admin_nominees')
+        )
+
+    finally:
+
+        release_db_connection(conn)
+        
+@app.route('/admin/nominees/reject/<int:nominee_id>')
+def reject_nominee(nominee_id):
+
+    if not session.get('is_admin'):
+        return redirect(url_for('login'))
+
+    conn = get_db_connection()
+
+    try:
+
+        cur = conn.cursor()
+
+        cur.execute("""
+            UPDATE nominee_applications
+            SET
+                status = 'rejected',
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = %s
+        """, (nominee_id,))
+
+        conn.commit()
+
+        cur.close()
+
+        flash(
+            'Nominee application rejected.',
+            'success'
+        )
+
+        return redirect(
+            url_for('admin_nominees')
+        )
+
+    finally:
+
+        release_db_connection(conn)
 
 @app.route('/profile')
 def profile():
