@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Voting Participation - Admin</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="admin-participation-page">
+
+    <!-- HEADER -->
+
+    <div class="participation-header">
+
+        <div>
+
+            <span class="participation-label">
+                NET QUANTA ADMINISTRATION
+            </span>
+
+            <h1>
+                Voting Participation
+            </h1>
+
+            <p>
+                Monitor voter participation and voting status.
+            </p>
+
+        </div>
+
+        <a href="{{ url_for('admin_dashboard') }}"
+           class="participation-back">
+            ← Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- STATISTICS -->
+
+    <div class="participation-stats">
+
+        <div class="participation-stat-card">
+
+            <span>
+                TOTAL REGISTERED VOTERS
+            </span>
+
+            <strong>
+                {{ total_voters }}
+            </strong>
+
+        </div>
+
+
+        <div class="participation-stat-card voted-stat">
+
+            <span>
+                VOTES CASTED
+            </span>
+
+            <strong>
+                {{ total_votes }}
+            </strong>
+
+        </div>
+
+
+        <div class="participation-stat-card pending-stat">
+
+            <span>
+                NOT YET VOTED
+            </span>
+
+            <strong>
+                {{ total_voters - total_votes }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- VOTER LIST -->
+
+    <div class="voter-participation-card">
+
+        <div class="participation-card-heading">
+
+            <div>
+
+                <span>
+                    VOTER STATUS
+                </span>
+
+                <h2>
+                    Registered Voters
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="voter-table-wrapper">
+
+            <table class="voter-participation-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            #
+                        </th>
+
+                        <th>
+                            Voter Name
+                        </th>
+
+                        <th>
+                            Voter ID
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Vote Time
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                {% for voter in voters %}
+
+                    <tr>
+
+                        <td>
+                            {{ loop.index }}
+                        </td>
+
+                        <td class="voter-name">
+                            {{ voter.full_name }}
+                        </td>
+
+                        <td>
+                            {{ voter.voter_id }}
+                        </td>
+
+                        <td>
+                            {{ voter.email }}
+                        </td>
+
+
+                        <td>
+
+                            {% if voter.vote_status == 'Voted' %}
+
+                                <span class="vote-status voted">
+                                    ✓ Voted
+                                </span>
+
+                            {% else %}
+
+                                <span class="vote-status not-voted">
+                                    Not Voted
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            {% if voter.voted_at %}
+
+                                {{ voter.voted_at.strftime('%d %b %Y, %I:%M %p') }}
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="6"
+                            class="no-voters">
+
+                            No registered voters found.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

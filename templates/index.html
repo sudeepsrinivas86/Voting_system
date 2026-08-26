@@ -23,6 +23,108 @@
 
 
 <body>
+    <!-- =====================================================
+     POPUP 1
+====================================================== -->
+
+<div class="announcement-overlay" id="announcementOverlay">
+
+    <div class="announcement-popup">
+
+        <button
+            type="button"
+            class="announcement-close"
+            id="announcementClose"
+        >
+            &times;
+        </button>
+
+        <div class="announcement-icon">
+            📢
+        </div>
+
+        <div class="announcement-content">
+
+            <span class="announcement-label">
+                NET QUANTA ASSOCIATION
+            </span>
+
+            <h2>
+                Nominee Registration is Open
+            </h2>
+
+            <p>
+                Candidate registration for the Net Quanta
+                Association Election 2026 is now open.
+                Eligible students can register as nominees.
+            </p>
+
+            <a
+                href="{{ url_for('nominee_register') }}"
+                class="announcement-button"
+            >
+                Register Now →
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     POPUP 2
+====================================================== -->
+
+<div
+    class="announcement-overlay"
+    id="announcementOverlay2"
+    style="display: none;"
+>
+
+    <div class="announcement-popup">
+
+        <button
+            type="button"
+            class="announcement-close"
+            id="announcementClose2"
+        >
+            &times;
+        </button>
+
+        <div class="announcement-icon">
+            🗳️
+        </div>
+
+        <div class="announcement-content">
+
+            <span class="announcement-label">
+                ELECTION UPDATE
+            </span>
+
+            <h2>
+                Net Quanta Elections 2026
+            </h2>
+
+            <p>
+                Stay updated with the upcoming election.
+                Approved candidates and voting details
+                will be announced here.
+            </p>
+
+            <a
+                href="{{ url_for('candidates') }}"
+                class="announcement-button"
+            >
+                View Candidates →
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
 
 <div class="container">
 
@@ -97,25 +199,149 @@
 
 
        <div class="nav-links">
-
-            <a href="{{ url_for('index') }}">
-                Home
+            <a href="{{ url_for('election') }}">
+                Elections
             </a>
+    <!-- CONTACT -->
+    <div class="contact-wrapper">
 
-             {% if registration_open %}
+        <button
+            type="button"
+            class="contact-nav-button"
+            id="contactButton"
+        >
+            Contact Us
+        </button>
 
-             <a
-                href="{{ url_for('nominee_register') }}"
-                class="nominee-nav-link"
+        <!-- CONTACT POPUP -->
+        <div
+            class="contact-popup"
+            id="contactPopup"
+        >
+
+            <div class="contact-popup-header">
+
+                <div>
+                    <span>NET QUANTA ASSOCIATION</span>
+
+                    <h3>Contact Us</h3>
+                </div>
+
+                <button
+                    type="button"
+                    class="contact-close"
+                    id="contactClose"
                 >
-                Register as Nominee
-            </a>
+                    ×
+                </button>
 
-            {% endif %}
+            </div>
+
+
+            <!-- HOD -->
+
+            <div class="contact-person">
+
+                <div class="contact-person-icon">
+                    👨‍🏫
+                </div>
+
+                <div class="contact-person-info">
+
+                    <span>
+                        HEAD OF DEPARTMENT
+                    </span>
+
+                    <strong>
+                        T.Sugashini
+                    </strong>
+
+                    <p>
+                        📞 +91 9840367260
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ASSOCIATION HEAD -->
+
+            <div class="contact-person">
+
+                <div class="contact-person-icon">
+                    👤
+                </div>
+
+                <div class="contact-person-info">
+
+                    <span>
+                        ASSOCIATION HEAD
+                    </span>
+
+                    <strong>
+                        J.Jennifer
+                    </strong>
+
+                    <p>
+                        📞 +91 7373333444
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- STUDENT COORDINATOR -->
+
+            <div class="contact-person">
+
+                <div class="contact-person-icon">
+                    🎓
+                </div>
+
+                <div class="contact-person-info">
+
+                    <span>
+                        STUDENT COORDINATOR
+                    </span>
+
+                    <strong>
+                        S.Sudeepkumar
+                    </strong>
+
+                    <p>
+                        📞 +91 8248665085
+                    </p>
+
+                </div>
+                <div class="contact-person-info">
+
+                    <span>
+                        STUDENT COORDINATOR
+                    </span>
+
+                    <strong>
+                        S.Ruban
+                    </strong>
+
+                    <p>
+                        📞 +91 9597559378
+                    </p>
+
+                </div>
+
+            </div>
 
         </div>
 
+    </div>
+
+</div>
+        </div>
+
     </nav>
+    
     <!-- =====================================================
      VOTING ANNOUNCEMENT SLIDER
 ===================================================== -->
@@ -295,399 +521,110 @@
     </div>
 
 </section>
-
 <!-- =====================================================
-     NOMINEE REGISTRATION
-====================================================== -->
-
-<section class="nominee-home-section">
-
-    <div class="nominee-home-container">
-
-
-        <div class="nominee-home-heading">
-
-            <span>
-                NET QUANTA ELECTIONS 2026
-            </span>
-
-            <h2>
-                Become a Candidate
-            </h2>
-
-            <p>
-                Want to represent your department?
-                Register yourself as a nominee and
-                participate in the Net Quanta Association elections.
-            </p>
-
-        </div>
-
-
-        {% if registration_open %}
-
-            <div class="nominee-registration-open">
-
-                <div class="nominee-open-icon">
-                    ✓
-                </div>
-
-                <div>
-
-                    <strong>
-                        Nominee Registration is Open
-                    </strong>
-
-                    <p>
-                        Applications are accepted until
-                        {{ registration_end.strftime('%d %B %Y, %I:%M %p') }}.
-                    </p>
-
-                </div>
-
-                <a
-                    href="{{ url_for('nominee_register') }}"
-                    class="nominee-register-button"
-                >
-                    Register as Nominee →
-                </a>
-
-            </div>
-
-        {% else %}
-
-            <div class="nominee-registration-closed">
-
-                <div class="nominee-open-icon">
-                    🔒
-                </div>
-
-                <div>
-
-                    <strong>
-                        Nominee Registration Closed
-                    </strong>
-
-                    {% if registration_end %}
-
-                        <p>
-                            Registration closed on
-                            {{ registration_end.strftime('%d %B %Y, %I:%M %p') }}.
-                        </p>
-
-                    {% else %}
-
-                        <p>
-                            Nominee registration is currently unavailable.
-                        </p>
-
-                    {% endif %}
-
-                </div>
-
-            </div>
-
-        {% endif %}
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     APPROVED NOMINEES
-====================================================== -->
-
-<section class="approved-nominees-section">
-
-    <div class="approved-nominees-container">
-
-
-        <div class="approved-nominees-heading">
-
-            <span>
-                MEET THE CANDIDATES
-            </span>
-
-            <h2>
-                Our Nominees
-            </h2>
-
-            <p>
-                Candidates approved by the Net Quanta
-                election administration.
-            </p>
-
-        </div>
-
-
-        {% if nominees %}
-
-            <div class="approved-nominees-grid">
-
-                {% for nominee in nominees %}
-
-                    <article class="nominee-candidate-card">
-
-
-                        <div class="candidate-image-wrapper">
-
-                            {% if nominee.image_url %}
-
-                                <img
-                                    src="{{ nominee.image_url }}"
-                                    alt="{{ nominee.name }}"
-                                >
-
-                            {% else %}
-
-                                <div class="candidate-placeholder">
-                                    {{ nominee.name[0] }}
-                                </div>
-
-                            {% endif %}
-
-                            <span class="candidate-position">
-                                {{ nominee.position }}
-                            </span>
-
-                        </div>
-
-
-                        <div class="candidate-info">
-
-                            <span class="candidate-department">
-                                {{ nominee.department }}
-                                •
-                                {{ nominee.year }}
-                            </span>
-
-                            <h3>
-                                {{ nominee.name }}
-                            </h3>
-
-                            {% if nominee.manifesto %}
-
-                                <p>
-                                    {{ nominee.manifesto }}
-                                </p>
-
-                            {% endif %}
-
-                        </div>
-
-                    </article>
-
-                {% endfor %}
-
-            </div>
-
-        {% else %}
-
-            <div class="no-approved-nominees">
-
-                <div>
-                    🗳️
-                </div>
-
-                <h3>
-                    Candidates Will Be Announced Soon
-                </h3>
-
-                <p>
-                    Approved nominees will appear here
-                    before the election.
-                </p>
-
-            </div>
-
-        {% endif %}
-
-    </div>
-
-</section>
-
-<!-- =====================================================
-     VOTING HIGHLIGHTS / GIMMICK SECTION
+     NET QUANTA LEADERSHIP SECTION
 ===================================================== -->
 
-<section class="voting-gimmick-section">
+<section class="leadership-section">
 
-    <!-- Floating decorative elements -->
+    <div class="leadership-container">
 
-    <span class="vote-float float-1">✓</span>
-    <span class="vote-float float-2">+</span>
-    <span class="vote-float float-3">✓</span>
-    <span class="vote-float float-4">○</span>
+        <!-- SECRETARY -->
+        <div class="leader-card">
 
+            <div class="leader-content">
 
-    <div class="voting-gimmick-container">
+                <span class="leader-role">
+                    SECRETARY
+                </span>
 
-        <!-- Section Heading -->
+                <div class="leader-line"></div>
 
-        <div class="gimmick-heading reveal">
-
-            <span>YOUR VOICE MATTERS</span>
-
-            <h2>
-                Every Vote Creates a Difference
-            </h2>
-
-            <p>
-                Participate in the Net Quanta Association elections
-                and make your voice count.
-            </p>
-
-        </div>
-
-
-        <!-- Voting Cards -->
-
-        <div class="voting-gimmick-grid">
-
-
-            <!-- CARD 1 -->
-
-            <div class="vote-gimmick-card reveal">
-
-                <div class="vote-gimmick-icon">
-                    <span>✓</span>
-                </div>
-
-                <div class="vote-gimmick-number">
-                    01
-                </div>
-
-                <h3>
-                    Register
-                </h3>
-
-                <p>
-                    Register using your college email
-                    and get ready to participate.
+                <p class="leader-message">
+                    The Secretary provides strong guidance and
+                    leadership for the Net Quanta Association,
+                    encouraging students to actively participate,
+                    develop leadership skills and contribute to
+                    the growth of the department.
                 </p>
 
             </div>
 
+            <div class="leader-photo">
 
-            <!-- CARD 2 -->
+                <img
+                    src="{{ url_for('static', filename='images/seceratory.jpeg') }}"
+                    alt="Secretary"
+                >
 
-            <div class="vote-gimmick-card reveal">
+            </div>
 
-                <div class="vote-gimmick-icon ballot-icon">
-                    <span>◉</span>
-                </div>
+        </div>
 
-                <div class="vote-gimmick-number">
-                    02
-                </div>
 
-                <h3>
-                    Cast Your Vote
-                </h3>
+        <!-- PRINCIPAL -->
+        <div class="leader-card">
 
-                <p>
-                    Choose your preferred candidate
-                    and cast your vote securely.
+            <div class="leader-content">
+
+                <span class="leader-role">
+                    DIRECTOR
+                </span>
+
+                <div class="leader-line"></div>
+
+                <p class="leader-message">
+                    The Principal provides continuous support and
+                    encouragement to students, promoting academic
+                    excellence, innovation, discipline and active
+                    participation in institutional activities.
+                            
+                       
                 </p>
 
             </div>
 
+            <div class="leader-photo">
 
-            <!-- CARD 3 -->
+                <img
+                    src="{{ url_for('static', filename='images/director.jpeg') }}"
+                    alt="Principal"
+                >
 
-            <div class="vote-gimmick-card reveal">
+            </div>
 
-                <div class="vote-gimmick-icon">
-                    <span>✓</span>
-                </div>
+        </div>
 
-                <div class="vote-gimmick-number">
-                    03
-                </div>
 
-                <h3>
-                    Shape the Future
-                </h3>
+        <!-- REGISTRAR -->
+        <div class="leader-card">
 
-                <p>
-                    Your decision helps build the future
-                    of the Net Quanta Association.
+            <div class="leader-content">
+
+                <span class="leader-role">
+                    REGISTRAR
+                </span>
+
+                <div class="leader-line"></div>
+
+                <p class="leader-message">
+                    The Registrar supports the smooth functioning
+                    of the institution by ensuring effective
+                    administration, coordination and student
+                    services while supporting a positive academic
+                    environment.
                 </p>
 
             </div>
 
+            <div class="leader-photo">
 
-        </div>
+                <img
+                    src="{{ url_for('static', filename='images/registrar.jpeg') }}"
+                    alt="Registrar"
+                >
 
-
-  
-
-    </div>
-
-</section>
-
-
-   <!-- =====================================================
-     NET QUANTA VOTING SECTION
-     ONLY THIS SECTION IS UPDATED
-====================================================== -->
-
-<section
-    id="voting"
-    class="netquanta-section"
-    style="background-image: url('{{ url_for('static', filename='images/netquanta-election.jpeg') }}');"
->
-
-    <div class="netquanta-overlay"></div>
-
-    <div class="netquanta-content">
-
-        <div class="netquanta-top-label">
-            <span class="netquanta-line"></span>
-            NET QUANTA ASSOCIATION
-            <span class="netquanta-line"></span>
-        </div>
-
-        <h2>
-            NET QUANTA 
-            <span>Association Elections</span>
-        </h2>
-
-        <p class="netquanta-intro">
-            The Department of Computer Science and Engineering
-            proudly presents the Net Quanta Association Voting
-            and Inauguration Ceremony.
-        </p>
-
-        <p class="netquanta-description">
-            An opportunity for students to participate in the
-            democratic process, choose their representatives,
-            and take the lead in shaping the future of the
-            association.
-        </p>
-
-        <div class="netquanta-tagline">
-            <span>Let's Vote.</span>
-            <span>Let's Lead.</span>
-            <span>Let's Innovate.</span>
-        </div>
-
-        <div class="netquanta-buttons">
-
-            <a
-                href="{{ url_for('register') }}"
-                class="btn btn-primary netquanta-main-btn"
-            >
-                Register to Vote
-            </a>
-
-            <a
-                href="{{ url_for('login') }}"
-                class="btn btn-outline netquanta-login-btn"
-            >
-                Login to Vote
-            </a>
+            </div>
 
         </div>
 
@@ -696,7 +633,6 @@
 </section>
 
 
-</div>
 
 
 

@@ -399,3 +399,143 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 });
+/* =========================================================
+   CONTACT US POPUP
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const contactButton =
+        document.getElementById("contactButton");
+
+    const contactPopup =
+        document.getElementById("contactPopup");
+
+    const contactClose =
+        document.getElementById("contactClose");
+
+
+    if (!contactButton || !contactPopup) {
+        return;
+    }
+
+
+    /* OPEN / CLOSE */
+
+    contactButton.addEventListener("click", function (event) {
+
+        event.stopPropagation();
+
+        contactPopup.classList.toggle("show");
+
+    });
+
+
+    /* CLOSE BUTTON */
+
+    if (contactClose) {
+
+        contactClose.addEventListener("click", function () {
+
+            contactPopup.classList.remove("show");
+
+        });
+
+    }
+
+
+    /* CLICK OUTSIDE */
+
+    document.addEventListener("click", function (event) {
+
+        if (
+            !contactPopup.contains(event.target) &&
+            !contactButton.contains(event.target)
+        ) {
+
+            contactPopup.classList.remove("show");
+
+        }
+
+    });
+
+});
+/* =========================================================
+   MULTIPLE ANNOUNCEMENT POPUPS
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const popup1 =
+        document.getElementById("announcementOverlay");
+
+    const popup2 =
+        document.getElementById("announcementOverlay2");
+
+    const close1 =
+        document.getElementById("announcementClose");
+
+    const close2 =
+        document.getElementById("announcementClose2");
+
+
+    /* =====================================================
+       POPUP 1 → POPUP 2
+    ===================================================== */
+
+    if (close1 && popup1 && popup2) {
+
+        close1.addEventListener("click", function () {
+
+            popup1.style.display = "none";
+
+            popup2.style.display = "flex";
+
+        });
+
+
+        /* Click outside Popup 1 */
+
+        popup1.addEventListener("click", function (event) {
+
+            if (event.target === popup1) {
+
+                popup1.style.display = "none";
+
+                popup2.style.display = "flex";
+
+            }
+
+        });
+
+    }
+
+
+    /* =====================================================
+       POPUP 2 → CLOSE
+    ===================================================== */
+
+    if (close2 && popup2) {
+
+        close2.addEventListener("click", function () {
+
+            popup2.style.display = "none";
+
+        });
+
+
+        /* Click outside Popup 2 */
+
+        popup2.addEventListener("click", function (event) {
+
+            if (event.target === popup2) {
+
+                popup2.style.display = "none";
+
+            }
+
+        });
+
+    }
+
+});

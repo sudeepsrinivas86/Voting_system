@@ -10,6 +10,10 @@ from flask_mail import Mail, Message
 from flask_bcrypt import Bcrypt
 from utils import encrypt_data, decrypt_data
 import re
+from collections import OrderedDict
+from psycopg2.extras import RealDictCursor
+from werkzeug.utils import secure_filename
+from uuid import uuid4
 
 load_dotenv()
 
@@ -18,7 +22,25 @@ local_data = threading.local()
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
+# =========================================================
+# FILE UPLOAD CONFIGURATION
+# =========================================================
 
+UPLOAD_FOLDER = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    'uploads'
+)
+
+AFFIDAVIT_FOLDER = os.path.join(
+    UPLOAD_FOLDER,
+    'affidavits'
+)
+
+os.makedirs(AFFIDAVIT_FOLDER, exist_ok=True)
+
+ALLOWED_AFFIDAVIT_EXTENSIONS = {'pdf'}
+
+MAX_AFFIDAVIT_SIZE = 10 * 1024 * 1024  # 10 MB
 
 
 
@@ -61,7 +83,112 @@ def send_email(to, subject, body):
     except Exception as e:
         print(f"Failed to send email to {to}: {e}")
         return False
+def get_election_settings():
 
+    conn = get_db_connection()
+
+    try:
+        cur = conn.cursor()
+
+        cur.execute("""
+            SELECT
+                nominee_start_date,
+                nominee_end_date,
+                election_start_date,
+                election_end_date
+            FROM election_settings
+            ORDER BY id DESC
+            LIMIT 1
+        """)
+
+        row = cur.fetchone()
+
+        if not row:
+            return {
+                "registration_open": False,
+                "registration_start": None,
+                "registration_end": None,
+                "election_start": None,
+                "election_end": None
+            }
+
+        registration_start = row[0]
+        registration_end = row[1]
+        election_start = row[2]
+        election_end = row[3]
+
+        now = datetime.now()
+
+        registration_open = (
+            registration_start <= now <= registration_end
+            and now < election_start
+        )
+
+        return {
+            "registration_open": registration_open,
+            "registration_start": registration_start,
+            "registration_end": registration_end,
+            "election_start": election_start,
+            "election_end": election_end
+        }
+
+    finally:
+        release_db_connection(conn)
+
+def get_approved_nominees():
+
+    conn = get_db_connection()
+
+    try:
+        cur = conn.cursor()
+
+        cur.execute("""
+            SELECT
+                id,
+                name,
+                department,
+                year,
+                position,
+                manifesto,
+                image_url
+            FROM nominee_applications
+            WHERE status = 'approved'
+            ORDER BY created_at ASC
+        """)
+
+        rows = cur.fetchall()
+
+        nominees = []
+
+        for row in rows:
+
+            nominees.append({
+                "id": row[0],
+                "name": row[1],
+                "department": row[2],
+                "year": row[3],
+                "position": row[4],
+                "manifesto": row[5],
+                "image_url": row[6]
+            })
+
+        cur.close()
+
+        return nominees
+
+    finally:
+        release_db_connection(conn)
+# =========================================================
+# FILE VALIDATION
+# =========================================================
+
+def allowed_file(filename, allowed_extensions):
+    return (
+        filename
+        and '.' in filename
+        and filename.rsplit('.', 1)[1].lower()
+        in allowed_extensions
+    )
 # --- Routes ---
 
 @app.route('/')
@@ -223,6 +350,215 @@ def index():
     finally:
         release_db_connection(conn)
 
+@app.route("/election")
+def election():
+
+    # ==========================================
+    # GET APPROVED NOMINEES
+    # ==========================================
+
+    nominees = get_approved_nominees()
+
+    # ==========================================
+    # GET ELECTION SETTINGS
+    # ==========================================
+
+    settings = get_election_settings()
+
+    return render_template(
+        "election.html",
+
+        nominees=nominees,
+
+        registration_open=settings["registration_open"],
+
+        registration_start=settings["registration_start"],
+
+        registration_end=settings["registration_end"],
+
+        election_start=settings["election_start"],
+
+        election_end=settings["election_end"]
+    )
+
+@app.route("/candidates")
+def candidates():
+
+    conn = get_db_connection()
+
+    try:
+
+        cur = conn.cursor()
+
+        cur.execute("""
+            SELECT
+                id,
+                name,
+                department,
+                year,
+                position,
+                status,
+                image_url
+            FROM nominee_applications
+            WHERE status = 'approved'
+            ORDER BY created_at ASC
+        """)
+
+        rows = cur.fetchall()
+
+        candidates = []
+
+        for row in rows:
+
+            candidates.append({
+                "id": row[0],
+                "name": row[1],
+                "department": row[2],
+                "year": row[3],
+                "position": row[4],
+                "status": row[5],
+                "image_url": row[6]
+            })
+
+        # =====================================================
+        # GROUP CANDIDATES BY POSITION
+        # =====================================================
+
+        position_order = [
+            "President",
+            "Vice President",
+            "Secretary",
+            "Joint Secretary",
+            "Treasurer",
+            "Joint Treasurer",
+            "Cultural Secretary",
+            "Sports Secretary",
+            "Technical Secretary",
+            "Student Coordinator"
+        ]
+
+        grouped_candidates = OrderedDict()
+
+        # First add positions according to election order
+        for position in position_order:
+
+            matching_candidates = [
+                candidate
+                for candidate in candidates
+                if candidate["position"].strip().lower()
+                == position.strip().lower()
+            ]
+
+            if matching_candidates:
+                grouped_candidates[position] = matching_candidates
+
+        # =====================================================
+        # ADD ANY OTHER POSITIONS AUTOMATICALLY
+        # =====================================================
+
+        for candidate in candidates:
+
+            position = candidate["position"].strip()
+
+            if not position:
+                position = "Other"
+
+            already_added = False
+
+            for existing_position in grouped_candidates:
+
+                if existing_position.lower() == position.lower():
+                    already_added = True
+                    break
+
+            if not already_added:
+
+                grouped_candidates[position] = [
+                    c for c in candidates
+                    if c["position"].strip().lower()
+                    == position.lower()
+                ]
+
+        cur.close()
+
+        return render_template(
+            "candidates.html",
+            candidates=candidates,
+            grouped_candidates=grouped_candidates
+        )
+
+    finally:
+
+        release_db_connection(conn)
+
+@app.route("/candidate/<int:candidate_id>")
+def candidate_profile(candidate_id):
+
+    conn = get_db_connection()
+
+    try:
+
+        cur = conn.cursor()
+
+        cur.execute("""
+            SELECT
+                id,
+                name,
+                voter_id,
+                email,
+                department,
+                year,
+                position,
+                manifesto,
+                image_url,
+                document_url,
+                affidavit_url,
+                status,
+                created_at
+            FROM nominee_applications
+            WHERE id = %s
+              AND status = 'approved'
+            LIMIT 1
+        """, (candidate_id,))
+
+        row = cur.fetchone()
+
+        if not row:
+
+            flash("Candidate not found.", "error")
+
+            return redirect(url_for("candidates"))
+
+        candidate = {
+
+            "id": row[0],
+            "name": row[1],
+            "voter_id": row[2],
+            "email": row[3],
+            "department": row[4],
+            "year": row[5],
+            "position": row[6],
+            "manifesto": row[7],
+            "image_url": row[8],
+            "document_url": row[9],
+            "affidavit_url": row[10],
+            "status": row[11],
+            "created_at": row[12]
+
+        }
+
+        cur.close()
+
+        return render_template(
+            "candidate_profile.html",
+            candidate=candidate
+        )
+
+    finally:
+
+        release_db_connection(conn)
+
+
 @app.route('/department')
 def department():
     return render_template('department.html')
@@ -369,6 +705,17 @@ def nominee_register():
                 'image_url',
                 ''
             ).strip()
+            # -------------------------------------------------
+            # FILE UPLOADS
+            # -------------------------------------------------
+
+            candidate_document = request.files.get(
+                'candidate_document'
+            )               
+
+            affidavit_file = request.files.get(
+                'affidavit'
+            )
 
             # -------------------------------------------------
             # VALIDATION
@@ -393,7 +740,67 @@ def nominee_register():
                 return redirect(
                     url_for('nominee_register')
                 )
+            # -------------------------------------------------
+            # VALIDATE CANDIDATE DOCUMENT
+            # -------------------------------------------------
 
+            if not candidate_document or candidate_document.filename == '':
+                flash(
+                    'Please upload your candidate document.',
+                    'error'
+                    )
+
+                return redirect(
+                    url_for('nominee_register')
+                )
+
+
+            if not allowed_file(
+                candidate_document.filename,
+                    ALLOWED_CANDIDATE_EXTENSIONS
+                ):
+                flash(
+                    'Invalid candidate document format. '
+                    'Allowed: PDF, JPG, JPEG, PNG.',
+                    'error'
+                )
+
+            return redirect(
+                url_for('nominee_register')
+            )
+
+
+            # -------------------------------------------------
+# VALIDATE AFFIDAVIT
+# -------------------------------------------------
+
+# -------------------------------------------------
+# VALIDATE AFFIDAVIT
+# -------------------------------------------------
+
+        if not affidavit_file or affidavit_file.filename == '':
+            flash(
+                'Please upload your affidavit PDF.',
+                'error'
+            )
+
+            return redirect(
+                url_for('nominee_register')
+            )
+
+
+        if not allowed_file(
+            affidavit_file.filename,
+            ALLOWED_AFFIDAVIT_EXTENSIONS
+        ):
+            flash(
+                'Invalid affidavit format. Only PDF files are allowed.',
+                'error'
+            )
+
+            return redirect(
+                url_for('nominee_register')
+            )
             # -------------------------------------------------
             # CHECK USER
             # -------------------------------------------------
@@ -468,39 +875,92 @@ def nominee_register():
                 return redirect(
                     url_for('nominee_register')
                 )
+            # -------------------------------------------------
+            # SAVE UPLOADED FILES
+            # -------------------------------------------------
 
+            candidate_ext = secure_filename(
+                candidate_document.filename
+            ).rsplit('.', 1)[1].lower()
+
+            affidavit_ext = secure_filename(
+                affidavit_file.filename
+            ).rsplit('.', 1)[1].lower()
+
+
+            candidate_filename = (
+                f"candidate_{uuid.uuid4().hex}.{candidate_ext}"
+            )
+
+            affidavit_filename = (
+                f"affidavit_{uuid.uuid4().hex}.pdf"
+            )
+
+
+            candidate_path = os.path.join(
+                app.config['UPLOAD_FOLDER'],
+                candidate_filename
+            )
+
+            affidavit_path = os.path.join(
+                app.config['UPLOAD_FOLDER'],
+                affidavit_filename
+            )
+
+
+            candidate_document.save(candidate_path)
+
+            affidavit_file.save(affidavit_path)
+
+
+            # URLs stored in database
+
+            document_url = url_for(
+                'static',
+                filename=f'uploads/nominees/{candidate_filename}'
+            )
+
+            affidavit_url = url_for(
+                'static',
+                filename=f'uploads/nominees/{affidavit_filename}'
+            )
             # -------------------------------------------------
             # INSERT NOMINEE
             # -------------------------------------------------
 
             cur.execute("""
-                INSERT INTO nominee_applications (
-                    user_id,
-                    name,
-                    voter_id,
-                    email,
-                    department,
-                    year,
-                    position,
-                    manifesto,
-                    image_url,
-                    status
-                )
-                VALUES (
-                    %s, %s, %s, %s, %s,
-                    %s, %s, %s, %s, 'pending'
-                )
-            """, (
-                user_id,
-                name,
-                voter_id,
-                email,
-                department,
-                year,
-                position,
-                manifesto,
-                image_url
-            ))
+    INSERT INTO nominee_applications (
+        user_id,
+        name,
+        voter_id,
+        email,
+        department,
+        year,
+        position,
+        manifesto,
+        image_url,
+        document_url,
+        affidavit_url,
+        status
+    )
+    VALUES (
+        %s, %s, %s, %s, %s,
+        %s, %s, %s, %s,
+        %s, %s, 'pending'
+    )
+""", (
+    user_id,
+    name,
+    voter_id,
+    email,
+    department,
+    year,
+    position,
+    manifesto,
+    image_url,
+    document_url,
+    affidavit_url
+))
 
             conn.commit()
 
@@ -1170,6 +1630,81 @@ def admin_voters():
         return render_template('admin_voters.html', voters=voters)
     finally:
         release_db_connection(conn)
+
+
+
+@app.route('/admin/admin_voting_participation')
+def admin_voting_participation():
+
+    conn = get_db_connection()
+
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+
+
+    # Total registered voters
+    cur.execute("""
+        SELECT COUNT(*) AS total
+        FROM users
+        WHERE is_admin = FALSE
+          AND is_approved = TRUE
+    """)
+
+    total_voters = cur.fetchone()["total"]
+
+
+    # Total votes cast
+    cur.execute("""
+        SELECT COUNT(*) AS total
+        FROM votes
+    """)
+
+    total_votes = cur.fetchone()["total"]
+
+
+    # Voter participation
+    cur.execute("""
+        SELECT
+            u.id,
+            u.full_name,
+            u.voter_id,
+            u.email,
+
+            v.timestamp AS voted_at,
+
+            CASE
+                WHEN v.id IS NOT NULL
+                THEN 'Voted'
+                ELSE 'Not Voted'
+            END AS vote_status
+
+        FROM users u
+
+        LEFT JOIN votes v
+            ON u.id = v.voter_id
+
+        WHERE u.is_admin = FALSE
+          AND u.is_approved = TRUE
+
+        ORDER BY u.full_name ASC
+    """)
+
+    voters = cur.fetchall()
+    for voter in voters:
+        voter['full_name'] = decrypt_data(voter['full_name'])
+        voter['voter_id'] = decrypt_data(voter['voter_id'])
+        voter['email'] = decrypt_data(voter['email'])
+
+
+    cur.close()
+    conn.close()
+
+
+    return render_template(
+        "admin_voting_participation.html",
+        total_voters=total_voters,
+        total_votes=total_votes,
+        voters=voters
+    )
 
 @app.route('/admin/voters/delete/<int:user_id>')
 def delete_voter(user_id):

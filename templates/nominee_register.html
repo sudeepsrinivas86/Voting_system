@@ -204,6 +204,7 @@
                 <form
                     method="POST"
                     action="{{ url_for('nominee_register') }}"
+                    enctype="multipart/form-data"
                 >
 
                     <div class="form-section-title">
@@ -416,6 +417,46 @@
                         ></textarea>
 
                     </div>
+                        <div class="form-group">
+
+                            <label for="candidate_document">
+                                Upload Candidate Document
+                            </label>
+
+                            <input
+                                type="file"
+                                id="candidate_document"
+                                name="candidate_document"
+                                accept=".pdf,.jpg,.jpeg,.png"
+                                required
+                            >
+
+                            <small>
+                                Upload your candidate profile / manifesto document.
+                                PDF, JPG, JPEG or PNG allowed.
+                            </small>
+
+                        </div>
+                        <div class="form-group">
+
+    <label for="affidavit">
+        Upload Affidavit PDF *
+    </label>
+
+    <input
+        type="file"
+        id="affidavit"
+        name="affidavit"
+        accept=".pdf,application/pdf"
+        required
+    >
+
+    <small>
+        Upload your signed affidavit in PDF format.
+        Maximum file size: 10 MB.
+    </small>
+
+</div>
 
 
                     <div class="nominee-notice">

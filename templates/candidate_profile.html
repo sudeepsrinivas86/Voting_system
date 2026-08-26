@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {{ candidate.name }} - Net Quanta
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+
+            <img
+                src="{{ url_for('static', filename='images/netquanta.jpeg') }}"
+                alt="Net Quanta"
+                style="height:40px;"
+            >
+
+            <span>
+                NET QUANTA ASSOCIATION
+            </span>
+
+        </div>
+
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('index') }}">
+                Home
+            </a>
+
+            <a href="{{ url_for('election') }}">
+                Elections
+            </a>
+
+            <a href="{{ url_for('candidates') }}">
+                Candidates
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- PROFILE -->
+
+    <section class="candidate-profile-section">
+
+        <div class="candidate-profile-card">
+
+
+            <div class="candidate-profile-header">
+
+                {% if candidate.image_url %}
+
+                    <img
+                        src="{{ candidate.image_url }}"
+                        alt="{{ candidate.name }}"
+                    >
+
+                {% else %}
+
+                    <div class="profile-placeholder">
+                        {{ candidate.name[0] }}
+                    </div>
+
+                {% endif %}
+
+
+                <div>
+
+                    <span class="profile-approved">
+                        ✓ APPROVED CANDIDATE
+                    </span>
+
+                    <h1>
+                        {{ candidate.name }}
+                    </h1>
+
+                    <p>
+                        {{ candidate.position }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- DETAILS -->
+
+            <div class="candidate-profile-details">
+
+                <div>
+                    <span>Department</span>
+                    <strong>
+                        {{ candidate.department }}
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span>Year</span>
+                    <strong>
+                        {{ candidate.year }}
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span>Position</span>
+                    <strong>
+                        {{ candidate.position }}
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span>Status</span>
+                    <strong>
+                        {{ candidate.status|capitalize }}
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <!-- MANIFESTO -->
+
+            <div class="candidate-manifesto">
+
+                <h2>
+                    Manifesto
+                </h2>
+
+                <p>
+                    {{ candidate.manifesto or
+                    "The candidate has not provided a manifesto." }}
+                </p>
+
+            </div>
+
+
+            <!-- DOCUMENT -->
+
+            <div class="candidate-document">
+
+                <h2>
+                    Candidate Document
+                </h2>
+
+                <p>
+                    View or download the document uploaded
+                    by the candidate during registration.
+                </p>
+
+
+                {% if candidate.document_url %}
+
+                    <div class="document-actions">
+
+                        <a
+                            href="{{ candidate.document_url }}"
+                            target="_blank"
+                            class="document-view-button"
+                        >
+                            View Document
+                        </a>
+
+                        <a
+                            href="{{ candidate.document_url }}"
+                            download
+                            class="document-download-button"
+                        >
+                            Download Document ↓
+                        </a>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="document-not-available">
+
+                        Candidate document is not available.
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+            <!-- AFFIDAVIT -->
+
+<div class="candidate-document">
+
+    <h2>
+        Candidate Affidavit
+    </h2>
+
+    <p>
+        View or download the affidavit submitted
+        by the candidate during nomination.
+    </p>
+
+    {% if candidate.affidavit_url %}
+
+        <div class="document-actions">
+
+            <a
+                href="{{ candidate.affidavit_url }}"
+                target="_blank"
+                class="document-view-button"
+            >
+                View Affidavit
+            </a>
+
+            <a
+                href="{{ candidate.affidavit_url }}"
+                download
+                class="document-download-button"
+            >
+                Download Affidavit ↓
+            </a>
+
+        </div>
+
+    {% else %}
+
+        <div class="document-not-available">
+            Affidavit is not available.
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+            <a
+                href="{{ url_for('candidates') }}"
+                class="back-candidates-button"
+            >
+                ← Back to Candidates
+            </a>
+
+
+        </div>
+
+    </section>
+
+</div>
+
+</body>
+
+</html>

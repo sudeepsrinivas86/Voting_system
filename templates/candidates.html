@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Net Quanta - Candidates</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- COLLEGE BRANDING -->
+
+    <div class="college-branding">
+
+        <div class="college-brand-inner">
+
+            <div class="college-brand">
+
+                <img
+                    src="{{ url_for('static', filename='images/iglogo.jpeg') }}"
+                    alt="College Logo"
+                    class="college-logo"
+                >
+
+                <div class="college-brand-text">
+
+                    <div class="college-tamil">
+                        இந்திரா கணேசன் பொறியியல் கல்லூரி
+                    </div>
+
+                    <h1>
+                        Indra Ganesan College of Engineering
+                    </h1>
+
+                    <h2>
+                        (An Autonomous Institution)
+                    </h2>
+
+                    <p>
+                        Manikandam, Trichirappalli, Tamil Nadu, India. 620 012
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div
+            class="logo"
+            style="display:flex;align-items:center;gap:.75rem;"
+        >
+
+            <img
+                src="{{ url_for('static', filename='images/netquanta.jpeg') }}"
+                alt="Net Quanta"
+                style="height:40px;width:auto;"
+            >
+
+            <span>
+                NET QUANTA ASSOCIATION
+            </span>
+
+        </div>
+
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('index') }}">
+                Home
+            </a>
+
+            <a href="{{ url_for('election') }}">
+                Elections
+            </a>
+
+            <a href="{{ url_for('candidates') }}"
+               class="active">
+                Candidates
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- CANDIDATE LIST -->
+
+    <section class="candidate-directory">
+
+        <div class="candidate-directory-heading">
+
+            <span>
+                NET QUANTA ELECTIONS 2026
+            </span>
+
+            <h1>
+                Candidate List
+            </h1>
+
+            <p>
+                View the approved candidates contesting
+                for the Net Quanta Association election.
+            </p>
+
+        </div>
+
+
+       <div class="candidate-position-sections">
+
+    {% if grouped_candidates %}
+
+        {% for position, position_candidates in grouped_candidates.items() %}
+
+        <!-- =================================================
+             POSITION SECTION
+        ================================================== -->
+
+        <section class="position-candidate-section">
+
+            <!-- POSITION HEADING -->
+
+            <div class="position-section-heading">
+
+                <div class="position-heading-line"></div>
+
+                <div class="position-heading-content">
+
+                    <span>
+                        NET QUANTA ELECTIONS 2026
+                    </span>
+
+                    <h2>
+                        {{ position }}
+                    </h2>
+
+                    <p>
+                        Candidates contesting for the
+                        {{ position }} position
+                    </p>
+
+                </div>
+
+                <div class="position-candidate-count">
+
+                    {{ position_candidates|length }}
+
+                    <small>
+                        Candidate{% if position_candidates|length != 1 %}s{% endif %}
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 CANDIDATES FOR THIS POSITION
+            ================================================== -->
+
+            <div class="candidate-list">
+
+                {% for candidate in position_candidates %}
+
+                <div class="candidate-list-card">
+
+                    <!-- IMAGE -->
+
+                    <div class="candidate-list-image">
+
+                        {% if candidate.image_url %}
+
+                            <img
+                                src="{{ candidate.image_url }}"
+                                alt="{{ candidate.name }}"
+                            >
+
+                        {% else %}
+
+                            <div class="candidate-initial">
+
+                                {{ candidate.name[0]|upper }}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- DETAILS -->
+
+                    <div class="candidate-list-details">
+
+                        <span class="candidate-status">
+
+                            {{ candidate.status|capitalize }}
+
+                        </span>
+
+
+                        <h2>
+                            {{ candidate.name }}
+                        </h2>
+
+
+                        <p>
+
+                            <strong>
+                                Department:
+                            </strong>
+
+                            {{ candidate.department }}
+
+                        </p>
+
+
+                        <p>
+
+                            <strong>
+                                Year:
+                            </strong>
+
+                            {{ candidate.year }}
+
+                        </p>
+
+
+                        <p>
+
+                            <strong>
+                                Position:
+                            </strong>
+
+                            {{ candidate.position }}
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- VIEW MORE -->
+
+                    <div class="candidate-list-action">
+
+                        <a
+                            href="{{ url_for(
+                                'candidate_profile',
+                                candidate_id=candidate.id
+                            ) }}"
+                            class="candidate-view-button"
+                        >
+
+                            View More →
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+        {% endfor %}
+
+    {% else %}
+
+        <!-- NO CANDIDATES -->
+
+        <div class="no-candidates">
+
+            <h2>
+                No Approved Candidates
+            </h2>
+
+            <p>
+                Approved candidates will appear here
+                after admin verification.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+    </section>
+
+</div>
+
+</body>
+
+</html>
