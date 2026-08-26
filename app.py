@@ -26,10 +26,8 @@ app.secret_key = os.getenv('SECRET_KEY')
 # FILE UPLOAD CONFIGURATION
 # =========================================================
 
-UPLOAD_FOLDER = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    'uploads'
-)
+# Vercel allows temporary file storage only in /tmp
+UPLOAD_FOLDER = '/tmp/securevote_uploads'
 
 AFFIDAVIT_FOLDER = os.path.join(
     UPLOAD_FOLDER,
@@ -40,7 +38,9 @@ os.makedirs(AFFIDAVIT_FOLDER, exist_ok=True)
 
 ALLOWED_AFFIDAVIT_EXTENSIONS = {'pdf'}
 
-MAX_AFFIDAVIT_SIZE = 10 * 1024 * 1024  # 10 MB
+MAX_AFFIDAVIT_SIZE = 10 * 1024 * 1024
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 
