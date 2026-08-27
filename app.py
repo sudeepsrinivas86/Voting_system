@@ -118,7 +118,7 @@ def get_election_settings():
         election_start = row[2]
         election_end = row[3]
 
-        now = datetime.now()
+        now = datetime.now(ZoneInfo("Asia/Kolkata")).replace(tzinfo=None)
 
         registration_open = (
             registration_start <= now <= registration_end
@@ -655,7 +655,7 @@ def nominee_register():
         # CURRENT TIME
         # -----------------------------------------------------
 
-        now = datetime.now()
+        now = datetime.now(ZoneInfo("Asia/Kolkata")).replace(tzinfo=None)
 
         registration_open = (
             nominee_start <= now <= nominee_end
@@ -1064,9 +1064,9 @@ def nominee_register():
             nominee_start=nominee_start,
             nominee_end=nominee_end,
             election_start=election_start,
-            election_end=election_end
+            election_end=election_end,
+            message="Something went wrong. Please try again."
         )
-
     except Exception as e:
 
         conn.rollback()
