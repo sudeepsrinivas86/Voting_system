@@ -5,6 +5,7 @@ import random
 import string
 import threading
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 from dotenv import load_dotenv
 from flask_mail import Mail, Message
 from flask_bcrypt import Bcrypt
@@ -327,7 +328,7 @@ def index():
             election_start = settings_row[2]
             election_end = settings_row[3]
 
-            now = datetime.now()
+            now = datetime.now(ZoneInfo("Asia/Kolkata")).replace(tzinfo=None)
 
             registration_open = (
                 registration_start <= now <= registration_end
@@ -646,7 +647,7 @@ def nominee_register():
         election_start = settings[2]
         election_end = settings[3]
 
-        now = datetime.now()
+        now = datetime.now(ZoneInfo("Asia/Kolkata")).replace(tzinfo=None)
 
         registration_open = (
             nominee_start <= now <= nominee_end
