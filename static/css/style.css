@@ -11950,3 +11950,201 @@ footer {
     }
 
 }
+/* =====================================================
+   ELECTION DOCUMENTS SECTION
+===================================================== */
+
+.election-documents-section {
+    padding: 90px 20px;
+    background: #071426;
+    position: relative;
+}
+
+.election-documents-container {
+    max-width: 1150px;
+    margin: 0 auto;
+}
+
+
+/* HEADING */
+
+.election-documents-heading {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.election-documents-heading span {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #38bdf8;
+    margin-bottom: 12px;
+}
+
+.election-documents-heading h2 {
+    margin: 0 0 15px;
+    font-size: 42px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.election-documents-heading p {
+    margin: 0 auto;
+    max-width: 650px;
+    color: #94a3b8;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+
+/* DOCUMENT GRID */
+
+.election-documents-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+}
+
+
+/* DOCUMENT CARD */
+
+.election-document-card {
+    display: flex;
+    gap: 24px;
+    padding: 30px;
+    background: #0d1b2e;
+    border: 1px solid rgba(56, 189, 248, 0.18);
+    border-radius: 18px;
+    transition: all 0.3s ease;
+}
+
+.election-document-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(56, 189, 248, 0.55);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+
+/* ICON */
+
+.document-icon {
+    width: 62px;
+    height: 62px;
+    min-width: 62px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+    background: rgba(56, 189, 248, 0.12);
+
+    font-size: 30px;
+}
+
+
+/* CONTENT */
+
+.document-content {
+    flex: 1;
+}
+
+.document-label {
+    display: inline-block;
+    margin-bottom: 8px;
+
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+
+    color: #38bdf8;
+}
+
+.document-content h3 {
+    margin: 0 0 10px;
+
+    font-size: 23px;
+    font-weight: 800;
+
+    color: #ffffff;
+}
+
+.document-content p {
+    margin: 0 0 22px;
+
+    color: #94a3b8;
+
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* DOWNLOAD BUTTON */
+
+.document-download-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 18px;
+
+    background: #2563eb;
+    color: #ffffff;
+
+    border-radius: 10px;
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    transition: all 0.3s ease;
+}
+
+.document-download-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+    .election-documents-section {
+        padding: 70px 16px;
+    }
+
+    .election-documents-heading h2 {
+        font-size: 32px;
+    }
+
+    .election-documents-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .election-document-card {
+        padding: 24px;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .election-document-card {
+        flex-direction: column;
+    }
+
+    .document-icon {
+        width: 55px;
+        height: 55px;
+        min-width: 55px;
+    }
+
+    .election-documents-heading h2 {
+        font-size: 28px;
+    }
+
+}
