@@ -101,19 +101,27 @@ CREATE TABLE nominee_applications (
 
     manifesto TEXT,
 
+    -- Candidate profile image
     image_url VARCHAR(500),
+
+    -- Candidate uploaded document
+    candidate_document_url VARCHAR(500),
+
+    -- Affidavit PDF
+    affidavit_url VARCHAR(500),
 
     status VARCHAR(20) DEFAULT 'pending',
 
     rejection_reason TEXT,
 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 
 -- =========================================================
--- CANDIDATES
+-- CANDIDATES TABLE
 -- =========================================================
 
 CREATE TABLE candidates (
@@ -124,18 +132,26 @@ CREATE TABLE candidates (
         ON DELETE CASCADE,
 
     name VARCHAR(100) NOT NULL,
+
     party VARCHAR(100),
 
     manifesto TEXT,
 
-    image_url VARCHAR(255),
+    -- Candidate profile image
+    image_url VARCHAR(500),
+
+    -- Candidate uploaded document
+    candidate_document_url VARCHAR(500),
+
+    -- Affidavit PDF
+    affidavit_url VARCHAR(500),
 
     vote_count INTEGER DEFAULT 0
 );
 
 
 -- =========================================================
--- VOTES
+-- VOTES TABLE
 -- =========================================================
 
 CREATE TABLE votes (
@@ -155,6 +171,7 @@ CREATE TABLE votes (
 
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
+    -- Prevent duplicate voting
     UNIQUE(election_id, voter_id)
 );
 
