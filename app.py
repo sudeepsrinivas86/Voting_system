@@ -34,7 +34,7 @@ AFFIDAVIT_FOLDER = os.path.join(
     UPLOAD_FOLDER,
     'affidavits'
 )
-
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(AFFIDAVIT_FOLDER, exist_ok=True)
 
 ALLOWED_AFFIDAVIT_EXTENSIONS = {'pdf'}
@@ -607,6 +607,10 @@ def register():
 # NOMINEE REGISTRATION
 # =========================================================
 
+# =========================================================
+# NOMINEE REGISTRATION
+# =========================================================
+
 @app.route('/nominee-register', methods=['GET', 'POST'])
 def nominee_register():
 
@@ -647,7 +651,11 @@ def nominee_register():
         election_start = settings[2]
         election_end = settings[3]
 
-        now = datetime.now(ZoneInfo("Asia/Kolkata")).replace(tzinfo=None)
+        # -----------------------------------------------------
+        # CURRENT TIME
+        # -----------------------------------------------------
+
+        now = datetime.now()
 
         registration_open = (
             nominee_start <= now <= nominee_end
@@ -673,14 +681,29 @@ def nominee_register():
             )
 
         # -----------------------------------------------------
-        # POST
+        # POST REQUEST
         # -----------------------------------------------------
 
         if request.method == 'POST':
 
-            name = request.form.get('name', '').strip()
-            voter_id = request.form.get('voter_id', '').strip()
-            email = request.form.get('email', '').strip().lower()
+            # -------------------------------------------------
+            # FORM DATA
+            # -------------------------------------------------
+
+            name = request.form.get(
+                'name',
+                ''
+            ).strip()
+
+            voter_id = request.form.get(
+                'voter_id',
+                ''
+            ).strip()
+
+            email = request.form.get(
+                'email',
+                ''
+            ).strip().lower()
 
             department = request.form.get(
                 'department',
@@ -706,23 +729,25 @@ def nominee_register():
                 'image_url',
                 ''
             ).strip()
+
             # -------------------------------------------------
             # FILE UPLOADS
             # -------------------------------------------------
 
             candidate_document = request.files.get(
                 'candidate_document'
-            )               
+            )
 
             affidavit_file = request.files.get(
                 'affidavit'
             )
 
             # -------------------------------------------------
-            # VALIDATION
+            # BASIC VALIDATION
             # -------------------------------------------------
 
             if not name or not voter_id or not email:
+
                 flash(
                     'Please fill all required fields.',
                     'error'
@@ -733,6 +758,7 @@ def nominee_register():
                 )
 
             if not department or not year or not position:
+
                 flash(
                     'Please complete your academic details.',
                     'error'
@@ -741,67 +767,94 @@ def nominee_register():
                 return redirect(
                     url_for('nominee_register')
                 )
+
             # -------------------------------------------------
             # VALIDATE CANDIDATE DOCUMENT
             # -------------------------------------------------
 
-            if not candidate_document or candidate_document.filename == '':
+            if (
+                not candidate_document
+                or candidate_document.filename == ''
+            ):
+
                 flash(
                     'Please upload your candidate document.',
                     'error'
-                    )
+                )
 
                 return redirect(
                     url_for('nominee_register')
                 )
 
-
             if not allowed_file(
                 candidate_document.filename,
-                    ALLOWED_CANDIDATE_EXTENSIONS
-                ):
+                ALLOWED_CANDIDATE_EXTENSIONS
+            ):
+
                 flash(
                     'Invalid candidate document format. '
                     'Allowed: PDF, JPG, JPEG, PNG.',
                     'error'
                 )
 
-            return redirect(
-                url_for('nominee_register')
-            )
-
+                return redirect(
+                    url_for('nominee_register')
+                )
 
             # -------------------------------------------------
-# VALIDATE AFFIDAVIT
-# -------------------------------------------------
+            # VALIDATE AFFIDAVIT
+            # -------------------------------------------------
 
-# -------------------------------------------------
-# VALIDATE AFFIDAVIT
-# -------------------------------------------------
+            if (
+                not affidavit_file
+                or affidavit_file.filename == ''
+            ):
 
-        if not affidavit_file or affidavit_file.filename == '':
-            flash(
-                'Please upload your affidavit PDF.',
-                'error'
-            )
+                flash(
+                    'Please upload your affidavit PDF.',
+                    'error'
+                )
 
-            return redirect(
-                url_for('nominee_register')
-            )
+                return redirect(
+                    url_for('nominee_register')
+                )
 
+            if not allowed_file(
+                affidavit_file.filename,
+                ALLOWED_AFFIDAVIT_EXTENSIONS
+            ):
 
-        if not allowed_file(
-            affidavit_file.filename,
-            ALLOWED_AFFIDAVIT_EXTENSIONS
-        ):
-            flash(
-                'Invalid affidavit format. Only PDF files are allowed.',
-                'error'
-            )
+                flash(
+                    'Invalid affidavit format. '
+                    'Only PDF files are allowed.',
+                    'error'
+                )
 
-            return redirect(
-                url_for('nominee_register')
-            )
+                return redirect(
+                    url_for('nominee_register')
+                )
+
+            # -------------------------------------------------
+            # AFFIDAVIT SIZE CHECK
+            # -------------------------------------------------
+
+            affidavit_file.seek(0, os.SEEK_END)
+
+            affidavit_size = affidavit_file.tell()
+
+            affidavit_file.seek(0)
+
+            if affidavit_size > MAX_AFFIDAVIT_SIZE:
+
+                flash(
+                    'Affidavit PDF must be less than 10 MB.',
+                    'error'
+                )
+
+                return redirect(
+                    url_for('nominee_register')
+                )
+
             # -------------------------------------------------
             # CHECK USER
             # -------------------------------------------------
@@ -876,45 +929,66 @@ def nominee_register():
                 return redirect(
                     url_for('nominee_register')
                 )
+
             # -------------------------------------------------
-            # SAVE UPLOADED FILES
+            # CREATE UPLOAD FOLDER
+            # -------------------------------------------------
+
+            nominee_upload_folder = os.path.join(
+                app.config['UPLOAD_FOLDER'],
+                'nominees'
+            )
+
+            os.makedirs(
+                nominee_upload_folder,
+                exist_ok=True
+            )
+
+            # -------------------------------------------------
+            # GENERATE FILE NAMES
             # -------------------------------------------------
 
             candidate_ext = secure_filename(
                 candidate_document.filename
             ).rsplit('.', 1)[1].lower()
 
-            affidavit_ext = secure_filename(
-                affidavit_file.filename
-            ).rsplit('.', 1)[1].lower()
-
-
             candidate_filename = (
-                f"candidate_{uuid.uuid4().hex}.{candidate_ext}"
+                f"candidate_{uuid4().hex}.{candidate_ext}"
             )
 
             affidavit_filename = (
-                f"affidavit_{uuid.uuid4().hex}.pdf"
+                f"affidavit_{uuid4().hex}.pdf"
             )
 
+            # -------------------------------------------------
+            # FILE PATHS
+            # -------------------------------------------------
 
             candidate_path = os.path.join(
-                app.config['UPLOAD_FOLDER'],
+                nominee_upload_folder,
                 candidate_filename
             )
 
             affidavit_path = os.path.join(
-                app.config['UPLOAD_FOLDER'],
+                nominee_upload_folder,
                 affidavit_filename
             )
 
+            # -------------------------------------------------
+            # SAVE FILES
+            # -------------------------------------------------
 
-            candidate_document.save(candidate_path)
+            candidate_document.save(
+                candidate_path
+            )
 
-            affidavit_file.save(affidavit_path)
+            affidavit_file.save(
+                affidavit_path
+            )
 
-
-            # URLs stored in database
+            # -------------------------------------------------
+            # CREATE URLS
+            # -------------------------------------------------
 
             document_url = url_for(
                 'static',
@@ -925,56 +999,62 @@ def nominee_register():
                 'static',
                 filename=f'uploads/nominees/{affidavit_filename}'
             )
+
             # -------------------------------------------------
             # INSERT NOMINEE
             # -------------------------------------------------
 
             cur.execute("""
-    INSERT INTO nominee_applications (
-        user_id,
-        name,
-        voter_id,
-        email,
-        department,
-        year,
-        position,
-        manifesto,
-        image_url,
-        document_url,
-        affidavit_url,
-        status
-    )
-    VALUES (
-        %s, %s, %s, %s, %s,
-        %s, %s, %s, %s,
-        %s, %s, 'pending'
-    )
-""", (
-    user_id,
-    name,
-    voter_id,
-    email,
-    department,
-    year,
-    position,
-    manifesto,
-    image_url,
-    document_url,
-    affidavit_url
-))
+                INSERT INTO nominee_applications (
+                    user_id,
+                    name,
+                    voter_id,
+                    email,
+                    department,
+                    year,
+                    position,
+                    manifesto,
+                    image_url,
+                    document_url,
+                    affidavit_url,
+                    status
+                )
+                VALUES (
+                    %s, %s, %s, %s, %s,
+                    %s, %s, %s, %s,
+                    %s, %s, 'pending'
+                )
+            """, (
+                user_id,
+                name,
+                voter_id,
+                email,
+                department,
+                year,
+                position,
+                manifesto,
+                image_url,
+                document_url,
+                affidavit_url
+            ))
 
             conn.commit()
 
             cur.close()
 
             flash(
-                'Nominee application submitted successfully. Waiting for admin approval.',
+                'Nominee application submitted successfully. '
+                'Waiting for admin approval.',
                 'success'
             )
 
             return redirect(
                 url_for('nominee_register')
             )
+
+        # -----------------------------------------------------
+        # GET PAGE
+        # -----------------------------------------------------
 
         cur.close()
 
@@ -1005,6 +1085,7 @@ def nominee_register():
         )
 
     finally:
+
         release_db_connection(conn)
 
 @app.route('/resend-otp')
