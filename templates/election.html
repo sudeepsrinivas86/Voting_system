@@ -97,10 +97,11 @@
 
         <div class="nav-links">
 
-            <a href="{{ url_for('index') }}">
-                Home
+            <a
+                href="{{ url_for('static', filename='documents/nomination_form_2b.pdf') }}"
+                download>
+                Electroral Roll
             </a>
-
             <a href="{{ url_for('candidates') }}">
                 Candidates
             </a>
@@ -114,9 +115,8 @@
             </a>
 
             {% endif %}
-            <a
-                 href="{{ url_for('admin_voting_participation') }}">
-                voters
+            <a href="{{ url_for('index') }}">
+                Home
             </a>
 
         </div>

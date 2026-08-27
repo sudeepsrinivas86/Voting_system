@@ -104,20 +104,18 @@
             </span>
 
             <h2>
-                Net Quanta Elections 2026
+                DOWNLOAD YOUR NOMINEE REGISTER FORM
             </h2>
 
             <p>
-                Stay updated with the upcoming election.
-                Approved candidates and voting details
-                will be announced here.
+                Download your form 2B and Affidavit for your Nominee Registration
             </p>
 
             <a
-                href="{{ url_for('candidates') }}"
+                href="{{ url_for('election') }}"
                 class="announcement-button"
             >
-                View Candidates →
+                Download Form →
             </a>
 
         </div>
@@ -365,10 +363,10 @@
 
                 <div class="voting-live-content">
 
-                    <span>• VOTING LIVE</span>
+                    <span>• ELECTION DATE ANNOUNCED</span>
 
                     <h3>
-                        NET QUANTA ASSOCIATION ELECTIONS ARE NOW OPEN
+                        NET QUANTA ASSOCIATION ELECTIONS DATE IS 9TH SEPTEMBER
                     </h3>
 
                     <p>
@@ -400,21 +398,20 @@
                     <span>• ELECTION UPDATE</span>
 
                     <h3>
-                        NET QUANTA ELECTIONS 2026
+                        APPROVED CANDIDATES LIST IS NOW AVAILABLE
                     </h3>
 
                     <p>
-                        Students are encouraged to participate
-                        actively and make their voice count.
+                        View the list of approved candidates and their profiles.
                     </p>
 
                 </div>
 
                 <a
-                    href="{{ url_for('register') }}"
+                    href="{{ url_for('candidates') }}"
                     class="voting-live-button"
                 >
-                    Register →
+                    Candidates →
                 </a>
 
             </div>
@@ -432,7 +429,7 @@
                     <span>• IMPORTANT NOTICE</span>
 
                     <h3>
-                        ELECTION ACTIVITIES ARE UNDERWAY
+                        DOWNLOAD YOUR AFFIDATIVE AND FORM 2B
                     </h3>
 
                     <p>
@@ -443,7 +440,7 @@
                 </div>
 
                 <a
-                    href="{{ url_for('login') }}"
+                    href="{{ url_for('election') }}"
                     class="voting-live-button"
                 >
                     Login →
@@ -636,24 +633,168 @@
 
 
 
-<!-- =====================================================
-     FOOTER
-====================================================== -->
+<!-- ================= CONTACT FOOTER ================= -->
 
-<footer>
+<footer class="site-footer">
 
-    <div class="container">
+    <div class="footer-container">
 
-        <p>
-            &copy; 2026 NET QUANTA.
-            All rights reserved.
-            |
-            <a href="{{ url_for('admin_login') }}">
-                Admin Access
+        <!-- BRAND -->
+        <div class="footer-column footer-brand">
+
+            <div class="footer-logo">
+
+                <img
+                    src="{{ url_for('static', filename='images/netquanta.jpeg') }}"
+                    alt="Net Quanta Logo"
+                >
+
+                <div>
+                    <h3>NET QUANTA</h3>
+                    <span>CSE ASSOCIATION</span>
+                </div>
+
+            </div>
+
+            <p>
+                Connecting Minds, Creating Possibilities.
+                Empowering Computer Science and Engineering students
+                through technology, leadership, innovation and teamwork.
+            </p>
+
+        </div>
+
+
+        <!-- QUICK LINKS -->
+        <div class="footer-column">
+
+            <h4>QUICK LINKS</h4>
+
+            <a href="{{ url_for('index') }}">
+                Home
             </a>
-        </p>
+
+            <a href="{{ url_for('department') }}">
+                Department
+            </a>
+
+            <a href="{{ url_for('login') }}">
+                Login
+            </a>
+
+            <a href="{{ url_for('register') }}">
+                Register
+            </a>
+
+        </div>
+
+
+        <!-- CONTACT US -->
+        <div class="footer-column footer-contact">
+
+            <h4>CONTACT US</h4>
+
+            <div class="contact-item">
+
+                <span class="contact-icon">📍</span>
+
+                <p>
+                    Department of Computer Science & Engineering<br>
+                    Indra Ganesan College of Engineering<br>
+                    Trichy, Tamil Nadu
+                </p>
+
+            </div>
+
+
+            <div class="contact-item">
+
+                <span class="contact-icon">📧</span>
+
+                <a href="mailto:sudeepsrinivas86@gmail.com">
+                    sudeepsrinivas86@gmail.com
+                </a>
+
+            </div>
+
+
+            <div class="contact-item">
+
+                <span class="contact-icon">📞</span>
+
+                <a href="tel:+918248665085">
+                    +91 8248665085
+                </a>
+
+            </div>
+            <div class="contact-item">
+
+                <span class="contact-icon">📧</span>
+
+                <a href="mailto:ruban26@gmail.com">
+                    ruban26@gmail.com
+                </a>
+
+            </div>
+
+
+            <div class="contact-item">
+
+                <span class="contact-icon">📞</span>
+
+                <a href="tel:+919597559378">
+                    +91 9597559378
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- ASSOCIATION -->
+        <div class="footer-column">
+
+            <h4>NET QUANTA</h4>
+
+            <p>
+                Computer Science & Engineering Association
+            </p>
+
+            <div class="footer-tagline">
+                Let's Vote.<br>
+                Let's Lead.<br>
+                Let's Innovate.
+            </div>
+
+        </div>
 
     </div>
+
+
+    <!-- FOOTER BOTTOM -->
+
+    <div class="footer-bottom">
+
+        <div>
+
+            <p>
+                © 2026 NET QUANTA. All Rights Reserved.
+            </p>
+
+        </div>
+
+        <div>
+
+            <p>
+                CSE Department · Indra Ganesan College of Engineering
+            </p>
+
+        </div>
+
+    </div>
+    <a href="{{ url_for('admin_login') }}">
+                Admin Access
+            </a>
 
 </footer>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>

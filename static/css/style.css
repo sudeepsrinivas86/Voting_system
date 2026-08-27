@@ -8537,6 +8537,7 @@ footer {
     display: block;
 
     object-fit: cover;
+    object-position: center top;
 
     transition: transform 0.5s ease;
 }
@@ -12305,6 +12306,910 @@ footer {
 
     .video-card {
         padding: 15px;
+    }
+
+}
+/* =========================================================
+   NET QUANTA — SITE FOOTER
+   Dark / Premium Theme
+========================================================= */
+
+.site-footer {
+    position: relative;
+    width: 100%;
+    margin-top: 0;
+    padding: 75px 0 0;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(0, 174, 239, 0.08),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 85% 70%,
+            rgba(125, 70, 255, 0.10),
+            transparent 35%
+        ),
+        #070b18;
+
+    border-top: 1px solid rgba(0, 200, 255, 0.25);
+
+    color: #ffffff;
+
+    overflow: hidden;
+}
+
+
+/* TOP GLOW LINE */
+
+.site-footer::before {
+    content: "";
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 1px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        #00d9ff,
+        #7c4dff,
+        transparent
+    );
+
+    opacity: 0.8;
+}
+
+
+/* =========================================================
+   FOOTER CONTAINER
+========================================================= */
+
+.site-footer .footer-container {
+    width: min(1100px, 90%);
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        1.5fr
+        0.8fr
+        1.4fr
+        1fr;
+
+    gap: 55px;
+
+    padding-bottom: 55px;
+}
+
+
+/* =========================================================
+   FOOTER COLUMNS
+========================================================= */
+
+.site-footer .footer-column {
+    min-width: 0;
+}
+
+
+/* =========================================================
+   FOOTER BRAND
+========================================================= */
+
+.site-footer .footer-brand {
+    padding-right: 15px;
+}
+
+
+/* LOGO */
+
+.site-footer .footer-logo {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    margin-bottom: 22px;
+}
+
+
+.site-footer .footer-logo img {
+    width: 52px;
+    height: 52px;
+
+    object-fit: contain;
+
+    border-radius: 12px;
+
+    filter:
+        drop-shadow(0 0 8px rgba(0, 217, 255, 0.25));
+}
+
+
+.site-footer .footer-logo h3 {
+    margin: 0;
+
+    font-size: 19px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.5px;
+
+    color: #ffffff;
+}
+
+
+.site-footer .footer-logo span {
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    letter-spacing: 1.8px;
+
+    color: #7d879d;
+}
+
+
+/* BRAND DESCRIPTION */
+
+.site-footer .footer-brand > p {
+    margin: 0;
+
+    max-width: 300px;
+
+    font-size: 13px;
+
+    line-height: 1.8;
+
+    color: #858da3;
+}
+
+
+/* =========================================================
+   FOOTER HEADINGS
+========================================================= */
+
+.site-footer .footer-column h4 {
+    position: relative;
+
+    margin: 0 0 27px;
+
+    padding-left: 0;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.6px;
+
+    color: #ffffff;
+}
+
+
+/* Purple / cyan small line */
+
+.site-footer .footer-column h4::before {
+    content: "";
+
+    display: block;
+
+    width: 34px;
+    height: 2px;
+
+    margin-bottom: 13px;
+
+    background: linear-gradient(
+        90deg,
+        #00d9ff,
+        #7c4dff
+    );
+
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   QUICK LINKS
+========================================================= */
+
+.site-footer .footer-column > a {
+    display: block;
+
+    width: fit-content;
+
+    margin-bottom: 14px;
+
+    font-size: 13px;
+
+    font-weight: 500;
+
+    line-height: 1.5;
+
+    color: #858da3;
+
+    text-decoration: none;
+
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+.site-footer .footer-column > a:hover {
+    color: #00d9ff;
+
+    transform: translateX(5px);
+}
+
+
+/* =========================================================
+   CONTACT SECTION
+========================================================= */
+
+.site-footer .footer-contact .contact-item {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 12px;
+
+    margin-bottom: 18px;
+}
+
+
+/* CONTACT ICON */
+
+.site-footer .contact-icon {
+    flex: 0 0 32px;
+
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(0, 217, 255, 0.10),
+            rgba(124, 77, 255, 0.12)
+        );
+
+    border: 1px solid rgba(124, 77, 255, 0.22);
+
+    font-size: 13px;
+}
+
+
+/* CONTACT TEXT */
+
+.site-footer .contact-item p {
+    margin: 0;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+
+    color: #858da3;
+}
+
+
+/* CONTACT LINKS */
+
+.site-footer .contact-item a {
+    display: block;
+
+    padding-top: 6px;
+
+    font-size: 12px;
+
+    color: #858da3;
+
+    text-decoration: none;
+
+    transition: color 0.25s ease;
+}
+
+
+.site-footer .contact-item a:hover {
+    color: #00d9ff;
+}
+
+
+/* =========================================================
+   NET QUANTA COLUMN
+========================================================= */
+
+.site-footer .footer-column:last-child > p {
+    margin: 0 0 22px;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+
+    color: #858da3;
+}
+
+
+/* TAGLINE */
+
+.site-footer .footer-tagline {
+    position: relative;
+
+    padding: 17px 20px;
+
+    border-left: 2px solid #7c4dff;
+
+    border-radius: 0 10px 10px 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(124, 77, 255, 0.10),
+            rgba(0, 217, 255, 0.04)
+        );
+
+    color: #b6bdd0;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    line-height: 1.8;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   FOOTER BOTTOM
+========================================================= */
+
+.site-footer .footer-bottom {
+    width: min(1100px, 90%);
+
+    margin: 0 auto;
+
+    padding: 22px 0 25px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+
+/* BOTTOM TEXT */
+
+.site-footer .footer-bottom p {
+    margin: 0;
+
+    font-size: 11px;
+
+    line-height: 1.6;
+
+    color: #596176;
+}
+
+
+/* RIGHT TEXT */
+
+.site-footer .footer-bottom div:last-child {
+    text-align: right;
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .site-footer {
+        padding-top: 60px;
+    }
+
+
+    .site-footer .footer-container {
+        grid-template-columns: 1fr 1fr;
+
+        gap: 45px 35px;
+    }
+
+
+    .site-footer .footer-brand {
+        grid-column: span 2;
+    }
+
+
+    .site-footer .footer-brand > p {
+        max-width: 500px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .site-footer {
+        padding-top: 50px;
+    }
+
+
+    .site-footer .footer-container {
+        width: 88%;
+
+        grid-template-columns: 1fr;
+
+        gap: 35px;
+
+        padding-bottom: 40px;
+    }
+
+
+    .site-footer .footer-brand {
+        grid-column: auto;
+    }
+
+
+    .site-footer .footer-brand > p {
+        max-width: 100%;
+    }
+
+
+    .site-footer .footer-column h4 {
+        margin-bottom: 22px;
+    }
+
+
+    .site-footer .footer-bottom {
+        width: 88%;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 8px;
+
+        padding: 20px 0 22px;
+    }
+
+
+    .site-footer .footer-bottom div:last-child {
+        text-align: left;
+    }
+
+}
+
+
+/* =========================================================
+   EXTRA SMALL DEVICES
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .site-footer .footer-logo img {
+        width: 46px;
+        height: 46px;
+    }
+
+
+    .site-footer .footer-logo h3 {
+        font-size: 17px;
+    }
+
+
+    .site-footer .footer-brand > p,
+    .site-footer .contact-item p,
+    .site-footer .contact-item a,
+    .site-footer .footer-column:last-child > p {
+        font-size: 11px;
+    }
+
+}
+.anthem-coming-soon {
+    width: 100%;
+    text-align: center ;
+    margin: 10px 0;
+    color: #00f5d4;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+
+    text-shadow:
+        0 0 5px rgba(0, 245, 212, 0.5),
+        0 0 15px rgba(0, 245, 212, 0.3);
+
+    animation: anthemGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes anthemGlow {
+    from {
+        opacity: 0.75;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .anthem-coming-soon {
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+}
+/* =====================================================
+   CSE ACHIEVEMENTS SECTION
+===================================================== */
+
+.achievement-section {
+    position: relative;
+    padding: 100px 6%;
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(0, 183, 255, 0.08),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 80% 80%,
+            rgba(111, 66, 193, 0.08),
+            transparent 35%
+        ),
+        #07111f;
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   ACHIEVEMENT HEADING
+===================================================== */
+
+.achievement-heading {
+    max-width: 850px;
+    margin: 0 auto 55px;
+    text-align: center;
+}
+
+.achievement-label {
+    display: inline-block;
+    margin-bottom: 12px;
+
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+
+    color: #00c8ff;
+}
+
+.achievement-heading h2 {
+    margin: 0 0 18px;
+
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 800;
+
+    color: #ffffff;
+}
+
+.achievement-heading p {
+    max-width: 760px;
+    margin: 0 auto;
+
+    font-size: 16px;
+    line-height: 1.8;
+
+    color: #9caec2;
+}
+
+
+/* =====================================================
+   ACHIEVEMENT SLIDER
+===================================================== */
+
+.achievement-slider {
+    position: relative;
+
+    max-width: 1150px;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+
+/* =====================================================
+   SLIDER WINDOW
+===================================================== */
+
+.achievement-slider-window {
+    width: 100%;
+    overflow: hidden;
+
+    border-radius: 24px;
+
+    border: 1px solid rgba(0, 196, 255, 0.18);
+
+    background: #091827;
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.35),
+        0 0 40px rgba(0, 174, 255, 0.05);
+}
+
+
+/* =====================================================
+   SLIDER TRACK
+===================================================== */
+
+.achievement-slider-track {
+    display: flex;
+
+    width: 100%;
+
+    transition:
+        transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* =====================================================
+   INDIVIDUAL SLIDE
+===================================================== */
+
+.achievement-slide {
+    min-width: 100%;
+
+    height: 560px;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #06101d;
+}
+
+
+/* =====================================================
+   ACHIEVEMENT IMAGE
+===================================================== */
+
+.achievement-slide img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition: transform 0.5s ease;
+}
+
+
+/* Slight zoom when hovering */
+
+.achievement-slider-window:hover
+.achievement-slide img {
+    transform: scale(1.02);
+}
+
+
+/* =====================================================
+   SLIDER BUTTONS
+===================================================== */
+
+.achievement-slider-btn {
+    flex-shrink: 0;
+
+    width: 48px;
+    height: 48px;
+
+    border: 1px solid rgba(0, 200, 255, 0.25);
+    border-radius: 50%;
+
+    background: rgba(7, 22, 38, 0.9);
+
+    color: #ffffff;
+
+    font-size: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition:
+        background 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.achievement-slider-btn:hover {
+    background: linear-gradient(
+        135deg,
+        #00bfff,
+        #6c4cff
+    );
+
+    border-color: transparent;
+
+    transform: scale(1.08);
+
+    box-shadow:
+        0 0 25px rgba(0, 191, 255, 0.25);
+}
+
+
+/* =====================================================
+   DOTS
+===================================================== */
+
+.achievement-slider-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 9px;
+
+    margin-top: 28px;
+}
+
+.achievement-dot {
+    width: 9px;
+    height: 9px;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #344457;
+
+    cursor: pointer;
+
+    transition:
+        width 0.3s ease,
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.achievement-dot.active {
+    width: 30px;
+
+    border-radius: 10px;
+
+    background: linear-gradient(
+        90deg,
+        #00c8ff,
+        #7657ff
+    );
+
+    box-shadow:
+        0 0 12px rgba(0, 200, 255, 0.35);
+}
+
+
+/* =====================================================
+   BOTTOM LABEL
+===================================================== */
+
+.achievement-footer-text {
+    margin-top: 28px;
+
+    text-align: center;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    color: #61758b;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .achievement-section {
+        padding: 70px 20px;
+    }
+
+    .achievement-heading {
+        margin-bottom: 35px;
+    }
+
+    .achievement-heading h2 {
+        font-size: 34px;
+    }
+
+    .achievement-heading p {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .achievement-slider {
+        gap: 8px;
+    }
+
+    .achievement-slide {
+        height: 400px;
+    }
+
+    .achievement-slider-btn {
+        width: 40px;
+        height: 40px;
+
+        font-size: 18px;
+    }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+
+    .achievement-section {
+        padding: 60px 14px;
+    }
+
+    .achievement-slider {
+        gap: 5px;
+    }
+
+    .achievement-slide {
+        height: 300px;
+    }
+
+    .achievement-slider-btn {
+        width: 34px;
+        height: 34px;
+
+        font-size: 16px;
+    }
+
+    .achievement-dot {
+        width: 7px;
+        height: 7px;
+    }
+
+    .achievement-dot.active {
+        width: 23px;
+    }
+
+    .achievement-footer-text {
+        font-size: 10px;
     }
 
 }
