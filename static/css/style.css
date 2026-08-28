@@ -11789,6 +11789,24 @@ footer {
 
     color: #ffffff;
 }
+.leader-nuom {
+    display: block;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+    background: var(--netquanta-gradient);
+
+    background-clip: text;
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+
+    color: #ffffff;
+}
+
 
 
 .leader-line {
@@ -11823,8 +11841,8 @@ footer {
 ===================================================== */
 
 .leader-photo {
-    width: 125px;
-    height: 125px;
+    width: 100px;
+    height: 100px;
 
     flex-shrink: 0;
 
