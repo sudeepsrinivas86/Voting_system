@@ -1404,13 +1404,14 @@ def vote(election_id):
 def voters_list():
     return render_template("voters_list.html")
 
-@app.route("/download-voter-list/<filename>")
+
+@app.route("/download-voter-list/<path:filename>")
 def download_voter_list(filename):
 
     voter_folder = os.path.join(
         app.root_path,
         "static",
-        "voter_lists"
+        "voters_lists"
     )
 
     return send_from_directory(
@@ -1418,27 +1419,26 @@ def download_voter_list(filename):
         filename,
         as_attachment=True
     )
-@app.route('/download-all-voter-lists')
+
+
+@app.route("/download-all-voter-lists")
 def download_all_voter_lists():
-    import os
-    import zipfile
-    from flask import send_file
 
     voter_folder = os.path.join(
         app.root_path,
-        'static',
-        'voters_lists'
+        "static",
+        "voters_lists"
     )
 
     zip_path = os.path.join(
         app.root_path,
-        'static',
-        'voters_lists.zip'
+        "static",
+        "NET_QUANTA_VOTER_LISTS.zip"
     )
 
     with zipfile.ZipFile(
         zip_path,
-        'w',
+        "w",
         zipfile.ZIP_DEFLATED
     ) as zipf:
 
@@ -1446,9 +1446,12 @@ def download_all_voter_lists():
 
             for file in files:
 
-                if file.lower().endswith('.pdf'):
+                if file.lower().endswith(".pdf"):
 
-                    file_path = os.path.join(root, file)
+                    file_path = os.path.join(
+                        root,
+                        file
+                    )
 
                     arcname = os.path.relpath(
                         file_path,
@@ -1463,7 +1466,8 @@ def download_all_voter_lists():
     return send_file(
         zip_path,
         as_attachment=True,
-        download_name='NET_QUANTA_VOTER_LISTS.zip'
+        download_name="NET_QUANTA_VOTER_LISTS.zip",
+        mimetype="application/zip"
     )
 
 # --- Admin Routes ---
