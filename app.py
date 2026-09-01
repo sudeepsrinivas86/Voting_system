@@ -18,6 +18,7 @@ from uuid import uuid4
 from flask import send_from_directory, send_file
 import zipfile
 import io
+import uuid
 
 load_dotenv()
 
@@ -26,6 +27,35 @@ local_data = threading.local()
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
+
+# =========================================================
+# FILE UPLOAD CONFIGURATION
+# =========================================================
+
+UPLOAD_FOLDER = os.path.join(
+    app.root_path,
+    'static',
+    'uploads'
+)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+os.makedirs(
+    app.config['UPLOAD_FOLDER'],
+    exist_ok=True
+)
+
+
+# =========================================================
+# ALLOWED CANDIDATE PHOTO EXTENSIONS
+# =========================================================
+
+ALLOWED_CANDIDATE_EXTENSIONS = {
+    'png',
+    'jpg',
+    'jpeg',
+    'webp'
+}
 # =========================================================
 # FILE UPLOAD CONFIGURATION
 # =========================================================
@@ -46,6 +76,7 @@ MAX_AFFIDAVIT_SIZE = 10 * 1024 * 1024
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+ALLOWED_CANDIDATE_EXTENSIONS
 
 
 
@@ -581,7 +612,7 @@ def register():
         hashed_pw = bcrypt.generate_password_hash(password).decode('utf-8')
         
         otp = generate_otp()
-        otp_expiry = datetime.now() + timedelta(minutes=10)
+        otp_expiry = datetime.now() + timedelta(minutes=30)
         
         conn = get_db_connection()
         cur = conn.cursor()
@@ -593,7 +624,7 @@ def register():
             conn.commit()
             
             # Send OTP Asynchronously
-            send_email(email, "Verify your Email - SecureVote", f"Your OTP is: {otp}")
+            send_email(email, "Verify your Email - NET QUANTA", f"Your OTP is: {otp}")
             
             session['email_to_verify'] = email
             return redirect(url_for('verify_otp'))
@@ -934,7 +965,7 @@ def nominee_register():
                 )
 
             # -------------------------------------------------
-            # CREATE UPLOAD FOLDER
+            # CREATE NOMINEE UPLOAD FOLDER
             # -------------------------------------------------
 
             nominee_upload_folder = os.path.join(
@@ -947,21 +978,25 @@ def nominee_register():
                 exist_ok=True
             )
 
+
             # -------------------------------------------------
-            # GENERATE FILE NAMES
+            # GENERATE SAFE FILE NAMES
             # -------------------------------------------------
 
             candidate_ext = secure_filename(
                 candidate_document.filename
             ).rsplit('.', 1)[1].lower()
 
+
             candidate_filename = (
-                f"candidate_{uuid4().hex}.{candidate_ext}"
+                f"candidate_{uuid.uuid4().hex}.{candidate_ext}"
             )
 
+
             affidavit_filename = (
-                f"affidavit_{uuid4().hex}.pdf"
+                f"affidavit_{uuid.uuid4().hex}.pdf"
             )
+
 
             # -------------------------------------------------
             # FILE PATHS
@@ -972,31 +1007,31 @@ def nominee_register():
                 candidate_filename
             )
 
+
             affidavit_path = os.path.join(
                 nominee_upload_folder,
                 affidavit_filename
             )
 
+
             # -------------------------------------------------
             # SAVE FILES
             # -------------------------------------------------
 
-            candidate_document.save(
-                candidate_path
-            )
+            candidate_document.save(candidate_path)
 
-            affidavit_file.save(
-                affidavit_path
-            )
+            affidavit_file.save(affidavit_path)
+
 
             # -------------------------------------------------
-            # CREATE URLS
+            # DATABASE URLs
             # -------------------------------------------------
 
             document_url = url_for(
                 'static',
                 filename=f'uploads/nominees/{candidate_filename}'
             )
+
 
             affidavit_url = url_for(
                 'static',
@@ -1072,14 +1107,16 @@ def nominee_register():
         )
     except Exception as e:
 
-        conn.rollback()
+        if conn:
+            conn.rollback()
 
         print(
-            f"Nominee registration error: {e}"
+            "NOMINEE REGISTRATION ERROR:",
+            repr(e)
         )
 
         flash(
-            'Something went wrong. Please try again.',
+            f'Error: {str(e)}',
             'error'
         )
 
@@ -1174,7 +1211,7 @@ def login():
                 # 2FA Step
                 otp = generate_otp()
                 # Update DB with new OTP - REUSE CONNECTION
-                cur.execute("UPDATE users SET otp_code = %s, otp_expiry = %s WHERE id = %s", (otp, datetime.now() + timedelta(minutes=5), user[0]))
+                cur.execute("UPDATE users SET otp_code = %s, otp_expiry = %s WHERE id = %s", (otp, datetime.now() + timedelta(minutes=30), user[0]))
                 conn.commit()
                 
                 send_email(email_input, "Login OTP - SecureVote", f"Your Login OTP is: {otp}")
