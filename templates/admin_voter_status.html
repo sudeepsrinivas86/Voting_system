@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Voter Status | NET QUANTA
+    </title>
+
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="admin-voter-page">
+
+
+    <!-- ================= HEADER ================= -->
+
+    <div class="voter-status-header">
+
+        <div>
+
+            <span class="page-label">
+                NET QUANTA ADMIN
+            </span>
+
+            <h1>
+                Registered Voters
+            </h1>
+
+            <p>
+                Monitor student registration and voting status.
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('admin_dashboard') }}"
+            class="back-dashboard-btn"
+        >
+
+            ← Back to Dashboard
+
+        </a>
+
+    </div>
+
+
+
+    <!-- ================= STATISTICS ================= -->
+
+    <div class="voter-statistics">
+
+
+        <div class="voter-stat-card">
+
+            <span class="stat-icon">
+                👥
+            </span>
+
+            <div>
+
+                <span class="stat-title">
+                    Total Registered
+                </span>
+
+                <h2>
+                    {{ total_voters }}
+                </h2>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="voter-stat-card voted-stat">
+
+            <span class="stat-icon">
+                ✓
+            </span>
+
+            <div>
+
+                <span class="stat-title">
+                    Students Voted
+                </span>
+
+                <h2>
+                    {{ voted_count }}
+                </h2>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="voter-stat-card not-voted-stat">
+
+            <span class="stat-icon">
+                ⏳
+            </span>
+
+            <div>
+
+                <span class="stat-title">
+                    Not Yet Voted
+                </span>
+
+                <h2>
+                    {{ not_voted_count }}
+                </h2>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ================= SEARCH ================= -->
+
+    <div class="voter-table-card">
+
+
+        <div class="table-header">
+
+            <div>
+
+                <h2>
+                    Voter List
+                </h2>
+
+                <p>
+                    Sorted by Voter ID
+                </p>
+
+            </div>
+
+
+            <div class="voter-search-box">
+
+                <input
+                    type="text"
+                    id="voterSearch"
+                    placeholder="Search name or voter ID..."
+                    onkeyup="searchVoters()"
+                >
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================= TABLE ================= -->
+
+        <div class="table-responsive">
+
+            <table class="voter-status-table">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            #
+                        </th>
+
+                        <th>
+                            Student Name
+                        </th>
+
+                        <th>
+                            Voter ID
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Voting Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+
+                <tbody>
+
+
+                {% for voter in voters %}
+
+                    <tr>
+
+                        <td>
+                            #{{ voter.id }}
+                        </td>
+
+
+                        <td class="voter-name">
+
+                            {{ voter.full_name }}
+
+                        </td>
+
+
+                        <td class="voter-id">
+
+                            {{ voter.voter_id }}
+
+                        </td>
+
+
+                        <td>
+
+                            {{ voter.email }}
+
+                        </td>
+
+
+                        <td>
+
+
+                            {% if voter.has_voted %}
+
+                                <span class="voting-status voted">
+
+                                    ✓ Voted
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="voting-status not-voted">
+
+                                    ⏳ Not Voted
+
+                                </span>
+
+                            {% endif %}
+
+
+                        </td>
+
+
+                    </tr>
+
+                {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+function searchVoters() {
+
+    const input =
+        document.getElementById(
+            "voterSearch"
+        );
+
+
+    const filter =
+        input.value.toLowerCase();
+
+
+    const table =
+        document.querySelector(
+            ".voter-status-table"
+        );
+
+
+    const rows =
+        table.querySelectorAll(
+            "tbody tr"
+        );
+
+
+    rows.forEach(function(row) {
+
+        const text =
+            row.textContent.toLowerCase();
+
+
+        if (
+            text.includes(filter)
+        ) {
+
+            row.style.display = "";
+
+        } else {
+
+            row.style.display = "none";
+
+        }
+
+    });
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

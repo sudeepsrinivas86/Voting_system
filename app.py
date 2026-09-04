@@ -1827,6 +1827,124 @@ def admin_voters():
     finally:
         release_db_connection(conn)
 
+# =========================================================
+# ADMIN VOTER STATUS LIST
+# =========================================================
+
+@app.route('/admin/voter-status')
+def admin_voter_status():
+
+    # Admin login check
+    if 'user_id' not in session:
+        flash('Please login first.', 'error')
+        return redirect(url_for('login'))
+
+    conn = get_db_connection()
+
+    try:
+
+        cur = conn.cursor()
+
+        # Check whether current user is admin
+        cur.execute("""
+            SELECT is_admin
+            FROM users
+            WHERE id = %s
+        """, (session['user_id'],))
+
+        admin = cur.fetchone()
+
+        if not admin or not admin[0]:
+            flash('Unauthorized access.', 'error')
+            return redirect(url_for('index'))
+
+        # Get all registered voters and voting status
+        cur.execute("""
+            SELECT
+                users.id,
+                users.full_name,
+                users.voter_id,
+                users.email,
+
+                CASE
+                    WHEN EXISTS (
+                        SELECT 1
+                        FROM votes
+                        WHERE votes.voter_id = users.id
+                    )
+                    THEN TRUE
+
+                    ELSE FALSE
+
+                END AS has_voted
+
+            FROM users
+
+            WHERE users.is_admin = FALSE
+
+            ORDER BY users.created_at ASC
+        """)
+
+        rows = cur.fetchall()
+
+        voters = []
+
+        for row in rows:
+
+            user_id = row[0]
+            encrypted_name = row[1]
+            encrypted_voter_id = row[2]
+            email = row[3]
+            has_voted = row[4]
+
+            # Decrypt encrypted data
+            try:
+                full_name = decrypt_data(encrypted_name)
+            except Exception:
+                full_name = encrypted_name
+
+            try:
+                voter_id = decrypt_data(encrypted_voter_id)
+            except Exception:
+                voter_id = encrypted_voter_id
+
+            voters.append({
+                "id": user_id,
+                "full_name": full_name,
+                "voter_id": voter_id,
+                "email": email,
+                "has_voted": has_voted
+            })
+
+        # Sort by actual Voter ID
+        voters.sort(
+            key=lambda x: x["voter_id"].lower()
+        )
+
+        total_voters = len(voters)
+
+        voted_count = sum(
+            1 for voter in voters
+            if voter["has_voted"]
+        )
+
+        not_voted_count = (
+            total_voters - voted_count
+        )
+
+        cur.close()
+
+        return render_template(
+            'admin_voter_status.html',
+            voters=voters,
+            total_voters=total_voters,
+            voted_count=voted_count,
+            not_voted_count=not_voted_count
+        )
+
+    finally:
+
+        release_db_connection(conn)
 
 
 @app.route('/admin/admin_voting_participation')
